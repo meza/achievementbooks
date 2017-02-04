@@ -1,0 +1,16 @@
+[
+{
+  "modid": "achievementbooks",
+  "name": "Achievement Books",
+  "description": "For map makers who are creating a diverse world with many options, putting all achievements in one single book might not make sense. This mod adds the option for multiple books.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["vsbmeza"],
+  "credits": "vsbmeza from Stateshifter Labs",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
