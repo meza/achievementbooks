@@ -29,16 +29,14 @@ public class AchievementGui {
 
 		List<GuiButton> buttons = new ArrayList<GuiButton>();
 
-		String text = element.achievement() + " " + element.mod();
-
-		AchievementLine achievement = new AchievementLine(id, left, top, maxWidth, text);
+		AchievementLine achievement = new AchievementLine(id, left, top, maxWidth, element);
 
 		height = height + achievement.getHeight();
 		buttons.add(achievement);
 
-//		DescriptionLine description = new DescriptionLine(id++, left + 25, top + height, maxWidth - 25, element.description());
-//		height = height + description.getHeight();
-//		buttons.add(description);
+//		DescriptionLine formattedDescription = new DescriptionLine(id++, left + 25, top + height, maxWidth - 25, element.formattedDescription());
+//		height = height + formattedDescription.getHeight();
+//		buttons.add(formattedDescription);
 
 		return buttons;
 

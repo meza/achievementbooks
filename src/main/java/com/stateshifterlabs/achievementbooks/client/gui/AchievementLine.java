@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -14,16 +15,15 @@ public class AchievementLine extends GuiButton {
 	static final ResourceLocation texture =
 			new ResourceLocation(AchievementBooksMod.MODID.toLowerCase(), "textures/gui/checkboxes.png");
 	private static final int buttonHeight = 30;
-	private String achievement;
-	private boolean checked = false;
+	private PageElement element;
 
-	public AchievementLine(int id, int x, int y, int width, String achievement) {
-		super(id, x, y, width, buttonHeight, achievement);
-		this.achievement = achievement;
+	public AchievementLine(int id, int x, int y, int width, PageElement element) {
+		super(id, x, y, width, buttonHeight, element.formattedAchievement());
+		this.element = element;
 		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(String.format("shit")));
 
 		this.height =
-				(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(achievement, width - 25).size()) * 8;
+				(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(element.formattedAchievement(), width - 25).size()) * 8;
 	}
 
 	public static int getExpectedLines(String text, int width) {
@@ -35,7 +35,7 @@ public class AchievementLine extends GuiButton {
 	}
 
 	public void toggle() {
-		checked = !checked;
+		element.toggleState();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -46,7 +46,7 @@ public class AchievementLine extends GuiButton {
 
 		int offsetX = 0, offsetY = 0;
 
-		if (checked) {
+		if (element.checked()) {
 			offsetY = 20;
 		}
 
@@ -62,11 +62,11 @@ public class AchievementLine extends GuiButton {
 		drawTexturedModalRect(xPosition, yPosition + (height / 2) - 8, offsetX, offsetY, 20, 20);
 
 		FontRenderer fnt = Minecraft.getMinecraft().fontRenderer;
-		int lineNum = getExpectedLines(achievement, width);
+		int lineNum = getExpectedLines(element.formattedAchievement(), width);
 
 		// render the text according to alignment
 
-		fnt.drawSplitString(achievement, xPosition + 25, yPosition + (height / 2) - lineNum * 4, this.width - 25,
+		fnt.drawSplitString(element.formattedAchievement(), xPosition + 25, yPosition + (height / 2) - lineNum * 4, this.width - 25,
 							0x000000);
 
 	}

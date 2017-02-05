@@ -30,10 +30,13 @@ public class BookDeserializer implements JsonDeserializer<Book>  {
 			for(int j = 0; j<pageElements.size(); j++) {
 				JsonObject pageJson = pageElements.get(j).getAsJsonObject();
 
-				PageElement element = new PageElement();
+				PageElement element = new PageElement(pageJson.get("id").getAsInt());
 
 				if(pageJson.has("achievement")) {
 					element.withAchievement(pageJson.get("achievement").getAsString());
+					if(pageJson.has("checked")) {
+						element.toggleState(pageJson.get("checked").getAsBoolean());
+					}
 				}
 
 				if(pageJson.has("description")) {

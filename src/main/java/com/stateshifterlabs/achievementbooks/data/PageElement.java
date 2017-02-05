@@ -6,12 +6,21 @@ public class PageElement {
 	private String description;
 	private String header;
 	private String mod;
+	private boolean checked = false;
+	private int id;
 
-	public PageElement() {
+	public PageElement(int id) {
+		this.id = id;
 	}
 
 	public String achievement() {
+
 		return String.format("%s", achievement);
+	}
+
+	public String formattedAchievement() {
+
+		return String.format("%s %s", achievement, formattedMod());
 	}
 
 	public void withAchievement(String achievement) {
@@ -24,6 +33,14 @@ public class PageElement {
 
 	public void withHeader(String header) {
 		this.header = header;
+	}
+
+	public void toggleState() {
+		this.checked = !this.checked;
+	}
+
+	public boolean checked() {
+		return this.checked;
 	}
 
 	public void withMod(String mod) {
@@ -42,8 +59,12 @@ public class PageElement {
 		return Type.TEXT;
 	}
 
-	public String description() {
+	public String formattedDescription() {
 		return String.format("%s", description);
+	}
+
+	public String description() {
+		return description;
 	}
 
 	public String header() {
@@ -51,6 +72,10 @@ public class PageElement {
 	}
 
 	public String mod() {
+		return mod;
+	}
+
+	public String formattedMod() {
 		if (null == mod) {
 			return "";
 		}
@@ -59,6 +84,14 @@ public class PageElement {
 
 	public boolean done() {
 		return false;
+	}
+
+	public void toggleState(boolean checked) {
+		this.checked = checked;
+	}
+
+	public int id() {
+		return id;
 	}
 
 

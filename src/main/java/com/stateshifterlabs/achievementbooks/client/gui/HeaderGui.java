@@ -33,7 +33,7 @@ public class HeaderGui {
 		height = height + header.getHeight();
 		buttons.add(header);
 
-		DescriptionLine description = new DescriptionLine(id++, left, top + height, maxWidth, element.description());
+		DescriptionLine description = new DescriptionLine(id++, left, top + height, maxWidth, element.formattedDescription());
 		height = height + description.getHeight();
 		buttons.add(description);
 

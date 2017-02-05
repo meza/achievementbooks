@@ -17,4 +17,8 @@ public class Books implements Iterable<Book> {
 	public Iterator<Book> iterator() {
 		return books.iterator();
 	}
+
+	public void empty() {
+		books = new ArrayList<Book>();
+	}
 }

@@ -40,4 +40,16 @@ public class Book {
 			return new Page();
 		}
 	}
+
+	public void loadDone(List<Integer> ids) {
+
+		for (Page page : pages) {
+			for (PageElement element : page.elements()) {
+				if(ids.contains(element.id())) {
+					element.toggleState(true);
+				}
+			}
+		}
+
+	}
 }

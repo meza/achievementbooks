@@ -4,10 +4,12 @@ import com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.common.CommandFlush;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
+import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,6 +27,7 @@ import java.io.File;
 public class AchievementBooksMod {
 	public static final String MODID = "achievementbooks";
 	public static final String VERSION = "1.0";
+	private GameSave saver;
 
 	//    @Mod.Instance("AchievementBooksMod")
 	//    public AchievementBooksMod instance;
@@ -48,12 +51,13 @@ public class AchievementBooksMod {
 
 		Loader loader = new Loader(configDir);
 		books = loader.init();
+		saver = new GameSave(books);
+
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		//        NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-
 
 		for (Book book : books) {
 			AchievementBookItem achievementBook = new AchievementBookItem(book);
@@ -67,8 +71,14 @@ public class AchievementBooksMod {
 	}
 
 	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+
+	}
+
+	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 		ICommandManager server = MinecraftServer.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(new CommandFlush());
 	}
+
 }

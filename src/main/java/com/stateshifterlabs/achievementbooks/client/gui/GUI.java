@@ -61,7 +61,7 @@ public class GUI extends GuiScreen {
 
 			if (element.type() == PageElement.Type.TEXT) {
 				DescriptionLine description =
-						new DescriptionLine(achievementId++, left + 25, top, maxWidth, element.description());
+						new DescriptionLine(achievementId++, left + 25, top, maxWidth, element.formattedDescription());
 				buttonList.add(description);
 				top = top + description.getHeight();
 			}
@@ -89,7 +89,7 @@ public class GUI extends GuiScreen {
 			if (element.type() == PageElement.Type.TEXT) {
 				DescriptionLine description =
 						new DescriptionLine(achievementId++, left + 25 + (bookWidth / 2) - 15, top, maxWidth,
-											element.description());
+											element.formattedDescription());
 				buttonList.add(description);
 				top = top + description.getHeight();
 			}
