@@ -2,6 +2,7 @@ package com.stateshifterlabs.achievementbooks;
 
 import com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.common.CommandFlush;
+import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import com.stateshifterlabs.achievementbooks.data.GameSave;
@@ -36,6 +37,7 @@ public class AchievementBooksMod {
 	// .stateshifterlabs.achievementbooks.common.CommonProxy")
 	//    public static CommonProxy proxy;
 
+	private final AchievementStorage storage = new AchievementStorage();
 
 	public static CreativeTabs tabName = new CreativeTabs("tabName") {
 		public Item getTabIconItem() {
@@ -51,7 +53,7 @@ public class AchievementBooksMod {
 
 		Loader loader = new Loader(configDir);
 		books = loader.init();
-		saver = new GameSave(books);
+		saver = new GameSave(storage, books);
 
 	}
 
@@ -60,7 +62,7 @@ public class AchievementBooksMod {
 		//        NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
 
 		for (Book book : books) {
-			AchievementBookItem achievementBook = new AchievementBookItem(book);
+			AchievementBookItem achievementBook = new AchievementBookItem(book, storage);
 			GameRegistry.registerItem(achievementBook, book.name(), MODID);
 			GameRegistry.addRecipe(new ItemStack(achievementBook),
 								   "AB",

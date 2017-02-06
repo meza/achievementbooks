@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +19,6 @@ public class AchievementLine extends GuiButton {
 	public AchievementLine(int id, int x, int y, int width, PageElement element) {
 		super(id, x, y, width, buttonHeight, element.formattedAchievement());
 		this.element = element;
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(String.format("shit")));
 
 		this.height =
 				(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(element.formattedAchievement(), width - 25).size()) * 8;

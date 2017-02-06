@@ -9,4 +9,13 @@ public class Save {
 	public List<Integer> completedAchievements() {
 		return done;
 	}
+
+	public void toggle(Integer id) {
+		if(done.contains(id)) {
+			done.remove(id);
+		}
+
+		done.add(id);
+	}
+
 }

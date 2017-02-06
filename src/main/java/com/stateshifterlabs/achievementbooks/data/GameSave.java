@@ -21,14 +21,17 @@ public class GameSave {
 
 	private final Gson gson;
 	private File saveDir;
+	private AchievementStorage storage;
 	private Books books;
 
-	public GameSave(Books books) {
+	public GameSave(AchievementStorage storage, Books books) {
+		this.storage = storage;
+		this.books = books;
 		this.books = books;
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
 		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Book.class, new BookSerializer());
+		builder.registerTypeAdapter(AchievementStorage.class, new AchievementStorageSerializer(storage));
 		gson = builder.create();
 	}
 
@@ -40,41 +43,28 @@ public class GameSave {
 			saveDir.mkdirs();
 		}
 
-		for (Book book : books) {
-			File saveFile = new File(saveDir.getAbsolutePath() + "/" + book.name() + ".save.json");
-			if (!saveFile.exists()) {
-				save(book);
-			}
+		File saveFile = new File(saveDir.getAbsolutePath() + "/achievementbooks.save.json");
 
-
-			try {
-				Save bookSave = gson.fromJson(new FileReader(saveFile), Save.class);
-				book.loadDone(bookSave.completedAchievements());
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			storage.clear();
+			storage = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+		} catch (FileNotFoundException e) {
 
 		}
-
 	}
 
 	public void save() {
 		saveDir =
 				new File(DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath() + "/" + MODID.toLowerCase());
 		saveDir.mkdirs();
-
-		for (Book book : books) {
-			save(book);
-
-		}
+		save(storage);
 
 	}
 
-	public void save(Book book) {
+	public void save(AchievementStorage storage) {
 
-		File saveFile = new File(saveDir.getAbsolutePath() + "/" + book.name() + ".save.json");
-		String saveData = gson.toJson(book);
+		File saveFile = new File(saveDir.getAbsolutePath() + "/achievementbooks.save.json");
+		String saveData = gson.toJson(storage);
 
 		try {
 			FileWriter fw = new FileWriter(saveFile);
@@ -90,17 +80,13 @@ public class GameSave {
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load load) {
-		if (!load.world.isRemote) {
-			load();
-		}
+		load();
 
 	}
 
 	@SubscribeEvent
 	public void onWorldSave(WorldEvent.Save save) {
-		if (!save.world.isRemote) {
-			save();
-		}
+		save();
 
 	}
 

@@ -2,13 +2,13 @@ package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
 import com.stateshifterlabs.achievementbooks.common.NBTUtils;
+import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -29,20 +29,22 @@ public class GUI extends GuiScreen {
 
 	private int clickDelay = 5;
 	private int pageOffset = 0;
+	private AchievementData achievementData;
 	private int oldLeft = 0;
 	private int oldTop = 0;
 
-	public GUI(EntityPlayer player, Book book) {
+	public GUI(EntityPlayer player, Book book, AchievementData achievementData) {
 		this.player = player;
 		this.book = book;
+ 		book.loadDone(achievementData.completed(book.name()));
 		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.name() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
+		this.achievementData = achievementData;
 	}
 
 	@SuppressWarnings("unchecked")
 	public void initGui(int bookTop, int bookLeft) {
 
-		int achievementId = 1000;
 		int maxWidth = (bookWidth / 2) - 35;
 		int top = bookTop + bookFrameHeight;
 		int left = bookLeft;
@@ -53,24 +55,22 @@ public class GUI extends GuiScreen {
 		for (PageElement element : book.openPage(pageOffset).elements()) {
 
 			if (element.type() == PageElement.Type.HEADER) {
-				HeaderGui header = new HeaderGui(achievementId++, element, top, left, maxWidth);
+				HeaderGui header = new HeaderGui(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(header.buttons());
 				top = top + header.height();
-				achievementId++;
 			}
 
 			if (element.type() == PageElement.Type.TEXT) {
 				DescriptionLine description =
-						new DescriptionLine(achievementId++, left + 25, top, maxWidth, element.formattedDescription());
+						new DescriptionLine(element.id(), left + 25, top, maxWidth, element.formattedDescription());
 				buttonList.add(description);
 				top = top + description.getHeight();
 			}
 
 			if (element.type() == PageElement.Type.ACHIEVEMENT) {
-				AchievementGui achievementGui = new AchievementGui(achievementId++, element, top, left, maxWidth);
+				AchievementGui achievementGui = new AchievementGui(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(achievementGui.buttons());
 				top = top + achievementGui.height();
-				achievementId++;
 			}
 
 		}
@@ -80,15 +80,14 @@ public class GUI extends GuiScreen {
 		for (PageElement element : book.openPage(pageOffset + 1).elements()) {
 
 			if (element.type() == PageElement.Type.HEADER) {
-				HeaderGui header = new HeaderGui(achievementId++, element, top, left + (bookWidth / 2) - 15, maxWidth);
+				HeaderGui header = new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 				buttonList.addAll(header.buttons());
 				top = top + header.height();
-				achievementId++;
 			}
 
 			if (element.type() == PageElement.Type.TEXT) {
 				DescriptionLine description =
-						new DescriptionLine(achievementId++, left + 25 + (bookWidth / 2) - 15, top, maxWidth,
+						new DescriptionLine(element.id(), left + 25 + (bookWidth / 2) - 15, top, maxWidth,
 											element.formattedDescription());
 				buttonList.add(description);
 				top = top + description.getHeight();
@@ -96,10 +95,9 @@ public class GUI extends GuiScreen {
 
 			if (element.type() == PageElement.Type.ACHIEVEMENT) {
 				AchievementGui achievementGui =
-						new AchievementGui(achievementId++, element, top, left + (bookWidth / 2) - 15, maxWidth);
+						new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 				buttonList.addAll(achievementGui.buttons());
 				top = top + achievementGui.height();
-				achievementId++;
 			}
 
 		}
@@ -160,9 +158,8 @@ public class GUI extends GuiScreen {
 		} else if (button.id == 1) {
 			nextPage();
 		} else {
-			player.addChatComponentMessage(new ChatComponentText(String.format("%d", button.id)));
 			((AchievementLine) button).toggle();
-//			toggleAchievement(button.id);
+			achievementData.toggle(book, button.id);
 		}
 	}
 
