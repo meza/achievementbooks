@@ -39,6 +39,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    compile "org.projectlombok:lombok:1.16.12"
 
 }
 
@@ -63,3 +64,5 @@ processResources
 }
 
 idea { module { inheritOutputDirs = true } }
+
+

@@ -7,8 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-import static com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem.bookWidth;
-
+import static com.stateshifterlabs.achievementbooks.client.gui.GUI.bookWidth;
 
 public class HeaderLine extends GuiButton {
 

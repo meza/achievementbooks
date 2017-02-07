@@ -39,6 +39,13 @@ public class AchievementData {
 	}
 
 	public void toggle(Book book, int id) {
-		bookData.get(book.name()).toggle(id);
+		toggle(book.name(), id);
+	}
+
+	public void toggle(String bookName, int id) {
+		if(!bookData.containsKey(bookName)) {
+			addSaveData(bookName, new Save());
+		}
+		bookData.get(bookName).toggle(id);
 	}
 }

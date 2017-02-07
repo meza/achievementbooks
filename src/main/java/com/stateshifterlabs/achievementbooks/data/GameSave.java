@@ -2,8 +2,12 @@ package com.stateshifterlabs.achievementbooks.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -23,11 +27,13 @@ public class GameSave {
 	private File saveDir;
 	private AchievementStorage storage;
 	private Books books;
+	private NetworkAgent networkAgent;
 
-	public GameSave(AchievementStorage storage, Books books) {
+	public GameSave(AchievementStorage storage, Books books, NetworkAgent networkAgent) {
 		this.storage = storage;
 		this.books = books;
 		this.books = books;
+		this.networkAgent = networkAgent;
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
 		GsonBuilder builder = new GsonBuilder();
@@ -80,14 +86,28 @@ public class GameSave {
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load load) {
-		load();
+		if(!load.world.isRemote) {
+			load();
+		}
 
 	}
 
 	@SubscribeEvent
 	public void onWorldSave(WorldEvent.Save save) {
-		save();
+		if(!save.world.isRemote) {
+			save();
+		}
 
+	}
+
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
+	{
+		EntityPlayer player = event.player;
+		if (player != null && !player.worldObj.isRemote)
+		{
+			networkAgent.sendAchievementsTo((EntityPlayerMP) player);
+		}
 	}
 
 }

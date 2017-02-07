@@ -1,12 +1,13 @@
 package com.stateshifterlabs.achievementbooks;
 
-import com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.common.CommandFlush;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
+import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -28,23 +29,15 @@ import java.io.File;
 public class AchievementBooksMod {
 	public static final String MODID = "achievementbooks";
 	public static final String VERSION = "1.0";
-	private GameSave saver;
-
-	//    @Mod.Instance("AchievementBooksMod")
-	//    public AchievementBooksMod instance;
-
-	//    @SidedProxy(clientSide = "com.stateshifterlabs.achievementbooks.client.ClientProxy", serverSide = "com
-	// .stateshifterlabs.achievementbooks.common.CommonProxy")
-	//    public static CommonProxy proxy;
-
-	private final AchievementStorage storage = new AchievementStorage();
-
 	public static CreativeTabs tabName = new CreativeTabs("tabName") {
 		public Item getTabIconItem() {
 			return Items.gold_nugget;
 		}
 	};
+
+	private final AchievementStorage storage = new AchievementStorage();
 	private Books books;
+	private NetworkAgent networkAgent;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -53,16 +46,15 @@ public class AchievementBooksMod {
 
 		Loader loader = new Loader(configDir);
 		books = loader.init();
-		saver = new GameSave(storage, books);
 
+		networkAgent = new NetworkAgent(storage);
+		new GameSave(storage, books, networkAgent);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		//        NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-
 		for (Book book : books) {
-			AchievementBookItem achievementBook = new AchievementBookItem(book, storage);
+			AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent);
 			GameRegistry.registerItem(achievementBook, book.name(), MODID);
 			GameRegistry.addRecipe(new ItemStack(achievementBook),
 								   "AB",
@@ -74,7 +66,7 @@ public class AchievementBooksMod {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-
+		System.out.println("LOOOOFAAAAAASZ");
 	}
 
 	@EventHandler

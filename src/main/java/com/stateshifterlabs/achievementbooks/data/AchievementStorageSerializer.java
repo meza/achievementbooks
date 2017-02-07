@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
@@ -31,26 +29,13 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
 
 		for (String player : src.players()) {
 
-			JsonObject playerJson = new JsonObject();
-			playerJson.addProperty("name", player);
-
-			JsonArray books = new JsonArray();
 
 			AchievementData data = src.forPlayer(player);
-			for(String bookName: data.books()) {
-				JsonObject book = new JsonObject();
-				book.addProperty("name", bookName);
 
-				JsonArray checked = new JsonArray();
-				for(Integer id: data.completed(bookName)) {
-					JsonElement checkedId = new JsonPrimitive(id);
-					checked.add(checkedId);
-				}
-				book.add("checked", checked);
-				books.add(book);
-			}
+			AchievementDataSerializer dataSer = new AchievementDataSerializer(player);
+			JsonElement playerJson = dataSer.serialize(data, AchievementData.class, context);
 
-			playerJson.add("books", books);
+
 			storage.add(playerJson);
 
 		}
@@ -66,28 +51,11 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
 		JsonArray storageJson = json.getAsJsonArray();
 
 		for(JsonElement userSave: storageJson) {
-			final JsonObject userSaveAsJsonObject = userSave.getAsJsonObject();
-			AchievementData data = new AchievementData(userSaveAsJsonObject.get("name").getAsString());
 
-			JsonArray booksJson = userSaveAsJsonObject.get("books").getAsJsonArray();
-			for(JsonElement bookJson: booksJson) {
+			String thePlayer = userSave.getAsJsonObject().get("name").getAsString();
+			AchievementDataSerializer ser = new AchievementDataSerializer(thePlayer);
+			AchievementData data = ser.deserialize(userSave, AchievementData.class, context);
 
-
-				Save save = new Save();
-
-				JsonObject bookJsonObject = bookJson.getAsJsonObject();
-
-				String name = bookJsonObject.get("name").getAsString();
-				JsonArray checked = bookJsonObject.getAsJsonArray("checked");
-
-
-				for(JsonElement checkedId: checked) {
-					save.toggle(checkedId.getAsInt());
-				}
-
-				data.addSaveData(name, save);
-
-			}
 
 			storage.append(data);
 		}

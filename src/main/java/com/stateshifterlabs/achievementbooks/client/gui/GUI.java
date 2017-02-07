@@ -5,6 +5,7 @@ import com.stateshifterlabs.achievementbooks.common.NBTUtils;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,8 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import static com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem.bookHeight;
-import static com.stateshifterlabs.achievementbooks.client.items.AchievementBookItem.bookWidth;
 
 public class GUI extends GuiScreen {
 
@@ -25,7 +24,11 @@ public class GUI extends GuiScreen {
 	private final int bookFrameHeight = 20;
 	private EntityPlayer player;
 	private Book book;
+	private NetworkAgent networkAgent;
 	private String nbttag;
+	public static int bookWidth = 417;
+	public static int bookHeight = 245;
+
 
 	private int clickDelay = 5;
 	private int pageOffset = 0;
@@ -33,10 +36,11 @@ public class GUI extends GuiScreen {
 	private int oldLeft = 0;
 	private int oldTop = 0;
 
-	public GUI(EntityPlayer player, Book book, AchievementData achievementData) {
+	public GUI(EntityPlayer player, Book book, AchievementData achievementData, NetworkAgent networkAgent) {
 		this.player = player;
 		this.book = book;
- 		book.loadDone(achievementData.completed(book.name()));
+		this.networkAgent = networkAgent;
+		book.loadDone(achievementData.completed(book.name()));
 		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.name() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
 		this.achievementData = achievementData;
@@ -160,6 +164,7 @@ public class GUI extends GuiScreen {
 		} else {
 			((AchievementLine) button).toggle();
 			achievementData.toggle(book, button.id);
+			networkAgent.toggle(book, button.id);
 		}
 	}
 
@@ -170,7 +175,7 @@ public class GUI extends GuiScreen {
 		pageOffset = pageOffset + 2;
 
 		initGui(bookTop, bookLeft);
-		setNBT();
+		savePageNumber();
 	}
 
 	private void previousPage() {
@@ -180,11 +185,12 @@ public class GUI extends GuiScreen {
 		pageOffset = pageOffset - 2;
 
 		initGui(bookTop, bookLeft);
-		setNBT();
+		savePageNumber();
 	}
 
-	private void setNBT() {
+	private void savePageNumber() {
 		NBTUtils.getTag(player.getCurrentEquippedItem()).setInteger(nbttag, pageOffset);
+		networkAgent.sendPageNumber(book, pageOffset);
 	}
 
 }
