@@ -5,6 +5,7 @@ eclipse-server
 x
 .gradle
 
+gradle.properties
 achievements.iml
 achievements.ipr
 

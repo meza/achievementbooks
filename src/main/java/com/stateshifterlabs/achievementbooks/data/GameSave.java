@@ -51,6 +51,10 @@ public class GameSave {
 
 		File saveFile = new File(saveDir.getAbsolutePath() + "/achievementbooks.save.json");
 
+		if(!saveFile.exists()) {
+			return;
+		}
+
 		try {
 			storage.clear();
 			storage = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);

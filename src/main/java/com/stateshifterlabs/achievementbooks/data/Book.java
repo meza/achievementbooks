@@ -8,6 +8,7 @@ public class Book {
 	private List<Page> pages = new ArrayList<Page>();
 	private String name;
 	private String craftingMaterial = "";
+	private boolean craftable = false;
 
 	public void addPage(Page page) {
 		pages.add(page);
@@ -19,6 +20,11 @@ public class Book {
 
 	public void withMaterial(String material) {
 		this.craftingMaterial = material;
+		this.craftable = true;
+	}
+
+	public boolean isCraftable() {
+		return craftable;
 	}
 
 	public String name() {

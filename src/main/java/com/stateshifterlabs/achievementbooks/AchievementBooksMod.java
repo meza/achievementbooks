@@ -56,12 +56,10 @@ public class AchievementBooksMod {
 		for (Book book : books) {
 			AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent);
 			GameRegistry.registerItem(achievementBook, book.name(), MODID);
-			GameRegistry.addRecipe(new ItemStack(achievementBook),
-								   "AB",
-								   'A', Items.book,
-								   'B', Item.itemRegistry.getObject(book.material()));
+			if (book.isCraftable()) {
+				GameRegistry.addRecipe(new ItemStack(achievementBook), "AB", 'A', Items.book, 'B', Item.itemRegistry.getObject(book.material()));
+			}
 		}
-
 	}
 
 	@EventHandler

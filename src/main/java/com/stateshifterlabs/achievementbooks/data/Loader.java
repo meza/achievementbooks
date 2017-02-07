@@ -21,8 +21,7 @@ public class Loader {
 
 			@Override
 			public boolean accept(File dir, String name) {
-				if(name.lastIndexOf('.')>0)
-				{
+				if (name.lastIndexOf('.') > 0) {
 					// get last index for '.' char
 					int lastIndex = name.lastIndexOf('.');
 
@@ -30,14 +29,17 @@ public class Loader {
 					String str = name.substring(lastIndex);
 
 					// match path name extension
-					if(str.equals(".json"))
-					{
+					if (str.equals(".json")) {
 						return true;
 					}
 				}
 				return false;
 			}
 		};
+
+		if (!configDir.exists()) {
+			configDir.mkdirs();
+		}
 
 		final File[] files = configDir.listFiles(fileNameFilter);
 
@@ -52,7 +54,6 @@ public class Loader {
 				Book book = gson.fromJson(new FileReader(conf), Book.class);
 
 				books.addBook(book);
-
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
