@@ -1,6 +1,8 @@
 
 out
 eclipse
+eclipse-server
+x
 .gradle
 
 achievements.iml
