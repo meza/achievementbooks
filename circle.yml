@@ -1,9 +1,11 @@
 machine:
   java:
     version: openjdk7
-depdendencies:
+
+dependencies:
   override:
     - ./gradlew dependencies
+
 compile:
   override:
     - ./gradlew assemble
