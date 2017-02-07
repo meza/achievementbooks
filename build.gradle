@@ -22,14 +22,13 @@ plugins {
 apply plugin: 'forge'
 
 minecraft {
-    version = "1.7.10-10.13.4.1614-1.7.10"
+    version = "${minecraft_version}-10.13.4.1614-${minecraft_version}"
     runDir = "eclipse"
 }
 
 version = "1.0"
 group= "com.stateshifterlabs.achievementbooks" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "achievementbooks"
-version = "MC${minecraft_version}-${mod_version}-${System.getenv().BUILD_NUMBER}"
 
 
 dependencies {
@@ -45,8 +44,6 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compile "org.projectlombok:lombok:1.16.12"
-
 }
 
 processResources
@@ -72,20 +69,3 @@ processResources
 idea { module { inheritOutputDirs = true } }
 
 
-curseforge {
-    if (project.hasProperty('curseforge_key')) {
-        apiKey = project.curseforge_key
-    }
-
-    project {
-        id = project.projectId
-        changelog = System.getenv('CHANGELOG') == null || System.getenv('CHANGELOG').equals('none') ? getChangelog() : System.getenv('CHANGELOG')
-        changelogType = 'html'
-        releaseType = 'beta'
-		addGameVersion '1.7'
-		addGameVersion '1.7.10'
-        mainArtifact(jar) {
-            displayName = "Achievement Books ${version}"
-        }
-    }
-}
