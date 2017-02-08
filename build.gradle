@@ -36,10 +36,14 @@ minecraft {
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
-if (project.release_type.equalsIgnoreCase("release")) {
+if (project.property("release_type").equalsIgnoreCase("release")) {
     version = "${tag_name}-MC${minecraft_version}"
 } else {
-    version = "${mod_version}-MC${minecraft_version}-B${versioning.info.build}"
+    if(project.hasProperty("build_number")) {
+        version = "${mod_version}b${build_number}-MC${minecraft_version}"
+    } else {
+        version = "${mod_version}b${versioning.info.build}-MC${minecraft_version}"
+    }
 }
 
 
