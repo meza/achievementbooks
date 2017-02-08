@@ -18,8 +18,8 @@ deployment:
   release:
     tag: /v[0-9]+(\.[0-9]+)*(-.*)*/
     commands:
-      - deploy.sh release $CIRCLE_TAG $CIRCLE_BUILD_NUM
+      - ./deploy.sh release $CIRCLE_TAG $CIRCLE_BUILD_NUM
   beta:
       branch: beta
       commands:
-        - deploy.sh beta $CIRCLE_BRANC $CIRCLE_BUILD_NUM
+        - ./deploy.sh beta $CIRCLE_BRANC $CIRCLE_BUILD_NUM
