@@ -3,6 +3,8 @@ machine:
     version: openjdk7
 
 dependencies:
+  pre:
+    - ./gradlew
   override:
     - ./gradlew dependencies
 
