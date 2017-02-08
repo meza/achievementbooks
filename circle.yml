@@ -4,12 +4,12 @@ machine:
 
 dependencies:
   override:
-    - gradle dependencies
+    - ./gradlew dependencies
 
 compile:
   override:
-    - gradle assemble
+    - ./gradlew assemble
 
 test:
   override:
-    - gradle test
+    - ./gradlew test
