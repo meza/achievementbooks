@@ -8,6 +8,7 @@ x
 gradle.properties
 achievements.iml
 achievements.ipr
+classes
 
 
 # Created by https://www.gitignore.io/api/linux,osx,windows,intellij,java

@@ -94,6 +94,10 @@ public class PageElement {
 		return id;
 	}
 
+	public boolean hasDescription() {
+		return description() != null;
+	}
+
 
 	public enum Type {
 		HEADER, ACHIEVEMENT, TEXT

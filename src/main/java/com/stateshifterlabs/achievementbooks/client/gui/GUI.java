@@ -29,8 +29,6 @@ public class GUI extends GuiScreen {
 	public static int bookWidth = 417;
 	public static int bookHeight = 245;
 
-
-	private int clickDelay = 5;
 	private int pageOffset = 0;
 	private AchievementData achievementData;
 	private int oldLeft = 0;
@@ -117,8 +115,6 @@ public class GUI extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float par3) {
-		clickDelay = Math.max(0, clickDelay - 1);
-
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int bookLeft = (this.width - bookWidth) / 2;
@@ -163,7 +159,6 @@ public class GUI extends GuiScreen {
 			nextPage();
 		} else {
 			((AchievementLine) button).toggle();
-			achievementData.toggle(book, button.id);
 			networkAgent.toggle(book, button.id);
 		}
 	}
