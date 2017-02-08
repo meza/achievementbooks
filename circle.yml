@@ -22,4 +22,4 @@ deployment:
   beta:
       branch: beta
       commands:
-        - ./deploy.sh beta $CIRCLE_BRANC $CIRCLE_BUILD_NUM
+        - ./deploy.sh beta $CIRCLE_BRANCH $CIRCLE_BUILD_NUM
