@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
 
@@ -35,4 +36,7 @@ public class PaginationButton extends GuiButton
 	{
 		return super.mousePressed(par1Minecraft, par2, par3);
 	}
+
+	@Override
+	public void func_146113_a(SoundHandler p_146113_1_) {}
 }

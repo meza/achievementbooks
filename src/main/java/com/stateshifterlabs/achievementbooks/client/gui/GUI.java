@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.common.NBTUtils;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -25,6 +26,7 @@ public class GUI extends GuiScreen {
 	private EntityPlayer player;
 	private Book book;
 	private NetworkAgent networkAgent;
+	private Sound sound;
 	private String nbttag;
 	public static int bookWidth = 417;
 	public static int bookHeight = 245;
@@ -34,10 +36,11 @@ public class GUI extends GuiScreen {
 	private int oldLeft = 0;
 	private int oldTop = 0;
 
-	public GUI(EntityPlayer player, Book book, AchievementData achievementData, NetworkAgent networkAgent) {
+	public GUI(EntityPlayer player, Book book, AchievementData achievementData, NetworkAgent networkAgent, Sound sound) {
 		this.player = player;
 		this.book = book;
 		this.networkAgent = networkAgent;
+		this.sound = sound;
 		book.loadDone(achievementData.completed(book.name()));
 		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.name() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
@@ -158,6 +161,7 @@ public class GUI extends GuiScreen {
 		} else if (button.id == 1) {
 			nextPage();
 		} else {
+			sound.toggle();
 			((AchievementLine) button).toggle();
 			networkAgent.toggle(book, button.id);
 		}
@@ -169,6 +173,7 @@ public class GUI extends GuiScreen {
 
 		pageOffset = pageOffset + 2;
 
+		sound.nextPage();
 		initGui(bookTop, bookLeft);
 		savePageNumber();
 	}
@@ -179,6 +184,7 @@ public class GUI extends GuiScreen {
 
 		pageOffset = pageOffset - 2;
 
+		sound.previousPage();
 		initGui(bookTop, bookLeft);
 		savePageNumber();
 	}
@@ -186,6 +192,11 @@ public class GUI extends GuiScreen {
 	private void savePageNumber() {
 		NBTUtils.getTag(player.getCurrentEquippedItem()).setInteger(nbttag, pageOffset);
 		networkAgent.sendPageNumber(book, pageOffset);
+	}
+
+	@Override
+	public void onGuiClosed() {
+		sound.closeBook();
 	}
 
 }

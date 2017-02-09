@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.client.gui;
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,5 +79,8 @@ public class AchievementLine extends GuiButton {
 	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3) {
 		return super.mousePressed(par1Minecraft, par2, par3);
 	}
+
+	@Override
+	public void func_146113_a(SoundHandler p_146113_1_) {}
 
 }

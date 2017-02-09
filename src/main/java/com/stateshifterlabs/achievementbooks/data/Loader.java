@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,15 +26,17 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 public class Loader {
 	private final AchievementStorage storage;
 	private final NetworkAgent networkAgent;
+	private Sound sound;
 	private File configDir;
 	private Books books;
 	private Map<String, AchievementBookItem> items = new HashMap<String, AchievementBookItem>();
 
-	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent) {
+	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent, Sound sound) {
 		this.configDir = configDir;
 		this.books = books;
 		this.storage = storage;
 		this.networkAgent = networkAgent;
+		this.sound = sound;
 	}
 
 	public Books init() {
@@ -114,7 +117,7 @@ public class Loader {
 			if (items.containsKey(book.name())) {
 				items.get(book.name()).updateBook(book);
 			} else {
-				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent);
+				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent, sound);
 				GameRegistry.registerItem(achievementBook, book.name(), MODID);
 				if (book.isCraftable()) {
 					final ItemStack itemStack = new ItemStack(achievementBook);

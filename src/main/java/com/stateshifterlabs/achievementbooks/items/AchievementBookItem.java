@@ -1,8 +1,8 @@
 package com.stateshifterlabs.achievementbooks.items;
 
 
-import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
 import com.stateshifterlabs.achievementbooks.client.gui.GUI;
+import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
@@ -15,28 +15,34 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
+
 public class AchievementBookItem extends Item {
 
 	private Book book;
 	private AchievementStorage achievementStorage;
 	private NetworkAgent networkAgent;
+	private Sound sound;
 
-	public AchievementBookItem(Book book, AchievementStorage achievementStorage, NetworkAgent networkAgent) {
+	public AchievementBookItem(Book book, AchievementStorage achievementStorage, NetworkAgent networkAgent, Sound sound) {
 		super();
 		this.book = book;
 		this.achievementStorage = achievementStorage;
 		this.networkAgent = networkAgent;
+		this.sound = sound;
 		setCreativeTab(CreativeTabs.tabMisc);
 		setUnlocalizedName("achievementbooks.achievementBook." + book.name());
-		setTextureName(AchievementBooksMod.MODID + ":book");
+		setTextureName(MODID + ":book");
 		setMaxStackSize(1);
+
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer player) {
 		if (world.isRemote) {
-			Minecraft.getMinecraft().displayGuiScreen(new GUI(player, book, achievementStorage.forPlayer(player), networkAgent));
+			sound.openBook();
+			Minecraft.getMinecraft().displayGuiScreen(new GUI(player, book, achievementStorage.forPlayer(player), networkAgent, sound));
 		}
 		return par1ItemStack;
 	}

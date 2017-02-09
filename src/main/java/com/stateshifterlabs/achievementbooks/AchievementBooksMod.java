@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks;
 
+import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ListCommand;
@@ -45,7 +46,7 @@ public class AchievementBooksMod {
 		File configDir =
 				new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID);
 		networkAgent = new NetworkAgent(storage);
-		loader = new Loader(configDir, books, storage, networkAgent);
+		loader = new Loader(configDir, books, storage, networkAgent, new Sound());
 	}
 
 	@EventHandler
