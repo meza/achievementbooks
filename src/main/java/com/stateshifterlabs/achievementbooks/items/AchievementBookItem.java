@@ -47,4 +47,8 @@ public class AchievementBookItem extends Item {
 		return book.name();
 	}
 
+	public void updateBook(Book book) {
+		this.book = book;
+	}
+
 }

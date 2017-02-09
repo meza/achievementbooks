@@ -13,6 +13,7 @@ public class Save {
 	public void toggle(Integer id) {
 		if(done.contains(id)) {
 			done.remove(id);
+			return;
 		}
 
 		done.add(id);

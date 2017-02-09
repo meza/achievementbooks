@@ -2,21 +2,46 @@ package com.stateshifterlabs.achievementbooks.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
 public class Loader {
+	private final AchievementStorage storage;
+	private final NetworkAgent networkAgent;
 	private File configDir;
+	private Books books;
+	private Map<String, AchievementBookItem> items = new HashMap<String, AchievementBookItem>();
 
-	public Loader(File configDir) {
+	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent) {
 		this.configDir = configDir;
+		this.books = books;
+		this.storage = storage;
+		this.networkAgent = networkAgent;
 	}
 
 	public Books init() {
-		Books books = new Books();
+		return init(false);
+	}
+
+	public Books init(boolean createDemo) {
+		books.empty();
 		FilenameFilter fileNameFilter = new FilenameFilter() {
 
 			@Override
@@ -43,6 +68,25 @@ public class Loader {
 
 		final File[] files = configDir.listFiles(fileNameFilter);
 
+		if (files.length == 0 || createDemo) {
+			File file = new File(configDir.getAbsolutePath() + "/demo.json");
+
+			if (file.exists()) {
+				int i = 1;
+				do {
+					file = new File(configDir.getAbsolutePath() + "/demo" + i + ".json");
+				} while (file.exists());
+			}
+
+			URL url = AchievementBooksMod.class.getResource("/config/demo.json");
+			try {
+				FileUtils.copyURLToFile(url, file);
+				return init();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		for (File conf : files) {
 			try {
 
@@ -60,6 +104,25 @@ public class Loader {
 			}
 		}
 
+		buildItems();
+
 		return books;
+	}
+
+	private void buildItems() {
+		for (Book book : books) {
+			if (items.containsKey(book.name())) {
+				items.get(book.name()).updateBook(book);
+			} else {
+				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent);
+				GameRegistry.registerItem(achievementBook, book.name(), MODID);
+				if (book.isCraftable()) {
+					final ItemStack itemStack = new ItemStack(achievementBook);
+					GameRegistry.addRecipe(itemStack, "AB", 'A', Items.book, 'B',
+										   Item.itemRegistry.getObject(book.material()));
+				}
+				items.put(book.name(), achievementBook);
+			}
+		}
 	}
 }

@@ -6,6 +6,8 @@ import net.minecraft.client.gui.GuiButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.description;
+
 public class HeaderGui {
 
 	private final int padding = 10;
@@ -33,9 +35,11 @@ public class HeaderGui {
 		height = height + header.getHeight();
 		buttons.add(header);
 
-		DescriptionLine description = new DescriptionLine(id++, left, top + height, maxWidth, element.formattedDescription());
-		height = height + description.getHeight();
-		buttons.add(description);
+		if(element.hasDescription()) {
+			DescriptionLine description = new DescriptionLine(id++, left, top + height, maxWidth, element.formattedDescription());
+			height = height + description.getHeight();
+			buttons.add(description);
+		}
 
 		return buttons;
 
