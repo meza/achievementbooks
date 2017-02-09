@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks;
 import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.commands.ImportCommand;
 import com.stateshifterlabs.achievementbooks.commands.ListCommand;
 import com.stateshifterlabs.achievementbooks.commands.MainCommand;
 import com.stateshifterlabs.achievementbooks.commands.ReloadCommand;
@@ -66,6 +67,7 @@ public class AchievementBooksMod {
 
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
+		mainCommand.add(new ImportCommand(loader));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

@@ -59,6 +59,15 @@ or in short:
 ```
 Gives the player _every_ book registered in the system
 
+#### Import
+```
+/achievementbooks import
+```
+If you have the `Simple Achievements` mod installed already and would like to start using this instead, the import
+command can create a json file for you.
+The result is not going to be perfect due to formatting issues, but it's going to be close enough not to cause a big
+pain to migrate.
+
 #### Init
 ```
 /achievementbooks init

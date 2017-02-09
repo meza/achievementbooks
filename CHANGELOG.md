@@ -1,3 +1,4 @@
+- Added the importer, so you can easily migrate from Simple Achievements
 - Added `itemName` to the config files. If you've started using the mod before this update, please refer to the manual.
 
 The very first release of Achievement Books.
