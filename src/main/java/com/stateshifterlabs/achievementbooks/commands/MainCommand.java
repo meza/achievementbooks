@@ -21,6 +21,15 @@ public class MainCommand extends CommandBase {
 	}
 
 	@Override
+	public List<String> getCommandAliases() {
+		List<String> aliases = new ArrayList<String>();
+
+		aliases.add("ab");
+
+		return aliases;
+	}
+
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		for (int i = 0; i < subCommands.size(); i++) {
 			String txt = "";

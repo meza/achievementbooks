@@ -2,6 +2,7 @@ package com.stateshifterlabs.achievementbooks;
 
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.commands.ListCommand;
 import com.stateshifterlabs.achievementbooks.commands.MainCommand;
 import com.stateshifterlabs.achievementbooks.commands.ReloadCommand;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
@@ -66,6 +67,7 @@ public class AchievementBooksMod {
 		mainCommand.add(new ReloadCommand(loader));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
+		mainCommand.add(new ListCommand(books));
 
 		ICommandManager server = MinecraftServer.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
