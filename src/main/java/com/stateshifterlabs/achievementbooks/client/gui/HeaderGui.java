@@ -6,8 +6,6 @@ import net.minecraft.client.gui.GuiButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.description;
-
 public class HeaderGui {
 
 	private final int padding = 10;
