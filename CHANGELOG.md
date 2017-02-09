@@ -9,3 +9,7 @@ Also, feedback, issues, pull requests are all appreciated. Let me know what you 
 
 
 p.s.: 1.7+ support is coming very soon, watch this space.
+
+
+Cannot update name and crafting material
+
