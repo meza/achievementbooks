@@ -9,6 +9,7 @@ public class Book {
 	private String name;
 	private String craftingMaterial = "";
 	private boolean craftable = false;
+	private String itemName;
 
 	public void addPage(Page page) {
 		pages.add(page);
@@ -16,6 +17,10 @@ public class Book {
 
 	public void withName(String name) {
 		this.name = name;
+	}
+
+	public void withItemName(String name) {
+		this.itemName = name;
 	}
 
 	public void withMaterial(String material) {
@@ -56,6 +61,11 @@ public class Book {
 				}
 			}
 		}
+
+	}
+
+	public String itemName() {
+		return itemName;
 
 	}
 }

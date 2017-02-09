@@ -14,6 +14,9 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 
 ## User Manual
 
+For the right version of the manual, please switch to the branch you're interested in.
+The BETA manual is here: [https://github.com/meza/achievementbooks/tree/beta] (https://github.com/meza/achievementbooks/tree/beta)
+
 ### Installing the Mod
 
 Currently Achievement Books only supports 1.7.10, but is under active development for all other versions too.
@@ -89,15 +92,21 @@ Like this:
 The most minimal valid book is as follows:
 ```JSON
 {
+	"itemName": "book_smallest",
 	"bookName": "The smallest book",
 	"pages": []
 }
 ```
 
+#### `itemName` - required
+This identifies the book in the item registry of the game. This needs to be unique for every book you create.
+In the game, you'll be able to use: ```/give @p achievementbooks:book_smallest``` if you wish
+Since it's used to identify books in sava data too, if you change this after you've started using the mod, you may lose
+your progress.
+
 #### `bookName` - required
 A book's name is the most important feature of the book. This is how it shows up in the game, and this is how it's identified.
 Unfortunately this means that the only thing that cannot be edited easily after the fact, is the book name. So choose carefully.
-> I'm contemplating of switching this too to an ID basis, so even the name could be edited
 
 #### `craftingMaterial` - optional
 Every book in the Achievement Books mod can be configure to be craftable or not. If you specify a crafting material in a `mod:item` format,

@@ -33,7 +33,7 @@ public class GiveCommand extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) {
 
 		for(Book book: books) {
-			Item item = GameRegistry.findItem(MODID, book.name());
+			Item item = GameRegistry.findItem(MODID, book.itemName());
 			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory.addItemStackToInventory(new ItemStack(item, 1));
 		}
 

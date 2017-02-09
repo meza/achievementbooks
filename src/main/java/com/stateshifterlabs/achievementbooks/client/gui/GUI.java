@@ -41,8 +41,8 @@ public class GUI extends GuiScreen {
 		this.book = book;
 		this.networkAgent = networkAgent;
 		this.sound = sound;
-		book.loadDone(achievementData.completed(book.name()));
-		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.name() + ":pageOffset";
+		book.loadDone(achievementData.completed(book.itemName()));
+		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.itemName() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
 		this.achievementData = achievementData;
 	}

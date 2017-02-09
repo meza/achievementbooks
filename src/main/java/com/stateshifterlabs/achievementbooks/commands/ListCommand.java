@@ -46,7 +46,7 @@ public class ListCommand extends CommandBase {
 		sender.addChatMessage(new ChatComponentText(txt));
 
 		for(Book book: books) {
-			Item item = GameRegistry.findItem(MODID, book.name());
+			Item item = GameRegistry.findItem(MODID, book.itemName());
 
 			txt = String.format(" - §r%s§r §9(%d)§r", book.name(), Item.getIdFromItem(item));
 			sender.addChatMessage(new ChatComponentText(txt));

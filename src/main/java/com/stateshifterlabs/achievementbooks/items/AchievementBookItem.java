@@ -31,7 +31,7 @@ public class AchievementBookItem extends Item {
 		this.networkAgent = networkAgent;
 		this.sound = sound;
 		setCreativeTab(CreativeTabs.tabMisc);
-		setUnlocalizedName("achievementbooks.achievementBook." + book.name());
+		setUnlocalizedName("achievementbooks.achievementBook." + book.itemName());
 		setTextureName(MODID + ":book");
 		setMaxStackSize(1);
 

@@ -25,13 +25,13 @@ public class NetworkAgent
 
 	public void sendPageNumber(Book book, int pageOffset) {
 		PageTurnMessage msg = new PageTurnMessage();
-		msg.withData(book.name(), pageOffset);
+		msg.withData(book.itemName(), pageOffset);
 		wrapper.sendToServer(msg);
 	}
 
 	public void toggle(Book book, int id) {
 		ToggleAchievementMessage msg = new ToggleAchievementMessage();
-		msg.withData(book.name(), id);
+		msg.withData(book.itemName(), id);
 		wrapper.sendToServer(msg);
 	}
 

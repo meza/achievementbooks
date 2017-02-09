@@ -114,17 +114,17 @@ public class Loader {
 
 	private void buildItems() {
 		for (Book book : books) {
-			if (items.containsKey(book.name())) {
-				items.get(book.name()).updateBook(book);
+			if (items.containsKey(book.itemName())) {
+				items.get(book.itemName()).updateBook(book);
 			} else {
 				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent, sound);
-				GameRegistry.registerItem(achievementBook, book.name(), MODID);
+				GameRegistry.registerItem(achievementBook, book.itemName(), MODID);
 				if (book.isCraftable()) {
 					final ItemStack itemStack = new ItemStack(achievementBook);
 					GameRegistry.addRecipe(itemStack, "AB", 'A', Items.book, 'B',
 										   Item.itemRegistry.getObject(book.material()));
 				}
-				items.put(book.name(), achievementBook);
+				items.put(book.itemName(), achievementBook);
 			}
 		}
 	}
