@@ -123,7 +123,7 @@ next to eachother, it will create your book.
 #### `color` / `colour` - optional
 There are currently 16 colours you can use for your book. These are:
 
-Color parameter | Book icon
+Colour parameter | Book icon
 --------------- | ---------
 aqua | ![aqua](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-aqua.png)
 black | ![black](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-black.png)
