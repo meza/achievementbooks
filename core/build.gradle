@@ -27,7 +27,7 @@ minecraft {
     version = "${minecraft_version}-${forge_version}-${minecraft_version}"
     runDir = "eclipse"
 
-    mappings = "snapshot_20140925"
+//    mappings = "stable_8"
 //    makeObfSourceJar = false
 
     replace "@VERSION@", project.version
