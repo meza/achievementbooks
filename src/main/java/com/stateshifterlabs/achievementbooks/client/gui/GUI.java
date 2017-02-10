@@ -18,10 +18,8 @@ import org.lwjgl.opengl.GL11;
 public class GUI extends GuiScreen {
 
 	public static final int GUI_ID = 20;
-	private static ResourceLocation bgl =
-			new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_left.png");
-	private static ResourceLocation bgr =
-			new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_right.png");
+	private static ResourceLocation bgl;
+	private static ResourceLocation bgr;
 	private final int bookFrameHeight = 20;
 	private EntityPlayer player;
 	private Book book;
@@ -45,6 +43,10 @@ public class GUI extends GuiScreen {
 		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.itemName() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
 		this.achievementData = achievementData;
+
+		bgl = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_left-"+book.colour()+".png");
+		bgr = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_right-"+book.colour()+".png");
+
 	}
 
 	@SuppressWarnings("unchecked")

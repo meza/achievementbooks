@@ -14,9 +14,6 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 
 ## User Manual
 
-For the right version of the manual, please switch to the branch you're interested in.
-The BETA manual is here: [https://github.com/meza/achievementbooks/tree/beta] (https://github.com/meza/achievementbooks/tree/beta)
-
 ### Installing the Mod
 
 Currently Achievement Books only supports 1.7.10, but is under active development for all other versions too.
@@ -123,11 +120,40 @@ then the book will be craftable with that material and a book.
 For example if you specify: `minecraft:cobblestone` as the crafting material, then if you put a regular book and a cobblestone in a crafting grid
 next to eachother, it will create your book.
 
+#### `color` / `colour` - optional
+There are currently 16 colours you can use for your book. These are:
+ - aqua
+ - black
+ - blue
+ - brown
+ - deep_blue
+ - gray
+ - green
+ - lime
+ - olive
+ - orange
+ - orangered
+ - peach
+ - pink
+ - purple
+ - red
+ - yellow
+ 
+```JSON
+ {
+ 	"itemName": "coloured_book_smallest",
+ 	"colour": "orange",
+ 	"bookName": "The smallest book",
+ 	"pages": []
+ }
+ ```
+
 #### `pages` - required
 The second most important part of the book is the list of pages it has.
 This is an array of arrays of page items, which means that the general format is:
 ```JSON
 {
+	"itemName": "book_example",
 	"bookName": "Page example book",
 	"pages": [
 		[],
@@ -206,7 +232,9 @@ An extra information for the player, if the achievement is targeting a specific 
 #### Example
 ```JSON
 {
+	"itemName": "book_example",
 	"bookName": "Achievement Book Demo",
+	"color": "black",
 	"craftingMaterial": "minecraft:cobblestone",
 	"pages": [
 		[

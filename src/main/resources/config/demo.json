@@ -1,6 +1,7 @@
 {
 	"itemName": "book_demo",
 	"bookName": "Achievement Book Demo",
+	"color": "red",
 	"craftingMaterial": "minecraft:cobblestone",
 	"pages": [
 		[

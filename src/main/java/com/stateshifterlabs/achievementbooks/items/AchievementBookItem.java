@@ -32,7 +32,7 @@ public class AchievementBookItem extends Item {
 		this.sound = sound;
 		setCreativeTab(CreativeTabs.tabMisc);
 		setUnlocalizedName("achievementbooks.achievementBook." + book.itemName());
-		setTextureName(MODID + ":book");
+		setTextureName(MODID + ":book" + "-" +book.colour());
 		setMaxStackSize(1);
 
 	}

@@ -20,6 +20,6 @@ deployment:
     commands:
       - ./deploy.sh release $CIRCLE_TAG $CIRCLE_BUILD_NUM
   beta:
-      branch: beta
+      branch: master
       commands:
         - ./deploy.sh beta $CIRCLE_BRANCH $CIRCLE_BUILD_NUM

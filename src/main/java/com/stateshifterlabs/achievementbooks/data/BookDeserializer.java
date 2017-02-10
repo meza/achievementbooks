@@ -21,6 +21,12 @@ public class BookDeserializer implements JsonDeserializer<Book>  {
 
 		book.withName(bookObject.get("bookName").getAsString());
 		book.withItemName(bookObject.get("itemName").getAsString());
+		if(bookObject.has("color")) {
+			book.withColour(bookObject.get("color").getAsString());
+		}
+		if(bookObject.has("colour")) {
+			book.withColour(bookObject.get("colour").getAsString());
+		}
 		if(bookObject.has("craftingMaterial")) {
 			book.withMaterial(bookObject.get("craftingMaterial").getAsString());
 		}

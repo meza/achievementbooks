@@ -1,5 +1,7 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.stateshifterlabs.achievementbooks.items.Colour;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Book {
 	private String craftingMaterial = "";
 	private boolean craftable = false;
 	private String itemName;
+	private Colour colour = Colour.RED;
 
 	public void addPage(Page page) {
 		pages.add(page);
@@ -26,6 +29,11 @@ public class Book {
 	public void withMaterial(String material) {
 		this.craftingMaterial = material;
 		this.craftable = true;
+	}
+
+	public Book withColour(String colour) {
+		this.colour = Colour.fromString(colour);
+		return this;
 	}
 
 	public boolean isCraftable() {
@@ -67,5 +75,9 @@ public class Book {
 	public String itemName() {
 		return itemName;
 
+	}
+
+	public String colour() {
+		return colour.getText();
 	}
 }
