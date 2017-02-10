@@ -151,6 +151,8 @@ yellow | ![yellow](https://github.com/meza/achievementbooks/raw/colors/src/main/
  }
  ```
 
+>Yes, you can use both `color` and `colour`. They work the same way. 
+
 #### `pages` - required
 The second most important part of the book is the list of pages it has.
 This is an array of arrays of page items, which means that the general format is:
