@@ -3,8 +3,8 @@ package com.stateshifterlabs.achievementbooks.items;
 public enum Colour {
 
 	PINK("pink"),
-	DEEPBLUE("deep_blue"),
-	ORANGERED("orange_red"),
+	DEEPBLUE("deepblue"),
+	ORANGERED("orangered"),
 	LIME("lime"),
 	AQUA("aqua"),
 	GRAY("gray"),

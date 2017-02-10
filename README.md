@@ -122,22 +122,25 @@ next to eachother, it will create your book.
 
 #### `color` / `colour` - optional
 There are currently 16 colours you can use for your book. These are:
- - aqua
- - black
- - blue
- - brown
- - deep_blue
- - gray
- - green
- - lime
- - olive
- - orange
- - orangered
- - peach
- - pink
- - purple
- - red
- - yellow
+
+Color parameter | Book icon
+--------------- | ---------
+aqua | ![aqua](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-aqua.png)
+black | ![black](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-black.png)
+blue | ![blue](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-blue.png)
+brown | ![brown](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-brown.png)
+deepblue | ![deepblue](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-deepblue.png)
+gray | ![gray](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-gray.png)
+green | ![green](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-green.png)
+lime | ![lime](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-lime.png)
+olive | ![olive](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-olive.png)
+orange | ![orange](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-orange.png)
+orangered | ![orangered](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-orangered.png)
+peach | ![peach](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-peach.png)
+pink | ![pink](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-pink.png)
+purple | ![purple](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-purple.png)
+red | ![red](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-red.png)
+yellow | ![yellow](https://github.com/meza/achievementbooks/raw/colors/src/main/resources/assets/achievementbooks/textures/items/book-yellow.png)
  
 ```JSON
  {
