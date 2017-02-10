@@ -1,8 +1,7 @@
 
 out
-eclipse
-eclipse-server
-x
+**/eclipse
+**/eclipse-server
 .gradle
 
 gradle.properties

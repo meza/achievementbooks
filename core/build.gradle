@@ -17,17 +17,18 @@ buildscript {
 
 plugins {
     id "com.matthewprenger.cursegradle" version "1.0.8"
-    id 'net.nemerosa.versioning' version '2.0.0'
 }
 
 apply plugin: 'forge'
-
 
 boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")
 
 minecraft {
     version = "${minecraft_version}-${forge_version}-${minecraft_version}"
     runDir = "eclipse"
+
+    mappings = "snapshot_20140925"
+//    makeObfSourceJar = false
 
     replace "@VERSION@", project.version
     replaceIn "AchievementBooksMod.java"
@@ -36,16 +37,31 @@ minecraft {
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
+def getVersionAppendage() {
+    def proc = "git rev-parse --short HEAD".execute()
+    proc.waitFor()
+    return "DEV." + proc.exitValue() ? "GITBORK" : proc.text.trim()
+}
+
+
 if (project.property("release_type").equalsIgnoreCase("release")) {
     version = "${tag_name}-MC${minecraft_version}"
 } else {
     if(project.hasProperty("build_number")) {
         version = "${mod_version}b${build_number}-MC${minecraft_version}"
     } else {
-        version = "${mod_version}b${versioning.info.build}-MC${minecraft_version}"
+        version = "${mod_version}b${getVersionAppendage()}-MC${minecraft_version}"
     }
 }
 
+task cleanUpMinecraftRunClutter {
+    doLast {
+        delete "${rootDir}/classes"
+        delete "${rootDir}/out"
+    }
+}
+
+clean.dependsOn cleanUpMinecraftRunClutter
 
 processResources {
     inputs.property "version", project.version
