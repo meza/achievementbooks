@@ -35,12 +35,6 @@ minecraft {
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
-def getVersionAppendage() {
-    def proc = "git rev-parse --short HEAD".execute()
-    proc.waitFor()
-    return "DEV." + proc.exitValue() ? "GITBORK" : proc.text.trim()
-}
-
 
 if (project.property("release_type").equalsIgnoreCase("release")) {
     version = "${tag_name}-MC${minecraft_version}"
