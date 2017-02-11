@@ -9,7 +9,6 @@ import com.stateshifterlabs.achievementbooks.facade.Player;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
-public class AchievementBookItem extends Item implements ItemMeshDefinition, IForgeRegistryEntry<Item> {
+public class AchievementBookItem extends Item implements IForgeRegistryEntry<Item> {
 
 	private Book book;
 	private AchievementStorage achievementStorage;
@@ -71,7 +70,6 @@ public class AchievementBookItem extends Item implements ItemMeshDefinition, IFo
 		this.book = book;
 	}
 
-	@Override
 	public ModelResourceLocation getModelLocation(ItemStack stack) {
 		return new ModelResourceLocation(MODID + ":book-" + book.colour(), "inventory");
 	}
