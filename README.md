@@ -1,3 +1,9 @@
+> __Disclaimer__
+>
+> _Whatever you see in the code, it's just a very early work in progress. Don't assume I know what I'm doing._
+>
+> @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
+
 # Achievement Books
 
 The Achivement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
