@@ -8,11 +8,11 @@ dependencies:
 
 compile:
   override:
-    - ./gradlew assemble
+    - ./gradlew setupCIWorkspace
 
 test:
   override:
-    - ./gradlew test
+    - ./gradlew processResources assemble
 
 deployment:
   release:
