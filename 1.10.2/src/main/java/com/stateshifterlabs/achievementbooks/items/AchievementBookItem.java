@@ -9,6 +9,8 @@ import com.stateshifterlabs.achievementbooks.facade.Player;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,7 +23,9 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class AchievementBookItem extends Item implements IForgeRegistryEntry<Item> {
+import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
+
+public class AchievementBookItem extends Item implements ItemMeshDefinition, IForgeRegistryEntry<Item> {
 
 	private Book book;
 	private AchievementStorage achievementStorage;
@@ -36,10 +40,9 @@ public class AchievementBookItem extends Item implements IForgeRegistryEntry<Ite
 		this.achievementStorage = achievementStorage;
 		this.networkAgent = networkAgent;
 		this.sound = sound;
-		setRegistryName(book.itemName());
+		setRegistryName(MODID + ":" + book.itemName());
 		setCreativeTab(CreativeTabs.MISC);
-		setUnlocalizedName("achievementbooks.achievementBook." + book.itemName());
-		//		setTextureName(MODID + ":book" + "-" +book.colour());
+		setUnlocalizedName("achievementbooks" + book.itemName());
 		setMaxStackSize(1);
 	}
 
@@ -68,4 +71,8 @@ public class AchievementBookItem extends Item implements IForgeRegistryEntry<Ite
 		this.book = book;
 	}
 
+	@Override
+	public ModelResourceLocation getModelLocation(ItemStack stack) {
+		return new ModelResourceLocation(MODID + ":book-" + book.colour(), "inventory");
+	}
 }

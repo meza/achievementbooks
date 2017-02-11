@@ -118,7 +118,8 @@ public class Loader {
 				items.get(book.itemName()).updateBook(book);
 			} else {
 				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent, sound);
-
+				final String name = String.format("book-%s", book.colour());
+				AchievementBooksMod.proxy.registerItemRenderer(achievementBook, 0, name);
 				GameRegistry.register(achievementBook);
 
 				if (book.isCraftable()) {
@@ -128,8 +129,7 @@ public class Loader {
 				}
 				items.put(book.itemName(), achievementBook);
 
-				final String name = String.format("book-%s", book.colour());
-				AchievementBooksMod.proxy.registerItemRenderer(achievementBook, 0, name);
+
 			}
 		}
 	}
