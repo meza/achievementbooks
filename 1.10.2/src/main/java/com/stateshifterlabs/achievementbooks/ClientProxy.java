@@ -16,6 +16,14 @@ public class ClientProxy extends CommonProxy {
 
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, resourceLocation);
 		ModelLoader.setCustomModelResourceLocation(item, meta, resourceLocation);
+	}
 
+	public void refreshResources() {
+		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+			@Override
+			public void run() {
+				Minecraft.getMinecraft().refreshResources();
+			}
+		});
 	}
 }

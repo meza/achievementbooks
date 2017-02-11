@@ -132,5 +132,7 @@ public class Loader {
 
 			}
 		}
+
+		AchievementBooksMod.proxy.refreshResources();
 	}
 }
