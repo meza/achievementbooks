@@ -4,6 +4,7 @@ out
 **/eclipse-server
 .gradle
 
+dist
 achievements.iml
 achievements.ipr
 classes

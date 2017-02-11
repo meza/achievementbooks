@@ -3,11 +3,11 @@ plugins {
 }
 
 subprojects {
-    project.ext.modid="achievementbooks"
+    project.ext.modid = "achievementbooks"
     apply plugin: "java"
 }
 
-configure(subprojects.findAll {it.name != 'core'}) {
+configure(subprojects.findAll { it.name != 'core' }) {
     dependencies {
         compile project(":core")
 
@@ -43,3 +43,15 @@ def getVersionAppendage() {
     return proc.exitValue() ? "GITBORK" : proc.text.trim()
 }
 
+String distDir = System.getenv("DIST_DIR");
+if(distDir == null) {
+    distDir="dist"
+}
+
+task collect(type: Copy) {
+
+    from(subprojects.collect { "${it.buildDir}/libs" })
+    into distDir
+
+
+}

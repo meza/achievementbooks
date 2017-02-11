@@ -4,15 +4,19 @@ machine:
 
 dependencies:
   override:
-    - ./gradlew dependencies
+    - ./gradlew dependencies setupCIWorkspace
+    - ./gradlew compileTestJava
+  cache_directories:
+    - ~/.gradle
 
 compile:
   override:
-    - ./gradlew setupCIWorkspace
+    - export DIST_DIR=$CIRCLE_ARTIFACTS
+    - ./gradlew processResources assemble collect
 
 test:
   override:
-    - ./gradlew processResources assemble
+    - ./gradlew test
 
 deployment:
   release:
