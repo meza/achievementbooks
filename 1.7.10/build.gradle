@@ -38,16 +38,6 @@ group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
 
-if (project.property("release_type").equalsIgnoreCase("release")) {
-    version = "${tag_name}-MC${minecraft_version}"
-} else {
-    if(project.hasProperty("build_number")) {
-        version = "${mod_version}b${build_number}-MC${minecraft_version}"
-    } else {
-        version = "${mod_version}b${getVersionAppendage()}-MC${minecraft_version}"
-    }
-}
-
 task cleanUpMinecraftRunClutter {
     doLast {
         delete "${rootDir}/classes"

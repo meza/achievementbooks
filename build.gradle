@@ -7,6 +7,13 @@ subprojects {
     apply plugin: "java"
 }
 
+def getVersionAppendage() {
+    def proc = "git rev-parse --short HEAD".execute()
+    proc.waitFor()
+    return proc.exitValue() ? "GITBORK" : proc.text.trim()
+}
+
+
 configure(subprojects.findAll { it.name != 'core' }) {
     dependencies {
         compile project(":core")
@@ -17,6 +24,16 @@ configure(subprojects.findAll { it.name != 'core' }) {
 
     boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")
 
+
+    if (project.property("release_type").equalsIgnoreCase("release")) {
+        version = "${tag_name}-MC${minecraft_version}"
+    } else {
+        if (project.hasProperty("build_number")) {
+            version = "${mod_version}b${build_number}-MC${minecraft_version}"
+        } else {
+            version = "${mod_version}b${getVersionAppendage()}-MC${minecraft_version}"
+        }
+    }
 
     tasks.curseforge.enabled = !dev && project.hasProperty('curseforge_key')
 
@@ -37,15 +54,9 @@ configure(subprojects.findAll { it.name != 'core' }) {
     }
 }
 
-def getVersionAppendage() {
-    def proc = "git rev-parse --short HEAD".execute()
-    proc.waitFor()
-    return proc.exitValue() ? "GITBORK" : proc.text.trim()
-}
-
 String distDir = System.getenv("DIST_DIR");
-if(distDir == null) {
-    distDir="dist"
+if (distDir == null) {
+    distDir = "dist"
 }
 
 task collect(type: Copy) {
