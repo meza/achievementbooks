@@ -1,11 +1,11 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
-import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.common.NBTUtils;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

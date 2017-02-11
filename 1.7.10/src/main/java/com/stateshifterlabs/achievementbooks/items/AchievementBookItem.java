@@ -2,9 +2,11 @@ package com.stateshifterlabs.achievementbooks.items;
 
 
 import com.stateshifterlabs.achievementbooks.client.gui.GUI;
-import com.stateshifterlabs.achievementbooks.client.sound.Sound;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
+import com.stateshifterlabs.achievementbooks.facade.MCPlayer;
+import com.stateshifterlabs.achievementbooks.facade.Player;
+import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +44,10 @@ public class AchievementBookItem extends Item {
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World world, EntityPlayer player) {
 		if (world.isRemote) {
 			sound.openBook();
-			Minecraft.getMinecraft().displayGuiScreen(new GUI(player, book, achievementStorage.forPlayer(player), networkAgent, sound));
+			Player thePlayer = new MCPlayer(player);
+			final GUI screen = new GUI(player, book, achievementStorage.forPlayer(thePlayer), networkAgent,
+									   sound);
+			Minecraft.getMinecraft().displayGuiScreen(screen);
 		}
 		return par1ItemStack;
 	}

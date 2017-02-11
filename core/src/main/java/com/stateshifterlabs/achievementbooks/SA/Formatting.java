@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.data.compatibility.SA;
+package com.stateshifterlabs.achievementbooks.SA;
 
 public class Formatting {
 	private boolean isAchievement;

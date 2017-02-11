@@ -3,7 +3,7 @@ package com.stateshifterlabs.achievementbooks.networking;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
-import com.stateshifterlabs.achievementbooks.data.AchievementDataSerializer;
+import com.stateshifterlabs.achievementbooks.serializers.AchievementDataSerializer;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;

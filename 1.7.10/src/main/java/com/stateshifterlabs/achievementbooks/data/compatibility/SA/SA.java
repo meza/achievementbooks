@@ -2,8 +2,11 @@ package com.stateshifterlabs.achievementbooks.data.compatibility.SA;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stateshifterlabs.achievementbooks.SA.Formatting;
+import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
+import com.stateshifterlabs.achievementbooks.SA.FormattingList;
 import com.stateshifterlabs.achievementbooks.data.Book;
-import com.stateshifterlabs.achievementbooks.data.BookSerializer;
+import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.Minecraft;

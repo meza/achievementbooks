@@ -1,10 +1,11 @@
 package com.stateshifterlabs.achievementbooks.networking;
 
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
+import com.stateshifterlabs.achievementbooks.facade.MCPlayer;
+import com.stateshifterlabs.achievementbooks.facade.Player;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class ServerToggleHandler implements IMessageHandler<ToggleAchievementMessage, IMessage> {
 
@@ -19,7 +20,7 @@ public class ServerToggleHandler implements IMessageHandler<ToggleAchievementMes
 	public IMessage onMessage(final ToggleAchievementMessage message, final MessageContext ctx)
 	{
 
-		EntityPlayer player = ctx.getServerHandler().playerEntity;
+		Player player = new MCPlayer(ctx.getServerHandler().playerEntity);
 		storage.forPlayer(player).toggle(message.bookName(), message.achievmenetId());
 
 		return null;

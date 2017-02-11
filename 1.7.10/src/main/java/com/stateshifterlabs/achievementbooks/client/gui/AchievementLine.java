@@ -6,14 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 
 public class AchievementLine extends GuiButton {
-	static final ResourceLocation texture =
-			new ResourceLocation(AchievementBooksMod.MODID.toLowerCase(), "textures/gui/checkboxes.png");
+	static ResourceLocation texture = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase(), "textures/gui/checkboxes.png");
+
 	private static final int buttonHeight = 30;
 	private PageElement element;
 
@@ -21,16 +20,12 @@ public class AchievementLine extends GuiButton {
 		super(id, x, y, width, buttonHeight, element.formattedAchievement());
 		this.element = element;
 
-		this.height =
-				(Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(element.formattedAchievement(), width - 25).size()) * 8;
+		this.height = (Minecraft.getMinecraft().fontRenderer
+							   .listFormattedStringToWidth(element.formattedAchievement(), width - 25).size()) * 8;
 	}
 
 	public static int getExpectedLines(String text, int width) {
 		return Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(text, width).size();
-	}
-
-	private static Offset getOffsetForPlayer(EntityPlayer player) {
-		return new Offset(0, 0);
 	}
 
 	public void toggle() {
@@ -40,7 +35,8 @@ public class AchievementLine extends GuiButton {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mouseX, int mouseY) {
-		par1Minecraft.renderEngine.bindTexture(texture);
+		par1Minecraft.getTextureManager().bindTexture(texture);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int offsetX = 0, offsetY = 0;
@@ -54,10 +50,6 @@ public class AchievementLine extends GuiButton {
 			offsetX = 20;
 		}
 
-		Offset offset = getOffsetForPlayer(Minecraft.getMinecraft().thePlayer);
-		offsetX += offset.x * 40;
-		offsetY += offset.y * 40;
-
 		drawTexturedModalRect(xPosition, yPosition + (height / 2) - 8, offsetX, offsetY, 20, 20);
 
 		FontRenderer fnt = Minecraft.getMinecraft().fontRenderer;
@@ -65,8 +57,8 @@ public class AchievementLine extends GuiButton {
 
 		// render the text according to alignment
 
-		fnt.drawSplitString(element.formattedAchievement(), xPosition + 25, yPosition + (height / 2) - lineNum * 4, this.width - 25,
-							0x000000);
+		fnt.drawSplitString(element.formattedAchievement(), xPosition + 25, yPosition + (height / 2) - lineNum * 4,
+							this.width - 25, 0x000000);
 
 	}
 
@@ -81,6 +73,7 @@ public class AchievementLine extends GuiButton {
 	}
 
 	@Override
-	public void func_146113_a(SoundHandler p_146113_1_) {}
+	public void func_146113_a(SoundHandler p_146113_1_) {
+	}
 
 }

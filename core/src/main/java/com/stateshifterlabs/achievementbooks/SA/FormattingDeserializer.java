@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.data.compatibility.SA;
+package com.stateshifterlabs.achievementbooks.SA;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

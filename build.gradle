@@ -3,7 +3,16 @@ plugins {
 }
 
 subprojects {
+    project.ext.modid="achievementbooks"
     apply plugin: "java"
+}
+
+configure(subprojects.findAll {it.name != 'core'}) {
+    dependencies {
+        compile project(":core")
+
+    }
+
     apply plugin: 'com.matthewprenger.cursegradle'
 
     boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")

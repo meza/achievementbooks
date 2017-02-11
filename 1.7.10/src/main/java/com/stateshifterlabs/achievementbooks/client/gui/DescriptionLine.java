@@ -3,7 +3,6 @@ package com.stateshifterlabs.achievementbooks.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
 
 
 public class DescriptionLine extends GuiButton {
@@ -25,10 +24,6 @@ public class DescriptionLine extends GuiButton {
 
 	public static int getExpectedLines(String text, int width) {
 		return Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(text, width).size();
-	}
-
-	private static Offset getOffsetForPlayer(EntityPlayer player) {
-		return new Offset(0, 0);
 	}
 
 	@SuppressWarnings("unchecked")

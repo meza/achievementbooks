@@ -1,10 +1,10 @@
-package com.stateshifterlabs.achievementbooks.client.sound;
+package com.stateshifterlabs.achievementbooks.facade;
 
 import net.minecraft.client.Minecraft;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
-public class Sound {
+public class MCSound implements Sound {
 
 	public void openBook() {
 		Minecraft.getMinecraft().thePlayer.playSound(MODID+":open_book", (float) 0.5, 1);

@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.data;
+package com.stateshifterlabs.achievementbooks.serializers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -6,6 +6,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.stateshifterlabs.achievementbooks.data.Book;
+import com.stateshifterlabs.achievementbooks.data.Page;
+import com.stateshifterlabs.achievementbooks.data.PageElement;
 
 import java.lang.reflect.Type;
 

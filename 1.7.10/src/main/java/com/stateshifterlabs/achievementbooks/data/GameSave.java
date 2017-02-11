@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import com.stateshifterlabs.achievementbooks.serializers.AchievementStorageSerializer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;

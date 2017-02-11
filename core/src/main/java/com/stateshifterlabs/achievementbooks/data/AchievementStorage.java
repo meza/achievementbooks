@@ -1,6 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
-import net.minecraft.entity.player.EntityPlayer;
+import com.stateshifterlabs.achievementbooks.facade.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class AchievementStorage {
 		storage.put(data.username(), data);
 	}
 
-	public AchievementData forPlayer(EntityPlayer player) {
+	public AchievementData forPlayer(Player player) {
 		final String name = player.getDisplayName();
 		return forPlayer(name);
 	}
