@@ -27,7 +27,7 @@ configure(subprojects.findAll { it.name != 'core' }) {
 
         project {
             id = project.projectId
-            changelog = file("CHANGELOG.md")
+            changelog = project.file("CHANGELOG.md").getText() + "\n\n##Overall changes\n\n" + project.parent.file("CHANGELOG.md").getText()
             changelogType = 'markdown'
             releaseType = project.release_type
             mainArtifact(jar) {
