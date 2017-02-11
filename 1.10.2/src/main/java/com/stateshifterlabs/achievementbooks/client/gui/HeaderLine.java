@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class HeaderLine extends GuiButton {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mouseX, int mouseY) {
-
+		GL11.glColor4f(0F, 0F, 0F, 1.0F);
 		FontRenderer fnt = Minecraft.getMinecraft().fontRendererObj;
 
 		int lineNum = getExpectedLines(header, width);

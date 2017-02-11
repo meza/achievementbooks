@@ -20,7 +20,7 @@ public class PageElement {
 
 	public String formattedAchievement() {
 
-		return String.format("§r%s %s", achievement, formattedMod());
+		return String.format("%s %s", achievement, formattedMod());
 	}
 
 	public void withAchievement(String achievement) {

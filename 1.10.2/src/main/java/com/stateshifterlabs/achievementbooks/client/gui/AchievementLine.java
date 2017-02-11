@@ -36,7 +36,6 @@ public class AchievementLine extends GuiButton {
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mouseX, int mouseY) {
 		par1Minecraft.getTextureManager().bindTexture(texture);
-
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int offsetX = 0, offsetY = 0;
@@ -52,7 +51,9 @@ public class AchievementLine extends GuiButton {
 
 		drawTexturedModalRect(xPosition, yPosition + (height / 2) - 8, offsetX, offsetY, 20, 20);
 
+		GL11.glColor4f(0F, 0F, 0F, 1.0F);
 		FontRenderer fnt = Minecraft.getMinecraft().fontRendererObj;
+
 		int lineNum = getExpectedLines(element.formattedAchievement(), width);
 
 		// render the text according to alignment
