@@ -38,15 +38,6 @@ group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
 
-task cleanUpMinecraftRunClutter {
-    doLast {
-        delete "${rootDir}/classes"
-        delete "${rootDir}/out"
-    }
-}
-
-clean.dependsOn cleanUpMinecraftRunClutter
-
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -68,7 +59,5 @@ processResources {
         exclude '**/*.properties'
     }
 }
-
-
 
 idea { module { inheritOutputDirs = true } }

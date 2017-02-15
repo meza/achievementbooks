@@ -25,7 +25,6 @@ sourceSets {
     }
 }
 
-
 minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "eclipse"
@@ -39,15 +38,6 @@ minecraft {
 
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
-
-task cleanUpMinecraftRunClutter {
-    doLast {
-        delete "${rootDir}/classes"
-        delete "${rootDir}/out"
-    }
-}
-
-clean.dependsOn cleanUpMinecraftRunClutter
 
 processResources {
     inputs.property "version", project.version
@@ -68,6 +58,5 @@ processResources {
         exclude '**/*.properties'
     }
 }
-
 
 idea { module { inheritOutputDirs = true } }

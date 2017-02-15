@@ -13,14 +13,29 @@ def getVersionAppendage() {
     return proc.exitValue() ? "GITBORK" : proc.text.trim()
 }
 
+task cleanUpMinecraftRunClutter {
+    doLast {
+        delete "${rootDir}/classes"
+        delete "${rootDir}/out"
+    }
+}
+
 
 configure(subprojects.findAll { it.name != 'core' }) {
-    dependencies {
-        compile project(":core")
+
+    sourceSets {
+        main {
+
+            java {
+                srcDirs = project(":core").sourceSets.main.java.srcDirs
+            }
+        }
 
     }
 
     apply plugin: 'com.matthewprenger.cursegradle'
+
+    clean.dependsOn cleanUpMinecraftRunClutter
 
     boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")
 
