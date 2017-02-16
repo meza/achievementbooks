@@ -25,9 +25,8 @@ configure(subprojects.findAll { it.name != 'core' }) {
 
     sourceSets {
         main {
-
             java {
-                srcDirs = project(":core").sourceSets.main.java.srcDirs
+                srcDirs += project(":core").sourceSets.main.java.srcDirs
             }
         }
 
