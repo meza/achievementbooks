@@ -18,6 +18,8 @@ import org.lwjgl.opengl.GL11;
 public class GUI extends GuiScreen {
 
 	public static final int GUI_ID = 20;
+	public static int bookWidth = 417;
+	public static int bookHeight = 245;
 	private static ResourceLocation bgl;
 	private static ResourceLocation bgr;
 	private final int bookFrameHeight = 20;
@@ -26,15 +28,15 @@ public class GUI extends GuiScreen {
 	private NetworkAgent networkAgent;
 	private Sound sound;
 	private String nbttag;
-	public static int bookWidth = 417;
-	public static int bookHeight = 245;
-
 	private int pageOffset = 0;
 	private AchievementData achievementData;
 	private int oldLeft = 0;
 	private int oldTop = 0;
+	private int clickDelay = 5;
 
-	public GUI(EntityPlayer player, Book book, AchievementData achievementData, NetworkAgent networkAgent, Sound sound) {
+	public GUI(
+			EntityPlayer player, Book book, AchievementData achievementData, NetworkAgent networkAgent, Sound sound
+	) {
 		this.player = player;
 		this.book = book;
 		this.networkAgent = networkAgent;
@@ -44,8 +46,11 @@ public class GUI extends GuiScreen {
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
 		this.achievementData = achievementData;
 
-		bgl = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_left-"+book.colour()+".png");
-		bgr = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_right-"+book.colour()+".png");
+		bgl = new ResourceLocation(
+				AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_left-" + book.colour() + ".png");
+		bgr = new ResourceLocation(
+				AchievementBooksMod.MODID.toLowerCase() + ":" + "textures/gui/bookgui_right-" + book.colour() + "" +
+				".png");
 
 	}
 
@@ -56,8 +61,8 @@ public class GUI extends GuiScreen {
 		int top = bookTop + bookFrameHeight;
 		int left = bookLeft;
 
+		clickDelay = 5;
 		this.buttonList.clear();
-
 
 		for (PageElement element : book.openPage(pageOffset).elements()) {
 
@@ -83,43 +88,52 @@ public class GUI extends GuiScreen {
 		}
 
 		top = bookTop + bookFrameHeight;
+		try {
+			if (pageOffset + 1 < book.pageCount()) {
+				for (PageElement element : book.openPage(pageOffset + 1).elements()) {
 
-		for (PageElement element : book.openPage(pageOffset + 1).elements()) {
+					if (element.type() == PageElement.Type.HEADER) {
+						HeaderGui header =
+								new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 
-			if (element.type() == PageElement.Type.HEADER) {
-				HeaderGui header = new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
-				buttonList.addAll(header.buttons());
-				top = top + header.height();
+						buttonList.addAll(header.buttons());
+						top = top + header.height();
+					}
+
+					if (element.type() == PageElement.Type.TEXT) {
+						DescriptionLine description =
+								new DescriptionLine(element.id(), left + 25 + (bookWidth / 2) - 15, top, maxWidth,
+													element.formattedDescription());
+						buttonList.add(description);
+						top = top + description.getHeight();
+					}
+
+					if (element.type() == PageElement.Type.ACHIEVEMENT) {
+						AchievementGui achievementGui =
+								new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
+						buttonList.addAll(achievementGui.buttons());
+						top = top + achievementGui.height();
+					}
+
+				}
 			}
-
-			if (element.type() == PageElement.Type.TEXT) {
-				DescriptionLine description =
-						new DescriptionLine(element.id(), left + 25 + (bookWidth / 2) - 15, top, maxWidth,
-											element.formattedDescription());
-				buttonList.add(description);
-				top = top + description.getHeight();
-			}
-
-			if (element.type() == PageElement.Type.ACHIEVEMENT) {
-				AchievementGui achievementGui =
-						new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
-				buttonList.addAll(achievementGui.buttons());
-				top = top + achievementGui.height();
-			}
-
+		} catch (NullPointerException e) {
+			throw new RuntimeException(e);
 		}
 
 
 		if (pageOffset > 0) {
-			buttonList.add(new PaginationButton(0, bookLeft, bookTop + bookHeight - 23, false));
+			buttonList.add(new PaginationButton(0, bookLeft, bookTop + bookHeight - 23, false, clickDelay));
 		}
 		if (pageOffset + 1 < book.pageCount() - 1) {
-			buttonList.add(new PaginationButton(1, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true));
+			buttonList.add(new PaginationButton(1, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true,
+												clickDelay));
 		}
 	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float par3) {
+		clickDelay = Math.max(0, clickDelay - 1);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int bookLeft = (this.width - bookWidth) / 2;
@@ -157,16 +171,24 @@ public class GUI extends GuiScreen {
 	}
 
 	@Override
+	public void onGuiClosed() {
+		sound.closeBook();
+	}
+
+	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button.id == 0) {
-			previousPage();
-		} else if (button.id == 1) {
-			nextPage();
-		} else {
+		if (button.id > 1) {
 			sound.toggle();
 			((AchievementLine) button).toggle();
 			networkAgent.toggle(book, button.id);
+		} else if (clickDelay <= 0) {
+			if (button.id == 0) {
+				previousPage();
+			} else if (button.id == 1) {
+				nextPage();
+			}
 		}
+
 	}
 
 	private void nextPage() {
@@ -194,11 +216,6 @@ public class GUI extends GuiScreen {
 	private void savePageNumber() {
 		NBTUtils.getTag(player.getCurrentEquippedItem()).setInteger(nbttag, pageOffset);
 		networkAgent.sendPageNumber(book, pageOffset);
-	}
-
-	@Override
-	public void onGuiClosed() {
-		sound.closeBook();
 	}
 
 }

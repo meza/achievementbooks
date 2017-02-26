@@ -1,13 +1,16 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.stateshifterlabs.achievementbooks.SA.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.items.Colour;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Book {
 
-	private List<Page> pages = new ArrayList<Page>();
+	private Map<Integer, Page> pages2 = new HashMap<Integer, Page>();
+	private int addedPages = 0;
 	private String name;
 	private String craftingMaterial = "";
 	private boolean craftable = false;
@@ -15,7 +18,7 @@ public class Book {
 	private Colour colour = Colour.RED;
 
 	public void addPage(Page page) {
-		pages.add(page);
+		pages2.put(addedPages++, page);
 	}
 
 	public void withName(String name) {
@@ -49,12 +52,12 @@ public class Book {
 	}
 
 	public int pageCount() {
-		return pages.size();
+		return pages2.size();
 	}
 
 	public Page openPage(int pageNumber) {
 		try {
-			return pages.get(pageNumber);
+			return pages2.get(pageNumber);
 		} catch (IndexOutOfBoundsException e) {
 			return new Page();
 		}
@@ -62,7 +65,7 @@ public class Book {
 
 	public void loadDone(List<Integer> ids) {
 
-		for (Page page : pages) {
+		for (Page page : pages2.values()) {
 			for (PageElement element : page.elements()) {
 				if(ids.contains(element.id())) {
 					element.toggleState(true);
@@ -79,5 +82,19 @@ public class Book {
 
 	public String colour() {
 		return colour.getText();
+	}
+
+
+	public int findIdByAchievementText(String text) throws NoSuchAchievementException {
+		for(Page page: pages2.values()) {
+			for(PageElement element: page.elements()) {
+				if(element.type() == PageElement.Type.ACHIEVEMENT) {
+					if(element.achievement().equalsIgnoreCase(text)) {
+						return element.id();
+					}
+				}
+			}
+		}
+		throw new NoSuchAchievementException();
 	}
 }

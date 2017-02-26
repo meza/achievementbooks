@@ -100,7 +100,6 @@ public class Loader {
 				Gson gson = gsonBuilder.create();
 
 				Book book = gson.fromJson(new FileReader(conf), Book.class);
-
 				books.addBook(book);
 
 			} catch (FileNotFoundException e) {
@@ -111,6 +110,10 @@ public class Loader {
 		buildItems();
 
 		return books;
+	}
+
+	public AchievementStorage storage() {
+		return storage;
 	}
 
 	private void buildItems() {

@@ -5,11 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.SA.Formatting;
 import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
 import com.stateshifterlabs.achievementbooks.SA.FormattingList;
+import com.stateshifterlabs.achievementbooks.SA.SaveDataDeserializer;
+import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
-import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
-import net.minecraft.client.Minecraft;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
+import net.minecraftforge.common.DimensionManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,6 +22,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static net.minecraft.client.Minecraft.getMinecraft;
+
 public class SA {
 	private static String achievementList = "/SimpleAchievements/achievementList.txt";
 	private static String formatConfig = "/SimpleAchievements/divConfig.json";
@@ -27,7 +32,7 @@ public class SA {
 	private Gson gson;
 
 	public SA() {
-		configDir = Minecraft.getMinecraft().mcDataDir.getAbsolutePath()+"/config";
+		configDir = getMinecraft().mcDataDir.getAbsolutePath()+"/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
@@ -124,4 +129,19 @@ public class SA {
 
 	}
 
+	public void parseSaveData(AchievementStorage storage, Book book, NetworkAgent networkAgent) {
+		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+		builder.registerTypeAdapter(AchievementStorage.class, new SaveDataDeserializer(storage, book, networkAgent));
+		Gson gson = builder.create();
+
+		String worldDir = DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
+		String saveFile = worldDir + saveData;
+
+		try {
+			gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+		} catch (FileNotFoundException e) {
+
+		}
+
+	}
 }

@@ -1,6 +1,5 @@
 package com.stateshifterlabs.achievementbooks;
 
-import com.stateshifterlabs.achievementbooks.facade.MCSound;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ImportCommand;
@@ -11,6 +10,7 @@ import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
+import com.stateshifterlabs.achievementbooks.facade.MCSound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -59,7 +59,7 @@ public class AchievementBooksMod {
 
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
-		mainCommand.add(new ImportCommand(loader));
+		mainCommand.add(new ImportCommand(loader, networkAgent));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

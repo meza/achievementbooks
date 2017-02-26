@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.commands;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -15,10 +16,12 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 public class ImportCommand extends CommandBase {
 
 	private Loader loader;
+	private NetworkAgent networkAgent;
 
-	public ImportCommand(Loader loader) {
+	public ImportCommand(Loader loader, NetworkAgent networkAgent) {
 
 		this.loader = loader;
+		this.networkAgent = networkAgent;
 	}
 
 	@Override
@@ -38,8 +41,9 @@ public class ImportCommand extends CommandBase {
 		Book newBook = importer.createElementList(importer.parseFormattings());
 
 		importer.saveBook(newBook);
-
 		loader.init();
+
+//		importer.parseSaveData(loader.storage(), newBook, networkAgent);
 
 		Item item = GameRegistry.findItem(MODID, newBook.itemName());
 		sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory.addItemStackToInventory(new ItemStack(item, 1));

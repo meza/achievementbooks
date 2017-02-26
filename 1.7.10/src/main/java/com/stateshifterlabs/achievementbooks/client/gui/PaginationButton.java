@@ -8,11 +8,13 @@ import org.lwjgl.opengl.GL11;
 public class PaginationButton extends GuiButton
 {
 	private boolean next;
+	private int clickDelay;
 
-	public PaginationButton(int id, int x, int y, boolean next)
+	public PaginationButton(int id, int x, int y, boolean next, int clickDelay)
 	{
 		super(id, x, y, 21, 21, next ? "next" : "prev");
 		this.next = next;
+		this.clickDelay = clickDelay;
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class PaginationButton extends GuiButton
 	@Override
 	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3)
 	{
-		return super.mousePressed(par1Minecraft, par2, par3);
+			return super.mousePressed(par1Minecraft, par2, par3);
 	}
 
 	@Override
