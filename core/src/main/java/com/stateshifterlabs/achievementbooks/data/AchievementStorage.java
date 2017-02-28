@@ -40,4 +40,23 @@ public class AchievementStorage {
 	public void clear() {
 		storage.clear();
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		AchievementStorage that = (AchievementStorage) o;
+
+		return storage.equals(that.storage);
+	}
+
+	@Override
+	public int hashCode() {
+		return storage.hashCode();
+	}
 }

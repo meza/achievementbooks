@@ -21,7 +21,6 @@ public class AchievementData {
 		bookData.put(bookName, save);
 	}
 
-
 	public String username() {
 		return player;
 	}
@@ -43,5 +42,44 @@ public class AchievementData {
 			addSaveData(bookName, new Save());
 		}
 		bookData.get(bookName).toggle(id);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		AchievementData that = (AchievementData) o;
+
+		if (!player.equals(that.player)) {
+			return false;
+		}
+
+		if (bookData.keySet().size() != that.bookData.keySet().size()) {
+			return false;
+		}
+
+		for(String key : bookData.keySet()) {
+			if (!that.bookData.containsKey(key)) {
+				return false;
+			}
+
+			if(!bookData.get(key).equals(that.bookData.get(key))) {
+				return false;
+			}
+		}
+		return true;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = player.hashCode();
+		result = 31 * result + bookData.hashCode();
+		return result;
 	}
 }

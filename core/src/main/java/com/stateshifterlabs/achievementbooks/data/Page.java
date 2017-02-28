@@ -15,4 +15,22 @@ public class Page {
 		pageElements.add(element);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		Page page = (Page) o;
+
+		return pageElements.equals(page.pageElements);
+	}
+
+	@Override
+	public int hashCode() {
+		return pageElements.hashCode();
+	}
 }

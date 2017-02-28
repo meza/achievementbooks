@@ -14,7 +14,7 @@ import com.stateshifterlabs.achievementbooks.data.Save;
 
 import java.lang.reflect.Type;
 
-public class AchievementDataSerializer implements JsonSerializer<AchievementData>, JsonDeserializer<AchievementData> {
+	public class AchievementDataSerializer implements JsonSerializer<AchievementData>, JsonDeserializer<AchievementData> {
 
 	private String player;
 
@@ -62,8 +62,6 @@ public class AchievementDataSerializer implements JsonSerializer<AchievementData
 
 		JsonArray booksJson = userSaveAsJsonObject.get("books").getAsJsonArray();
 		for (JsonElement bookJson : booksJson) {
-
-
 			Save save = new Save();
 
 			JsonObject bookJsonObject = bookJson.getAsJsonObject();

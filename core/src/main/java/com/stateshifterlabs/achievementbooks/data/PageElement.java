@@ -15,7 +15,7 @@ public class PageElement {
 
 	public String achievement() {
 
-		return String.format("%s", achievement);
+		return achievement;
 	}
 
 	public String formattedAchievement() {
@@ -67,8 +67,12 @@ public class PageElement {
 		return description;
 	}
 
-	public String header() {
+	public String formattedHeader() {
 		return String.format("%s", header);
+	}
+
+	public String header() {
+		return header;
 	}
 
 	public String mod() {
@@ -96,6 +100,46 @@ public class PageElement {
 
 	public boolean hasDescription() {
 		return description() != null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		PageElement that = (PageElement) o;
+
+		if (checked != that.checked) {
+			return false;
+		}
+		if (id != that.id) {
+			return false;
+		}
+		if (achievement != null ? !achievement.equals(that.achievement) : that.achievement != null) {
+			return false;
+		}
+		if (description != null ? !description.equals(that.description) : that.description != null) {
+			return false;
+		}
+		if (header != null ? !header.equals(that.header) : that.header != null) {
+			return false;
+		}
+		return mod != null ? mod.equals(that.mod) : that.mod == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = achievement != null ? achievement.hashCode() : 0;
+		result = 31 * result + (description != null ? description.hashCode() : 0);
+		result = 31 * result + (header != null ? header.hashCode() : 0);
+		result = 31 * result + (mod != null ? mod.hashCode() : 0);
+		result = 31 * result + (checked ? 1 : 0);
+		result = 31 * result + id;
+		return result;
 	}
 
 

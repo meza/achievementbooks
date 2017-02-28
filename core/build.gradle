@@ -4,6 +4,10 @@ repositories {
 
 dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+    testCompile 'junit:junit:4.12'
+
+    testCompile "org.mockito:mockito-core:2.+"
+    testCompile 'io.codearte.jfairy:jfairy:0.5.6'
 }
 
 group= "com.stateshifterlabs.achievementbooks"
