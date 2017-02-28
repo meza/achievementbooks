@@ -11,7 +11,7 @@ public class Book {
 
 	public static final String US = "US";
 	public static final String UK = "UK";
-	private Map<Integer, Page> pages2 = new HashMap<Integer, Page>();
+	private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
 	private int addedPages = 0;
 	private String name;
 	private String craftingMaterial = "";
@@ -21,7 +21,7 @@ public class Book {
 	private String language = "UK";
 
 	public void addPage(Page page) {
-		pages2.put(addedPages++, page);
+		pages.put(addedPages++, page);
 	}
 
 	public void withName(String name) {
@@ -55,12 +55,12 @@ public class Book {
 	}
 
 	public int pageCount() {
-		return pages2.size();
+		return pages.size();
 	}
 
 	public Page openPage(int pageNumber) {
 		try {
-			return pages2.get(pageNumber);
+			return pages.get(pageNumber);
 		} catch (IndexOutOfBoundsException e) {
 			return new Page();
 		}
@@ -68,7 +68,7 @@ public class Book {
 
 	public void loadDone(List<Integer> ids) {
 
-		for (Page page : pages2.values()) {
+		for (Page page : pages.values()) {
 			for (PageElement element : page.elements()) {
 				if(ids.contains(element.id())) {
 					element.toggleState(true);
@@ -89,11 +89,11 @@ public class Book {
 
 
 	@Override
-	public boolean equals(Object o) {
+	public final boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof Book)) {
 			return false;
 		}
 
@@ -105,36 +105,40 @@ public class Book {
 		if (craftable != book.craftable) {
 			return false;
 		}
-		if (!pages2.equals(book.pages2)) {
+		if (pages != null ? !pages.equals(book.pages) : book.pages != null) {
 			return false;
 		}
-		if (!name.equals(book.name)) {
+		if (name != null ? !name.equals(book.name) : book.name != null) {
 			return false;
 		}
 		if (craftingMaterial != null ? !craftingMaterial.equals(book.craftingMaterial)
 									 : book.craftingMaterial != null) {
 			return false;
 		}
-		if (!itemName.equals(book.itemName)) {
+		if (itemName != null ? !itemName.equals(book.itemName) : book.itemName != null) {
 			return false;
 		}
-		return colour == book.colour;
+		if (colour != book.colour) {
+			return false;
+		}
+		return language != null ? language.equals(book.language) : book.language == null;
 	}
 
 	@Override
-	public int hashCode() {
-		int result = pages2.hashCode();
+	public final int hashCode() {
+		int result = pages != null ? pages.hashCode() : 0;
 		result = 31 * result + addedPages;
-		result = 31 * result + name.hashCode();
+		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
 		result = 31 * result + (craftable ? 1 : 0);
-		result = 31 * result + itemName.hashCode();
+		result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
 		result = 31 * result + (colour != null ? colour.hashCode() : 0);
+		result = 31 * result + (language != null ? language.hashCode() : 0);
 		return result;
 	}
 
 	public int findIdByAchievementText(String text) throws NoSuchAchievementException {
-		for(Page page: pages2.values()) {
+		for(Page page: pages.values()) {
 			for(PageElement element: page.elements()) {
 				if(element.type() == Type.ACHIEVEMENT) {
 					if(element.achievement().equalsIgnoreCase(text)) {
