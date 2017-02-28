@@ -1,7 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
 public class PageElement {
-
 	private String achievement;
 	private String description;
 	private String header;
@@ -13,38 +12,97 @@ public class PageElement {
 		this.id = id;
 	}
 
-	public String achievement() {
+	public int id() {
+		return id;
+	}
 
+	public String achievement() {
 		return achievement;
 	}
 
 	public String formattedAchievement() {
-
 		return String.format("%s %s", achievement, formattedMod());
 	}
 
 	public void withAchievement(String achievement) {
-		this.achievement = achievement;
+		if(!hasAchievement()) {
+			this.achievement = achievement;
+		}
+	}
+
+	public boolean hasAchievement() {
+		return achievement() != null;
+	}
+
+
+	public String formattedDescription() {
+		return String.format("%s", description);
+	}
+
+	public String description() {
+		return description;
 	}
 
 	public void withDescription(String description) {
-		this.description = description;
+		if(!hasDescription()) {
+			this.description = description;
+		}
+	}
+
+	public boolean hasDescription() {
+		return description() != null;
+	}
+
+
+	public String header() {
+		return header;
+	}
+
+	public String formattedHeader() {
+		return String.format("%s", header);
 	}
 
 	public void withHeader(String header) {
-		this.header = header;
+		if (!hasHeader()) {
+			this.header = header;
+		}
+	}
+
+	public boolean hasHeader() {
+		return header() != null;
+	}
+
+	public String mod() {
+		return mod;
+	}
+
+	public String formattedMod() {
+		if (!hasMod()) {
+			return "";
+		}
+		return String.format("§1§o[%s]§r", mod);
+	}
+
+	public void withMod(String mod) {
+		if(!hasMod()) {
+			this.mod = mod;
+		}
+	}
+
+	public boolean hasMod() {
+		return mod() != null;
 	}
 
 	public void toggleState() {
 		this.checked = !this.checked;
 	}
 
-	public boolean checked() {
-		return this.checked;
+	public void toggleState(boolean checked) {
+		this.checked = checked;
 	}
 
-	public void withMod(String mod) {
-		this.mod = mod;
+	public boolean checked() {
+		return this.checked;
 	}
 
 	public Type type() {
@@ -59,55 +117,13 @@ public class PageElement {
 		return Type.TEXT;
 	}
 
-	public String formattedDescription() {
-		return String.format("%s", description);
-	}
-
-	public String description() {
-		return description;
-	}
-
-	public String formattedHeader() {
-		return String.format("%s", header);
-	}
-
-	public String header() {
-		return header;
-	}
-
-	public String mod() {
-		return mod;
-	}
-
-	public String formattedMod() {
-		if (null == mod) {
-			return "";
-		}
-		return String.format("§1§o[%s]§r", mod);
-	}
-
-	public boolean done() {
-		return false;
-	}
-
-	public void toggleState(boolean checked) {
-		this.checked = checked;
-	}
-
-	public int id() {
-		return id;
-	}
-
-	public boolean hasDescription() {
-		return description() != null;
-	}
 
 	@Override
-	public boolean equals(Object o) {
+	public final boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof PageElement)) {
 			return false;
 		}
 
@@ -132,7 +148,7 @@ public class PageElement {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		int result = achievement != null ? achievement.hashCode() : 0;
 		result = 31 * result + (description != null ? description.hashCode() : 0);
 		result = 31 * result + (header != null ? header.hashCode() : 0);
@@ -140,11 +156,6 @@ public class PageElement {
 		result = 31 * result + (checked ? 1 : 0);
 		result = 31 * result + id;
 		return result;
-	}
-
-
-	public enum Type {
-		HEADER, ACHIEVEMENT, TEXT
 	}
 
 }

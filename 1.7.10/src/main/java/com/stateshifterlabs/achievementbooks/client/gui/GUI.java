@@ -5,6 +5,7 @@ import com.stateshifterlabs.achievementbooks.common.NBTUtils;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.data.Type;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.client.Minecraft;
@@ -66,20 +67,20 @@ public class GUI extends GuiScreen {
 
 		for (PageElement element : book.openPage(pageOffset).elements()) {
 
-			if (element.type() == PageElement.Type.HEADER) {
+			if (element.type() == Type.HEADER) {
 				HeaderGui header = new HeaderGui(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(header.buttons());
 				top = top + header.height();
 			}
 
-			if (element.type() == PageElement.Type.TEXT) {
+			if (element.type() == Type.TEXT) {
 				DescriptionLine description =
 						new DescriptionLine(element.id(), left + 25, top, maxWidth, element.formattedDescription());
 				buttonList.add(description);
 				top = top + description.getHeight();
 			}
 
-			if (element.type() == PageElement.Type.ACHIEVEMENT) {
+			if (element.type() == Type.ACHIEVEMENT) {
 				AchievementGui achievementGui = new AchievementGui(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(achievementGui.buttons());
 				top = top + achievementGui.height();
@@ -92,7 +93,7 @@ public class GUI extends GuiScreen {
 			if (pageOffset + 1 < book.pageCount()) {
 				for (PageElement element : book.openPage(pageOffset + 1).elements()) {
 
-					if (element.type() == PageElement.Type.HEADER) {
+					if (element.type() == Type.HEADER) {
 						HeaderGui header =
 								new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 
@@ -100,7 +101,7 @@ public class GUI extends GuiScreen {
 						top = top + header.height();
 					}
 
-					if (element.type() == PageElement.Type.TEXT) {
+					if (element.type() == Type.TEXT) {
 						DescriptionLine description =
 								new DescriptionLine(element.id(), left + 25 + (bookWidth / 2) - 15, top, maxWidth,
 													element.formattedDescription());
@@ -108,7 +109,7 @@ public class GUI extends GuiScreen {
 						top = top + description.getHeight();
 					}
 
-					if (element.type() == PageElement.Type.ACHIEVEMENT) {
+					if (element.type() == Type.ACHIEVEMENT) {
 						AchievementGui achievementGui =
 								new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 						buttonList.addAll(achievementGui.buttons());

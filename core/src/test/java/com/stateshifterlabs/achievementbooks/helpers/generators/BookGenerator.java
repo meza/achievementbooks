@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.data.Type;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.items.Colour;
 import io.codearte.jfairy.Fairy;
@@ -69,8 +70,10 @@ public class BookGenerator {
 			String colourText = colour.getText().toLowerCase();
 			boolean british = fairy.baseProducer().trueOrFalse();
 			if (british) {
+				book.withLanguage(Book.UK);
 				bookJson.addProperty("colour", colourText);
 			} else {
+				book.withLanguage(Book.US);
 				bookJson.addProperty("color", colourText);
 			}
 			book.withColour(colourText);
@@ -94,7 +97,7 @@ public class BookGenerator {
 
 	private RandomTestData<JsonElement, PageElement> randomPageElement(boolean statusChecks) {
 
-		PageElement.Type randomType = fairy.baseProducer().randomElement(PageElement.Type.class);
+		Type randomType = fairy.baseProducer().randomElement(Type.class);
 
 		int elementId = getElementId();
 

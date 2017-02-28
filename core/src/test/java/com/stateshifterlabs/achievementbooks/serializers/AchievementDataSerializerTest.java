@@ -20,7 +20,7 @@ public class AchievementDataSerializerTest {
 
 
 	private String player;
-	private Fairy fairy;
+	private Fairy fairy = Fairy.create();
 
 	private AchievementDataGenerator generator;
 	private Type typeOfT;
@@ -30,10 +30,8 @@ public class AchievementDataSerializerTest {
 
 	@Before
 	public void setUp() {
-		fairy = Fairy.create();
 		player = randomPlayerName();
 		generator = new AchievementDataGenerator();
-
 		typeOfT = Mockito.mock(Type.class);
 		deserializationContext = Mockito.mock(JsonDeserializationContext.class);
 		serializationContext = Mockito.mock(JsonSerializationContext.class);

@@ -9,11 +9,7 @@ import io.codearte.jfairy.Fairy;
 
 public class AchievementDataGenerator {
 
-	private final Fairy fairy;
-
-	public AchievementDataGenerator() {
-		fairy = Fairy.create();
-	}
+	private final Fairy fairy = Fairy.create();
 
 	public RandomTestData<JsonElement, AchievementData> generate(String playerName) {
 

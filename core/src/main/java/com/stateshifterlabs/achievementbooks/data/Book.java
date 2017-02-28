@@ -136,7 +136,7 @@ public class Book {
 	public int findIdByAchievementText(String text) throws NoSuchAchievementException {
 		for(Page page: pages2.values()) {
 			for(PageElement element: page.elements()) {
-				if(element.type() == PageElement.Type.ACHIEVEMENT) {
+				if(element.type() == Type.ACHIEVEMENT) {
 					if(element.achievement().equalsIgnoreCase(text)) {
 						return element.id();
 					}

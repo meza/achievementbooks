@@ -42,6 +42,7 @@ public class HeaderLine extends GuiButton {
 		for (int i = 0; i < lines.size(); i++)
 		{
 			String s = lines.get(i);
+
 			fnt.drawString(s, xPosition + (bookWidth / 4) - 20 - (fnt.getStringWidth(s) / 2), yPosition + (height / 2) - lineNum * 4 + i * 8,
 						   0x000000, false);
 		}

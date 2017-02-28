@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Book> {
 	@Override
 	public JsonElement serialize(
-			Book src, Type typeOfSrc, JsonSerializationContext context
+			Book src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context
 	) {
 
 		JsonObject book = new JsonObject();

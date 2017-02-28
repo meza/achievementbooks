@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.SA.Formatting;
 import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
 import com.stateshifterlabs.achievementbooks.SA.FormattingList;
+import com.stateshifterlabs.achievementbooks.SA.NoSuchFormattingException;
 import com.stateshifterlabs.achievementbooks.SA.SaveDataDeserializer;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -32,7 +33,7 @@ public class SA {
 	private Gson gson;
 
 	public SA() {
-		configDir = getMinecraft().mcDataDir.getAbsolutePath()+"/config";
+		configDir = getMinecraft().mcDataDir.getAbsolutePath() + "/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
@@ -50,7 +51,7 @@ public class SA {
 	}
 
 	public Book createElementList(FormattingList formattingList) {
-		File achievements = new File(configDir+achievementList);
+		File achievements = new File(configDir + achievementList);
 		Book book = new Book();
 		book.withName("Achievement Book");
 		book.withItemName("imported_achievement_book");
@@ -58,8 +59,7 @@ public class SA {
 
 		int id = 0;
 		int itemsOnPage = 0;
-		try
-		{
+		try {
 			Scanner scan = new Scanner(achievements);
 
 			Page page = new Page();
@@ -72,44 +72,45 @@ public class SA {
 				}
 
 				String[] args = s.split(endStr);
-				if (args.length != 2)
-				{
+				if (args.length != 2) {
 					scan.close();
-					throw new IllegalArgumentException("Illegal format \"" + s + "\". Format must be [text]" + endStr + "[divClass]");
+					throw new IllegalArgumentException(
+							"Illegal format \"" + s + "\". Format must be [text]" + endStr + "[divClass]");
 				}
 
 				String text = args[0].trim().replaceAll("[|]", "\n");
 
-				if(text.isEmpty()) {
+				if (text.isEmpty()) {
 					continue;
 				}
 
 				int formattingId = Integer.parseInt(args[1].trim());
 
-				Formatting formatting = formattingList.formattingFor(formattingId);
-				PageElement element = new PageElement(id++);
-				if(formatting.isAchievement()) {
-					element.withAchievement(text);
-				} else if(formatting.isHeader()) {
-					element.withHeader(text);
-				} else {
-					element.withDescription(text);
-				}
-				page.addElement(element);
-				if(itemsOnPage++ > 4) {
-					book.addPage(page);
-					page = new Page();
-					itemsOnPage = 0;
+				try {
+					Formatting formatting = formattingList.formattingFor(formattingId);
+					PageElement element = new PageElement(id++);
+					if (formatting.isAchievement()) {
+						element.withAchievement(text);
+					} else if (formatting.isHeader()) {
+						element.withHeader(text);
+					} else {
+						element.withDescription(text);
+					}
+					page.addElement(element);
+					if (itemsOnPage++ > 4) {
+						book.addPage(page);
+						page = new Page();
+						itemsOnPage = 0;
+					}
+				} catch (NoSuchFormattingException e) {
+					//TODO add logging
 				}
 
 			}
 
 			scan.close();
 
-
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return book;
