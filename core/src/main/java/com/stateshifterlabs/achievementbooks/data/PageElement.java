@@ -1,5 +1,7 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.stateshifterlabs.achievementbooks.UTF8Utils;
+
 public class PageElement {
 	private String achievement;
 	private String description;
@@ -21,11 +23,11 @@ public class PageElement {
 	}
 
 	public String formattedAchievement() {
-		return String.format("%s %s", achievement, formattedMod());
+		return UTF8Utils.utf8String("", String.format("%s %s", achievement, formattedMod()));
 	}
 
 	public void withAchievement(String achievement) {
-		if(!hasAchievement()) {
+		if (!hasAchievement()) {
 			this.achievement = achievement;
 		}
 	}
@@ -36,7 +38,7 @@ public class PageElement {
 
 
 	public String formattedDescription() {
-		return String.format("%s", description);
+		return UTF8Utils.utf8String("§o", String.format("%s", description));
 	}
 
 	public String description() {
@@ -44,7 +46,7 @@ public class PageElement {
 	}
 
 	public void withDescription(String description) {
-		if(!hasDescription()) {
+		if (!hasDescription()) {
 			this.description = description;
 		}
 	}
@@ -59,7 +61,7 @@ public class PageElement {
 	}
 
 	public String formattedHeader() {
-		return String.format("%s", header);
+		return UTF8Utils.utf8String("§l", header);
 	}
 
 	public void withHeader(String header) {
@@ -80,11 +82,11 @@ public class PageElement {
 		if (!hasMod()) {
 			return "";
 		}
-		return String.format("§1§o[%s]§r", mod);
+		return UTF8Utils.utf8String(String.format("§1§o[%s]§r", mod));
 	}
 
 	public void withMod(String mod) {
-		if(!hasMod()) {
+		if (!hasMod()) {
 			this.mod = mod;
 		}
 	}

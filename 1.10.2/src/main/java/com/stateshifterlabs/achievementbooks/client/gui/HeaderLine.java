@@ -19,7 +19,7 @@ public class HeaderLine extends GuiButton {
 
 		this.enabled = false;
 
-		this.header = "§l"+header;
+		this.header = header;
 
 		this.height = (Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(header, width).size())
 					   * 8;

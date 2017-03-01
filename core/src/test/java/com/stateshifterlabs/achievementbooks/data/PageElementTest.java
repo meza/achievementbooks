@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.stateshifterlabs.achievementbooks.UTF8Utils;
 import com.stateshifterlabs.achievementbooks.helpers.Settings;
 import io.codearte.jfairy.Fairy;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -81,10 +82,10 @@ public class PageElementTest {
 		element.withDescription(description);
 		element.withMod(mod);
 
-		assertEquals(achievement + " §1§o["+mod+"]§r", element.formattedAchievement());
-		assertEquals(header, element.formattedHeader());
-		assertEquals(description, element.formattedDescription());
-		assertEquals("§1§o["+mod+"]§r", element.formattedMod());
+		assertEquals(UTF8Utils.utf8String(achievement, " §1§o[", mod, "]§r"), element.formattedAchievement());
+		assertEquals(UTF8Utils.utf8String("§l", header), element.formattedHeader());
+		assertEquals(UTF8Utils.utf8String("§o", description), element.formattedDescription());
+		assertEquals(UTF8Utils.utf8String("§1§o[", mod, "]§r"), element.formattedMod());
 
 	}
 
@@ -196,14 +197,13 @@ public class PageElementTest {
 			PageElement element = new PageElement(id);
 
 			element.withDescription(fairy.textProducer().latinSentence());
-			assertEquals("Element type is not marked achievement when there's a description text in the config",
-						 TEXT,
+			assertEquals("Element type is not marked achievement when there's a description text in the config", TEXT,
 						 element.type());
 
 			if (fairy.baseProducer().trueOrFalse()) {
 				element.withMod(fairy.textProducer().latinSentence());
-				assertEquals("Element type is not marked achievement when there's mod info with the achievement",
-							 TEXT, element.type());
+				assertEquals("Element type is not marked achievement when there's mod info with the achievement", TEXT,
+							 element.type());
 			}
 		}
 

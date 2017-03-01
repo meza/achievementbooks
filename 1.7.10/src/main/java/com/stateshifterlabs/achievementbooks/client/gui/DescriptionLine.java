@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -15,7 +16,7 @@ public class DescriptionLine extends GuiButton {
 
 		this.enabled = false;
 
-		this.description = "§o" + description;
+		this.description = description;
 
 		this.height = (Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(description, width).size())
 					   * 8;
