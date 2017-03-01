@@ -13,69 +13,23 @@ public class Book {
 	public static final String UK = "UK";
 	private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
 	private int addedPages = 0;
-	private String name;
+	private String name = "";
 	private String craftingMaterial = "";
 	private boolean craftable = false;
-	private String itemName;
+	private String itemName = "";
 	private Colour colour = Colour.RED;
 	private String language = "UK";
 
-	public void addPage(Page page) {
-		pages.put(addedPages++, page);
-	}
-
 	public void withName(String name) {
 		this.name = name;
-	}
-
-	public void withItemName(String name) {
-		this.itemName = name;
-	}
-
-	public void withMaterial(String material) {
-		this.craftingMaterial = material;
-		this.craftable = true;
-	}
-
-	public Book withColour(String colour) {
-		this.colour = Colour.fromString(colour);
-		return this;
-	}
-
-	public boolean isCraftable() {
-		return craftable;
 	}
 
 	public String name() {
 		return this.name;
 	}
 
-	public String material() {
-		return this.craftingMaterial;
-	}
-
-	public int pageCount() {
-		return pages.size();
-	}
-
-	public Page openPage(int pageNumber) {
-		try {
-			return pages.get(pageNumber);
-		} catch (IndexOutOfBoundsException e) {
-			return new Page();
-		}
-	}
-
-	public void loadDone(List<Integer> ids) {
-
-		for (Page page : pages.values()) {
-			for (PageElement element : page.elements()) {
-				if(ids.contains(element.id())) {
-					element.toggleState(true);
-				}
-			}
-		}
-
+	public void withItemName(String name) {
+		this.itemName = name;
 	}
 
 	public String itemName() {
@@ -83,10 +37,68 @@ public class Book {
 
 	}
 
+	public void withMaterial(String material) {
+		this.craftingMaterial = material;
+		this.craftable = true;
+	}
+
+	public String material() {
+		return this.craftingMaterial;
+	}
+
+	public Book withColour(String colour) {
+		this.colour = Colour.fromString(colour);
+		return this;
+	}
+
 	public String colour() {
 		return colour.getText();
 	}
 
+	public boolean isCraftable() {
+		return craftable;
+	}
+
+	public void addPage(Page page) {
+		pages.put(addedPages++, page);
+	}
+
+	public int pageCount() {
+		return pages.size();
+	}
+
+	public Page openPage(int pageNumber) {
+		if (!pages.containsKey(pageNumber)) {
+			return new Page();
+		}
+		return pages.get(pageNumber);
+
+	}
+
+	public void loadDone(List<Integer> ids) {
+
+		for (Page page : pages.values()) {
+			for (PageElement element : page.elements()) {
+				if (ids.contains(element.id())) {
+					element.toggleState(true);
+				}
+			}
+		}
+
+	}
+
+	public int findIdByAchievementText(String text) throws NoSuchAchievementException {
+		for (Page page : pages.values()) {
+			for (PageElement element : page.elements()) {
+				if (element.type() == Type.ACHIEVEMENT) {
+					if (element.achievement().equalsIgnoreCase(text)) {
+						return element.id();
+					}
+				}
+			}
+		}
+		throw new NoSuchAchievementException();
+	}
 
 	@Override
 	public final boolean equals(Object o) {
@@ -135,19 +147,6 @@ public class Book {
 		result = 31 * result + (colour != null ? colour.hashCode() : 0);
 		result = 31 * result + (language != null ? language.hashCode() : 0);
 		return result;
-	}
-
-	public int findIdByAchievementText(String text) throws NoSuchAchievementException {
-		for(Page page: pages.values()) {
-			for(PageElement element: page.elements()) {
-				if(element.type() == Type.ACHIEVEMENT) {
-					if(element.achievement().equalsIgnoreCase(text)) {
-						return element.id();
-					}
-				}
-			}
-		}
-		throw new NoSuchAchievementException();
 	}
 
 	public void withLanguage(String language) {
