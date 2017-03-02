@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.data;
 import com.stateshifterlabs.achievementbooks.SA.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.items.Colour;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class Book {
 	private String itemName = "";
 	private Colour colour = Colour.RED;
 	private String language = "UK";
+	private final List<Integer> elementIds = new ArrayList<Integer>();
 
 	public void withName(String name) {
 		this.name = name;
@@ -61,6 +63,12 @@ public class Book {
 
 	public void addPage(Page page) {
 		pages.put(addedPages++, page);
+		for(PageElement element: page.elements()) {
+			if(elementIds.contains(element.id())) {
+				throw new DuplicatePageElementIdException(element, name());
+			}
+			elementIds.add(element.id());
+		}
 	}
 
 	public int pageCount() {
@@ -117,6 +125,11 @@ public class Book {
 		if (craftable != book.craftable) {
 			return false;
 		}
+
+		if (elementIds != null ? !elementIds.equals(book.elementIds): book.elementIds != null) {
+			return false;
+		}
+
 		if (pages != null ? !pages.equals(book.pages) : book.pages != null) {
 			return false;
 		}
@@ -140,6 +153,9 @@ public class Book {
 	public final int hashCode() {
 		int result = pages != null ? pages.hashCode() : 0;
 		result = 31 * result + addedPages;
+		if (elementIds != null) {
+			result = 31 * result + elementIds.hashCode();
+		}
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
 		result = 31 * result + (craftable ? 1 : 0);
@@ -155,5 +171,13 @@ public class Book {
 
 	public String language() {
 		return this.language;
+	}
+
+	public int numberOfElements() {
+		return elementIds.size();
+	}
+
+	public boolean idExists(int existingId) {
+		return elementIds.contains(existingId);
 	}
 }

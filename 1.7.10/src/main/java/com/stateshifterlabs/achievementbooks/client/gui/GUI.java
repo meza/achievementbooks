@@ -14,6 +14,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import scala.actors.threadpool.Arrays;
+
+import java.util.List;
 
 
 public class GUI extends GuiScreen {
@@ -24,6 +27,8 @@ public class GUI extends GuiScreen {
 	private static ResourceLocation bgl;
 	private static ResourceLocation bgr;
 	private final int bookFrameHeight = 20;
+	private int nextButtonId;
+	private int prevButtonId;
 	private EntityPlayer player;
 	private Book book;
 	private NetworkAgent networkAgent;
@@ -42,6 +47,8 @@ public class GUI extends GuiScreen {
 		this.book = book;
 		this.networkAgent = networkAgent;
 		this.sound = sound;
+		this.prevButtonId = getFreeId(new Integer[]{});
+		this.nextButtonId = getFreeId(new Integer[]{prevButtonId});
 		book.loadDone(achievementData.completed(book.itemName()));
 		nbttag = AchievementBooksMod.MODID.toLowerCase() + ":" + book.itemName() + ":pageOffset";
 		pageOffset = NBTUtils.getTag(player.getCurrentEquippedItem()).getInteger(nbttag);
@@ -124,11 +131,12 @@ public class GUI extends GuiScreen {
 
 
 		if (pageOffset > 0) {
-			buttonList.add(new PaginationButton(0, bookLeft, bookTop + bookHeight - 23, false, clickDelay));
+			buttonList.add(new PaginationButton(prevButtonId, bookLeft, bookTop + bookHeight - 23, false, clickDelay));
 		}
 		if (pageOffset + 1 < book.pageCount() - 1) {
-			buttonList.add(new PaginationButton(1, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true,
-												clickDelay));
+			buttonList
+					.add(new PaginationButton(nextButtonId, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true,
+											  clickDelay));
 		}
 	}
 
@@ -178,18 +186,28 @@ public class GUI extends GuiScreen {
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button.id > 1) {
+		if (button.id != prevButtonId && button.id != nextButtonId) {
 			sound.toggle();
 			((AchievementLine) button).toggle();
 			networkAgent.toggle(book, button.id);
 		} else if (clickDelay <= 0) {
-			if (button.id == 0) {
+			if (button.id == prevButtonId) {
 				previousPage();
-			} else if (button.id == 1) {
+			} else if (button.id == nextButtonId) {
 				nextPage();
 			}
 		}
 
+	}
+
+	private int getFreeId(Integer[] ints) {
+		List blacklist = Arrays.asList(ints);
+		for (int i = -65535; i < 65535; i++) {
+			if (!book.idExists(i) && !blacklist.contains(i)) {
+				return i;
+			}
+		}
+		throw new RuntimeException("Could not find an empty ID for buttons");
 	}
 
 	private void nextPage() {
