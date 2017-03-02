@@ -13,6 +13,10 @@ public class AchievementStorageGenerator {
 	private Fairy fairy = Fairy.create();
 
 	public RandomTestData<JsonElement, AchievementStorage> generate() {
+		return generate(0);
+	}
+
+	public RandomTestData<JsonElement, AchievementStorage> generate(int minPlayers) {
 
 		JsonArray json = new JsonArray();
 

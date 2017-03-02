@@ -6,7 +6,7 @@ import java.util.List;
 public class Save {
 	private final List<Integer> done = new ArrayList<Integer>();
 
-	public final List<Integer> completedAchievements() {
+	public List<Integer> completedAchievements() {
 		return done;
 	}
 
