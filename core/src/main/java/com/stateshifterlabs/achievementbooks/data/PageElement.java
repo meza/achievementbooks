@@ -23,6 +23,9 @@ public class PageElement {
 	}
 
 	public String formattedAchievement() {
+		if(!hasAchievement()) {
+			return "";
+		}
 		return String.format("%s %s", UTF8Utils.utf8String(achievement), formattedMod());
 	}
 
@@ -38,6 +41,9 @@ public class PageElement {
 
 
 	public String formattedDescription() {
+		if (!hasDescription()) {
+			return "";
+		}
 		return UTF8Utils.utf8String("§o", String.format("%s", description));
 	}
 
@@ -61,6 +67,9 @@ public class PageElement {
 	}
 
 	public String formattedHeader() {
+		if (!hasHeader()) {
+			return "";
+		}
 		return UTF8Utils.utf8String("§l", header);
 	}
 

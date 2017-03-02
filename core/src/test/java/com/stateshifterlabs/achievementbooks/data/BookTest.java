@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.stateshifterlabs.achievementbooks.SA.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import com.stateshifterlabs.achievementbooks.items.Colour;
 import io.codearte.jfairy.Fairy;
@@ -98,25 +99,23 @@ public class BookTest {
 		} catch (Exception e) {
 			fail("Book didn't return an empty page when trying to open a not existing page");
 		}
-
-
-
 	}
 
 	@Test
 	public void testLoadingComplete() {
-		Book book;
+		Book book = new Book();
 		List<Integer> achievementIds = new ArrayList<>();
+
 		do {
 			achievementIds = new ArrayList<>();
 			book = new BookGenerator().generate(false).objectFormat();
 
-			for (int i = 0; i < book.pageCount(); i++) {
-				Page page = book.openPage(i);
-				for (PageElement element : page.elements()) {
-					if (element.type() == Type.ACHIEVEMENT) {
-						achievementIds.add(element.id());
-						assertFalse("Element is not checked false by default, would break the test.", element.checked());
+			for (int i1 = 0; i1 < book.pageCount(); i1++) {
+				Page page1 = book.openPage(i1);
+				for (PageElement element1 : page1.elements()) {
+					if (element1.type() == Type.ACHIEVEMENT) {
+						achievementIds.add(element1.id());
+						assertFalse("Element is not checked false by default, would break the test.", element1.checked());
 					}
 				}
 			}
@@ -135,8 +134,56 @@ public class BookTest {
 				}
 			}
 		}
+	}
 
+	@Test
+	public void testAchievementLocator() {
+		Book book = new Book();
+		Map<String, Integer> achievements = new HashMap<>();
+		int id = 0;
+		final int numberOfPages = fairy.baseProducer().randomBetween(2, 10);
 
+		for(int i=0; i<numberOfPages; i++) {
+			int numberOfElements = fairy.baseProducer().randomBetween(1, 5);
+			Page page = new Page();
+
+			for(int j=0; j<numberOfElements; j++) {
+				boolean isAchievement = fairy.baseProducer().trueOrFalse();
+
+				PageElement element = new PageElement(id);
+				String text = fairy.textProducer().latinSentence();
+				if(isAchievement) {
+					element.withAchievement(text);
+					achievements.put(text, id);
+				} else {
+					element.withDescription(text);
+				}
+
+				page.addElement(element);
+
+				id++;
+			}
+
+			book.addPage(page);
+
+		}
+
+		for(Map.Entry<String, Integer> achievement: achievements.entrySet()) {
+			try {
+				int locatedId = book.findIdByAchievementText(achievement.getKey());
+				assertEquals(achievement.getValue().intValue(), locatedId);
+			} catch (NoSuchAchievementException e) {
+				fail("Achievement could not be located");
+			}
+		}
+	}
+
+	@Test(expected = NoSuchAchievementException.class)
+	public void testNoAchievementText() throws NoSuchAchievementException {
+		Book book = new Book();
+		String text = fairy.textProducer().latinSentence();
+
+		book.findIdByAchievementText(text);
 	}
 
 	@Test

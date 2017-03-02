@@ -90,6 +90,18 @@ public class PageElementTest {
 	}
 
 	@Test
+	public void defaultStates() {
+		int id = fairy.baseProducer().randomBetween(0, 1000);
+		PageElement element = new PageElement(id);
+
+		assertEquals("", element.formattedAchievement());
+		assertEquals("", element.formattedDescription());
+		assertEquals("", element.formattedHeader());
+		assertEquals("", element.formattedMod());
+
+	}
+
+	@Test
 	public void testToggle() {
 		int id = fairy.baseProducer().randomBetween(0, 1000);
 		PageElement element = new PageElement(id);

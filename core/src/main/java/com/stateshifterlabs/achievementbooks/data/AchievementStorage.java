@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class AchievementStorage {
 
-	private Map<String, AchievementData> storage = new HashMap<String, AchievementData>();
+	private final Map<String, AchievementData> storage = new HashMap<String, AchievementData>();
 
 	public void append(AchievementData data) {
 		if (storage.containsKey(data.username())) {
@@ -42,21 +42,22 @@ public class AchievementStorage {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public final boolean equals(Object o) {
+
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if (!(o instanceof AchievementStorage)) {
 			return false;
 		}
 
 		AchievementStorage that = (AchievementStorage) o;
 
-		return storage.equals(that.storage);
+		return storage != null ? storage.equals(that.storage) : that.storage == null;
 	}
 
 	@Override
-	public int hashCode() {
-		return storage.hashCode();
+	public final int hashCode() {
+		return storage != null ? storage.hashCode() : 0;
 	}
 }
