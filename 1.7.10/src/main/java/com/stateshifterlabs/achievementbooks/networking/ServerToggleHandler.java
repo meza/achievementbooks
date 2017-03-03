@@ -21,7 +21,7 @@ public class ServerToggleHandler implements IMessageHandler<ToggleAchievementMes
 	{
 
 		Player player = new MCPlayer(ctx.getServerHandler().playerEntity);
-		storage.forPlayer(player).toggle(message.bookName(), message.achievmenetId());
+		storage.forPlayer(player).toggle(message.bookName(), message.achievementId());
 
 		return null;
 	}

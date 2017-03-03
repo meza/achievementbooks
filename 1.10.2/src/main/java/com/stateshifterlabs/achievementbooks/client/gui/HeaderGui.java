@@ -28,7 +28,7 @@ public class HeaderGui {
 
 		List<GuiButton> buttons = new ArrayList<GuiButton>();
 
-		HeaderLine header = new HeaderLine(id, left, top, maxWidth, element.header());
+		HeaderLine header = new HeaderLine(id, left, top, maxWidth, element.formattedHeader());
 
 		height = height + header.getHeight();
 		buttons.add(header);

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.SA.Formatting;
 import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
 import com.stateshifterlabs.achievementbooks.SA.FormattingList;
+import com.stateshifterlabs.achievementbooks.SA.NoSuchFormattingException;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import com.stateshifterlabs.achievementbooks.data.Page;
@@ -81,20 +82,24 @@ public class SA {
 
 				int formattingId = Integer.parseInt(args[1].trim());
 
-				Formatting formatting = formattingList.formattingFor(formattingId);
-				PageElement element = new PageElement(id++);
-				if(formatting.isAchievement()) {
-					element.withAchievement(text);
-				} else if(formatting.isHeader()) {
-					element.withHeader(text);
-				} else {
-					element.withDescription(text);
-				}
-				page.addElement(element);
-				if(itemsOnPage++ > 4) {
-					book.addPage(page);
-					page = new Page();
-					itemsOnPage = 0;
+				try {
+					Formatting formatting = formattingList.formattingFor(formattingId);
+					PageElement element = new PageElement(id++);
+					if (formatting.isAchievement()) {
+						element.withAchievement(text);
+					} else if (formatting.isHeader()) {
+						element.withHeader(text);
+					} else {
+						element.withDescription(text);
+					}
+					page.addElement(element);
+					if (itemsOnPage++ > 4) {
+						book.addPage(page);
+						page = new Page();
+						itemsOnPage = 0;
+					}
+				} catch (NoSuchFormattingException e) {
+					//TODO add logging
 				}
 
 			}

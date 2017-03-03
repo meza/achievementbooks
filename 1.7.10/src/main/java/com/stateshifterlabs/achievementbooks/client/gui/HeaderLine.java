@@ -17,8 +17,7 @@ public class HeaderLine extends GuiButton {
 		super(id, x, y, width, buttonHeight, header);
 
 		this.enabled = false;
-
-		this.header = "§l"+header;
+		this.header = header;
 
 		this.height = (Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(header, width).size())
 					   * 8;
@@ -42,6 +41,7 @@ public class HeaderLine extends GuiButton {
 		for (int i = 0; i < lines.size(); i++)
 		{
 			String s = lines.get(i);
+
 			fnt.drawString(s, xPosition + (bookWidth / 4) - 20 - (fnt.getStringWidth(s) / 2), yPosition + (height / 2) - lineNum * 4 + i * 8,
 						   0x000000, false);
 		}
