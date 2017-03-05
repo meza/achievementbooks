@@ -2,9 +2,10 @@ package com.stateshifterlabs.achievementbooks.data;
 
 import com.stateshifterlabs.achievementbooks.facade.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class AchievementStorage {
 
@@ -22,8 +23,8 @@ public class AchievementStorage {
 		return forPlayer(name);
 	}
 
-	public Set<String> players() {
-		return storage.keySet();
+	public List<String> players() {
+		return new ArrayList<String>(storage.keySet());
 	}
 
 	public AchievementData forPlayer(String name) {

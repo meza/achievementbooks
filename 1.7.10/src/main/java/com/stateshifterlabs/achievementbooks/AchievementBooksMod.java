@@ -12,14 +12,18 @@ import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.facade.MCSound;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
@@ -66,6 +70,15 @@ public class AchievementBooksMod {
 
 		ICommandManager server = MinecraftServer.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
+		FMLCommonHandler.instance().bus().register(this);
+	}
+
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		Item book = (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
+		if(event.player.inventory.hasItem(book)) {
+			System.out.println("meh");
+		}
 	}
 
 }
