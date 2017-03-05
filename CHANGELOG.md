@@ -1,3 +1,4 @@
+- Fixed encoding issues
 - Fixed page ordering bug on slower computers - release coming up soon
 - Added partial support for 1.10.2. It's still in beta, please be gentle
 - Added 16 colours to the book
