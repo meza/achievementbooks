@@ -18,6 +18,9 @@ import scala.actors.threadpool.Arrays;
 
 import java.util.List;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class GUI extends GuiScreen {
 
