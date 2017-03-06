@@ -74,7 +74,7 @@ public class GUI extends GuiScreen {
 		for (PageElement element : book.openPage(pageOffset).elements()) {
 
 			if (element.type() == Type.HEADER) {
-				HeaderGui header = new HeaderGui(element.id(), element, top, left, maxWidth);
+				HeaderElementComposite header = new HeaderElementComposite(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(header.buttons());
 				top = top + header.height();
 			}
@@ -87,9 +87,10 @@ public class GUI extends GuiScreen {
 			}
 
 			if (element.type() == Type.ACHIEVEMENT) {
-				AchievementGui achievementGui = new AchievementGui(element.id(), element, top, left, maxWidth);
-				buttonList.addAll(achievementGui.buttons());
-				top = top + achievementGui.height();
+				AchievementElementComposite
+						achievementElementComposite = new AchievementElementComposite(element.id(), element, top, left, maxWidth);
+				buttonList.addAll(achievementElementComposite.buttons());
+				top = top + achievementElementComposite.height();
 			}
 
 		}
@@ -100,8 +101,8 @@ public class GUI extends GuiScreen {
 				for (PageElement element : book.openPage(pageOffset + 1).elements()) {
 
 					if (element.type() == Type.HEADER) {
-						HeaderGui header =
-								new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
+						HeaderElementComposite header =
+								new HeaderElementComposite(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
 
 						buttonList.addAll(header.buttons());
 						top = top + header.height();
@@ -116,10 +117,10 @@ public class GUI extends GuiScreen {
 					}
 
 					if (element.type() == Type.ACHIEVEMENT) {
-						AchievementGui achievementGui =
-								new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
-						buttonList.addAll(achievementGui.buttons());
-						top = top + achievementGui.height();
+						AchievementElementComposite achievementElementComposite =
+								new AchievementElementComposite(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
+						buttonList.addAll(achievementElementComposite.buttons());
+						top = top + achievementElementComposite.height();
 					}
 
 				}
@@ -130,12 +131,11 @@ public class GUI extends GuiScreen {
 
 
 		if (pageOffset > 0) {
-			buttonList.add(new PaginationButton(prevButtonId, bookLeft, bookTop + bookHeight - 23, false, clickDelay));
+			buttonList.add(new PaginationButton(prevButtonId, bookLeft, bookTop + bookHeight - 23, false));
 		}
 		if (pageOffset + 1 < book.pageCount() - 1) {
 			buttonList
-					.add(new PaginationButton(nextButtonId, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true,
-											  clickDelay));
+					.add(new PaginationButton(nextButtonId, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true));
 		}
 	}
 

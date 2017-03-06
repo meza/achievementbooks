@@ -19,9 +19,6 @@ apply plugin: 'forge'
 
 sourceSets {
     main {
-        java {
-            srcDirs += project(":mccore").sourceSets.main.java.srcDirs
-        }
         resources {
             srcDirs += project(":core").sourceSets.main.resources.srcDirs
         }
@@ -32,13 +29,10 @@ version="${mod_version}"
 minecraft {
     version = "${minecraft_version}-${forge_version}-${minecraft_version}"
     runDir = "eclipse"
-
-    replace "@VERSION@", project.version
-    replaceIn "AchievementBooksMod.java"
 }
 
 group= "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks"
+archivesBaseName = "achievementbooks-mccore"
 
 
 processResources {

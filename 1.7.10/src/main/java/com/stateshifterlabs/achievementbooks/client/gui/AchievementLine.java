@@ -1,32 +1,30 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
-import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.client.AchievementElement;
+import com.stateshifterlabs.achievementbooks.client.DefaultButtonSettings;
+import com.stateshifterlabs.achievementbooks.common.MCThingy;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 
 public class AchievementLine extends GuiButton {
-	static ResourceLocation texture = new ResourceLocation(AchievementBooksMod.MODID.toLowerCase(), "textures/gui/checkboxes.png");
 
-	private static final int buttonHeight = 30;
+	private final AchievementElement button;
+	private final MCThingy stuff;
 	private PageElement element;
 
 	public AchievementLine(int id, int x, int y, int width, PageElement element) {
-		super(id, x, y, width, buttonHeight, element.formattedAchievement());
+		super(id, x, y, width, DefaultButtonSettings.buttonHeight, element.formattedAchievement());
 		this.element = element;
-
-		this.height = (Minecraft.getMinecraft().fontRenderer
-							   .listFormattedStringToWidth(element.formattedAchievement(), width - 25).size()) * 8;
+		stuff = new MCThingy();
+		button = new AchievementElement(stuff, element, width);
+		this.height = button.getButtonHeight();
 	}
 
-	public static int getExpectedLines(String text, int width) {
-		return Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(text, width).size();
-	}
 
 	public void toggle() {
 		element.toggleState();
@@ -35,41 +33,28 @@ public class AchievementLine extends GuiButton {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mouseX, int mouseY) {
-		par1Minecraft.getTextureManager().bindTexture(texture);
+		par1Minecraft.getTextureManager().bindTexture(button.texture());
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		final Colour bgColour = button.bgColour();
+		GL11.glColor4f(bgColour.red(), bgColour.green(), bgColour.blue(), bgColour.alpha());
 
-		int offsetX = 0, offsetY = 0;
+		int offsetX = button.xOffset(mouseX, mouseY, xPosition, yPosition);
+		int offsetY = button.yOffset();
 
-		if (element.checked()) {
-			offsetY = 20;
-		}
+		drawTexturedModalRect(button.checkboxXPositon(xPosition), button.checkboxYPositon(yPosition), offsetX, offsetY,
+							  button.checkboxDimension(), button.checkboxDimension());
 
-		if (mouseX >= xPosition && mouseX <= xPosition + width && mouseY >= yPosition && mouseY <= yPosition +
-																								   height) {
-			offsetX = 20;
-		}
 
-		drawTexturedModalRect(xPosition, yPosition + (height / 2) - 8, offsetX, offsetY, 20, 20);
-
-		FontRenderer fnt = Minecraft.getMinecraft().fontRenderer;
-		int lineNum = getExpectedLines(element.formattedAchievement(), width);
-
-		// render the text according to alignment
-
-		fnt.drawSplitString(element.formattedAchievement(), xPosition + 25, yPosition + (height / 2) - lineNum * 4,
-							this.width - 25, 0x000000);
+		final Colour fgColor = button.fgColour();
+		FontRenderer fnt = stuff.fontRenderer();
+		GL11.glColor4f(fgColor.red(), fgColor.green(), fgColor.blue(), fgColor.alpha());
+		fnt.drawSplitString(element.formattedAchievement(), button.textXPosition(xPosition), button.textYPosition(yPosition),
+							button.textWrapWidth(), fgColor.rgb());
 
 	}
 
 	public int getHeight() {
 		return this.height + 8;
-	}
-
-	// don't allow the element to be clickable if not an achievement
-	@Override
-	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3) {
-		return super.mousePressed(par1Minecraft, par2, par3);
 	}
 
 	@Override

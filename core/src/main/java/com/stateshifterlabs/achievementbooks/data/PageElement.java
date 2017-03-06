@@ -26,7 +26,10 @@ public class PageElement {
 		if(!hasAchievement()) {
 			return "";
 		}
-		return String.format("%s %s", UTF8Utils.utf8String(achievement), formattedMod());
+		if (hasMod()) {
+			return String.format("%s %s", UTF8Utils.utf8String(achievement), formattedMod());
+		}
+		return String.format("%s", UTF8Utils.utf8String(achievement));
 	}
 
 	public void withAchievement(String achievement) {
