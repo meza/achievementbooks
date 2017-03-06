@@ -27,7 +27,7 @@ sourceSets {
 
 version="${mod_version}"
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
+    version = "${minecraft_version}-${forge_version}-${minecraft_version}"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version

@@ -14,11 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import scala.actors.threadpool.Arrays;
 
-import java.util.List;
-
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -204,7 +200,7 @@ public class GUI extends GuiScreen {
 	}
 
 	private int getFreeId(Integer[] ints) {
-		List blacklist = Arrays.asList(ints);
+		List blacklist = java.util.Arrays.asList(ints);
 		for (int i = -65535; i < 65535; i++) {
 			if (!book.idExists(i) && !blacklist.contains(i)) {
 				return i;

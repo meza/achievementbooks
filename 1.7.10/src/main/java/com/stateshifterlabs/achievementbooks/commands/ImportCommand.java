@@ -43,7 +43,7 @@ public class ImportCommand extends CommandBase {
 		importer.saveBook(newBook);
 		loader.init();
 
-		importer.parseSaveData(loader.storage(), newBook, networkAgent);
+		importer.parseSaveData(newBook, networkAgent);
 
 		Item item = GameRegistry.findItem(MODID, newBook.itemName());
 		sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory.addItemStackToInventory(new ItemStack(item, 1));

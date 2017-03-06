@@ -6,11 +6,16 @@ import com.stateshifterlabs.achievementbooks.SA.Formatting;
 import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
 import com.stateshifterlabs.achievementbooks.SA.FormattingList;
 import com.stateshifterlabs.achievementbooks.SA.NoSuchFormattingException;
+import com.stateshifterlabs.achievementbooks.SA.SaveDataDeserializer;
+import com.stateshifterlabs.achievementbooks.data.AchievementData;
+import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
-import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.DimensionManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,7 +23,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SA {
 	private static String achievementList = "/SimpleAchievements/achievementList.txt";
@@ -127,6 +136,56 @@ public class SA {
 			e.printStackTrace();
 		}
 
+	}
+
+	public AchievementStorage parseSaveData(Book book, NetworkAgent networkAgent) {
+		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+		builder.registerTypeAdapter(AchievementStorage.class, new SaveDataDeserializer(book));
+		Gson gson = builder.create();
+
+		String worldDir = DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
+		String saveFile = worldDir + saveData;
+
+		try {
+			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+
+			for(String player: result.players()) {
+				AchievementData playerData = result.forPlayer(player);
+				if (networkAgent != null) {
+					networkAgent.sendCompletedAchievements(playerData);;
+				}
+			}
+
+			return result;
+
+		} catch (FileNotFoundException e) {
+
+		}
+
+		return new AchievementStorage();
+	}
+
+	public AchievementData getUserSave(String displayName, Book book) {
+		AchievementStorage storage = parseSaveData(book, null);
+		return storage.forPlayer(displayName);
+
+	}
+
+	private Map<String, String> achievementText(String text) {
+		String firstPass = text.trim().replaceAll("[|]", "\n");
+		String pattern = "(.*)\\s+\\[([^\\]]*)\\](\\s*)?";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(firstPass);
+		Map<String, String> retval = new HashMap<String, String>();
+		if(m.find()) {
+			retval.put("achievement", m.group(1));
+			retval.put("mod", m.group(2));
+			return retval;
+		}
+		else {
+			retval.put("achievement", firstPass);
+			return retval;
+		}
 	}
 
 }

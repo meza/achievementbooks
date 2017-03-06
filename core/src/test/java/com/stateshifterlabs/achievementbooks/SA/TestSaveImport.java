@@ -6,7 +6,6 @@ import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
-import com.stateshifterlabs.achievementbooks.helpers.SaveDataDeserializer;
 import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import com.stateshifterlabs.achievementbooks.helpers.generators.SASaveGenerator;
 import io.codearte.jfairy.Fairy;
@@ -41,10 +40,8 @@ public class TestSaveImport {
 	}
 
 	private AchievementData thing(String player, JsonElement json, Book book) {
-		AchievementStorage achievementStorage = new AchievementStorage();
-		SaveDataDeserializer deserializer = new SaveDataDeserializer(achievementStorage, book);
-
-		deserializer.deserialize(json, typeOfT, deserializationContext);
+		SaveDataDeserializer deserializer = new SaveDataDeserializer(book);
+		AchievementStorage achievementStorage = deserializer.deserialize(json, typeOfT, deserializationContext);
 
 		return achievementStorage.forPlayer(player);
 	}
