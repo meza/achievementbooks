@@ -17,13 +17,13 @@ public class MCThingy implements MinecraftStuff {
 
 
 	public FontRenderer fontRenderer() {
-		return Minecraft.getMinecraft().fontRendererObj;
+		return Minecraft.getMinecraft().fontRenderer;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public MCPlayer getPlayer() {
-		return MCPlayer.fromEntity(Minecraft.getMinecraft().thePlayer);
+		return new MCPlayer(Minecraft.getMinecraft().player);
 	}
 
 }

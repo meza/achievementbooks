@@ -19,6 +19,9 @@ apply plugin: 'forge'
 
 sourceSets {
     main {
+        java {
+            srcDirs += project(":mccore").sourceSets.main.java.srcDirs
+        }
         resources {
             srcDirs += project(":core").sourceSets.main.resources.srcDirs
         }
@@ -28,33 +31,14 @@ sourceSets {
 version="${mod_version}"
 minecraft {
     version = "${minecraft_version}-${forge_version}-${minecraft_version}"
-    runDir = "eclipse"
 }
 
 group= "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks-mccore"
+archivesBaseName = "achievementbooks"
 
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include '**/*.info'
-        include '**/*.properties'
-
-        // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude '**/models/**/*.json'
-        exclude '**/*.info'
-        exclude '**/*.properties'
-    }
+dependencies {
+    compile project(":core")
 }
 
-idea { module { inheritOutputDirs = true } }
+group = "com.stateshifterlabs.achievementbooks"
+archivesBaseName = "achievementbooks-mc-core"

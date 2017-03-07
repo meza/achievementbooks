@@ -1,3 +1,6 @@
+- Added 1.11.2 support
+- Added a migration method for SA
+- Added support for importing already existing SA saves
 - Fixed encoding issues
 - Fixed page ordering bug on slower computers - release coming up soon
 - Added partial support for 1.10.2. It's still in beta, please be gentle

@@ -25,6 +25,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -58,6 +60,9 @@ public class AchievementBooksMod {
 	public void init(FMLInitializationEvent event) {
 		loader.init();
 		new GameSave(storage, books, networkAgent);
+		if (books.migration() != null) {
+			FMLCommonHandler.instance().bus().register(this);
+		}
 	}
 
 	@EventHandler
@@ -79,10 +84,10 @@ public class AchievementBooksMod {
 
 		ICommandManager server = MinecraftServer.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
-		FMLCommonHandler.instance().bus().register(this);
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		delay--;
 		if(delay>1) {

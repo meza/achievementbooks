@@ -59,15 +59,15 @@ public class AchievementBooksMod {
 		networkAgent = new NetworkAgent(storage);
 		loader = new Loader(configDir, books, storage, networkAgent, new MCSound());
 		stuff = new MCThingy();
+		if (books.migration() != null) {
+			FMLCommonHandler.instance().bus().register(this);
+		}
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		loader.init();
 		new GameSave(storage, books, networkAgent);
-		if (books.migration() != null) {
-			FMLCommonHandler.instance().bus().register(this);
-		}
 	}
 
 	@Mod.EventHandler
@@ -89,8 +89,8 @@ public class AchievementBooksMod {
 
 		ICommandManager server = event.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
-	}
 
+	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -100,6 +100,8 @@ public class AchievementBooksMod {
 			return;
 		}
 		delay = 160;
+
+
 
 		Item SAbook = Item.getByNameOrId("simpleachievements:achievement_book");
 		final InventoryPlayer inventory = event.player.inventory;
