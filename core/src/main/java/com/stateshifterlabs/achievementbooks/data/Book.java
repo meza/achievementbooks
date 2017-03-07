@@ -13,6 +13,7 @@ public class Book {
 	public static final String US = "US";
 	public static final String UK = "UK";
 	private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
+	private final List<Integer> elementIds = new ArrayList<Integer>();
 	private int addedPages = 0;
 	private String name = "";
 	private String craftingMaterial = "";
@@ -20,7 +21,7 @@ public class Book {
 	private String itemName = "";
 	private Colour colour = Colour.RED;
 	private String language = "UK";
-	private final List<Integer> elementIds = new ArrayList<Integer>();
+	private boolean isMigrationTarget = false;
 
 	public void withName(String name) {
 		this.name = name;
@@ -63,8 +64,8 @@ public class Book {
 
 	public void addPage(Page page) {
 		pages.put(addedPages++, page);
-		for(PageElement element: page.elements()) {
-			if(elementIds.contains(element.id())) {
+		for (PageElement element : page.elements()) {
+			if (elementIds.contains(element.id())) {
 				throw new DuplicatePageElementIdException(element, name());
 			}
 			elementIds.add(element.id());
@@ -126,7 +127,7 @@ public class Book {
 			return false;
 		}
 
-		if (elementIds != null ? !elementIds.equals(book.elementIds): book.elementIds != null) {
+		if (elementIds != null ? !elementIds.equals(book.elementIds) : book.elementIds != null) {
 			return false;
 		}
 
@@ -141,6 +142,9 @@ public class Book {
 			return false;
 		}
 		if (itemName != null ? !itemName.equals(book.itemName) : book.itemName != null) {
+			return false;
+		}
+		if (isMigrationTarget != book.isMigrationTarget) {
 			return false;
 		}
 		if (colour != book.colour) {
@@ -159,6 +163,7 @@ public class Book {
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
 		result = 31 * result + (craftable ? 1 : 0);
+		result = 31 * result + (isMigrationTarget ? 1 : 0);
 		result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
 		result = 31 * result + (colour != null ? colour.hashCode() : 0);
 		result = 31 * result + (language != null ? language.hashCode() : 0);
@@ -179,5 +184,13 @@ public class Book {
 
 	public boolean idExists(int existingId) {
 		return elementIds.contains(existingId);
+	}
+
+	public boolean isMigrationTarget() {
+		return isMigrationTarget;
+	}
+
+	public void markAsMigrationTarget() {
+		isMigrationTarget = true;
 	}
 }

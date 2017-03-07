@@ -7,6 +7,7 @@ import com.stateshifterlabs.achievementbooks.SA.FormattingDeserializer;
 import com.stateshifterlabs.achievementbooks.SA.FormattingList;
 import com.stateshifterlabs.achievementbooks.SA.NoSuchFormattingException;
 import com.stateshifterlabs.achievementbooks.SA.SaveDataDeserializer;
+import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Page;
@@ -21,7 +22,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.minecraft.client.Minecraft.getMinecraft;
 
@@ -90,7 +95,13 @@ public class SA {
 					Formatting formatting = formattingList.formattingFor(formattingId);
 					PageElement element = new PageElement(id++);
 					if (formatting.isAchievement()) {
-						element.withAchievement(text);
+
+						Map<String, String> x = achievementText(text);
+
+						element.withAchievement(x.get("achievement"));
+						if(x.containsKey("mod")) {
+							element.withMod(x.get("mod"));
+						}
 					} else if (formatting.isHeader()) {
 						element.withHeader(text);
 					} else {
@@ -130,19 +141,53 @@ public class SA {
 
 	}
 
-	public void parseSaveData(AchievementStorage storage, Book book, NetworkAgent networkAgent) {
+	public AchievementStorage parseSaveData(Book book, NetworkAgent networkAgent) {
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
-		builder.registerTypeAdapter(AchievementStorage.class, new SaveDataDeserializer(storage, book, networkAgent));
+		builder.registerTypeAdapter(AchievementStorage.class, new SaveDataDeserializer(book));
 		Gson gson = builder.create();
 
 		String worldDir = DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
 		String saveFile = worldDir + saveData;
 
 		try {
-			gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+
+			for(String player: result.players()) {
+				AchievementData playerData = result.forPlayer(player);
+				if (networkAgent != null) {
+					networkAgent.sendCompletedAchievements(playerData);;
+				}
+			}
+
+			return result;
+
 		} catch (FileNotFoundException e) {
 
 		}
 
+		return new AchievementStorage();
+	}
+
+	public AchievementData getUserSave(String displayName, Book book) {
+		AchievementStorage storage = parseSaveData(book, null);
+		return storage.forPlayer(displayName);
+
+	}
+
+	private Map<String, String> achievementText(String text) {
+		String firstPass = text.trim().replaceAll("[|]", "\n");
+		String pattern = "(.*)\\s+\\[([^\\]]*)\\](\\s*)?";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(firstPass);
+		Map<String, String> retval = new HashMap<String, String>();
+		if(m.find()) {
+			retval.put("achievement", m.group(1));
+			retval.put("mod", m.group(2));
+			return retval;
+		}
+		else {
+			retval.put("achievement", firstPass);
+			return retval;
+		}
 	}
 }

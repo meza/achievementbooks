@@ -33,6 +33,7 @@ public class BookGenerator {
 		bookJson.addProperty("itemName", itemName);
 		book.withItemName(itemName);
 
+		addMigrationTarget(bookJson, book);
 		addColour(bookJson, book);
 		addCraftingMaterial(bookJson, book);
 
@@ -50,6 +51,20 @@ public class BookGenerator {
 		bookJson.add("pages", pagesJson);
 
 		return new RandomTestData<>(bookJson, book);
+	}
+
+	private void addMigrationTarget(JsonObject bookJson, Book book) {
+		boolean isMigrationTarget = fairy.baseProducer().trueOrFalse();
+		if(isMigrationTarget) {
+			book.markAsMigrationTarget();
+			bookJson.addProperty("migrationTarget", true);
+		} else {
+
+			boolean shouldIncludeFalseMigrationTarget = fairy.baseProducer().trueOrFalse();
+			if (shouldIncludeFalseMigrationTarget) {
+				bookJson.addProperty("migrationTarget", false);
+			}
+		}
 	}
 
 	public int getElementId() {

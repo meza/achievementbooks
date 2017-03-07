@@ -29,6 +29,7 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
 
 		JsonArray storage = new JsonArray();
 
+
 		for (String player : src.players()) {
 
 

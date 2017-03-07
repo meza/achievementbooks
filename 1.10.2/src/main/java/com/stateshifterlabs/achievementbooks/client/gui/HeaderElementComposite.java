@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeaderGui {
+public class HeaderElementComposite {
 
 	private final int padding = 10;
 	private int id;
@@ -16,7 +16,7 @@ public class HeaderGui {
 	private final int maxWidth;
 	private int height = 0;
 
-	public HeaderGui(int id, PageElement element, int top, int left, int maxWidth) {
+	public HeaderElementComposite(int id, PageElement element, int top, int left, int maxWidth) {
 		this.id = id;
 		this.element = element;
 		this.top = top + padding;

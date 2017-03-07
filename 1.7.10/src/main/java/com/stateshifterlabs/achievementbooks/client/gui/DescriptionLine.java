@@ -1,53 +1,44 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 
+import com.stateshifterlabs.achievementbooks.client.DefaultButtonSettings;
+import com.stateshifterlabs.achievementbooks.client.DescriptionElement;
+import com.stateshifterlabs.achievementbooks.common.MCThingy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.opengl.GL11;
 
 
 public class DescriptionLine extends GuiButton {
 
-	private static final int buttonHeight = 30;
+	private final MCThingy stuff;
+	private final DescriptionElement button;
 	private String description;
 
 	public DescriptionLine(int id, int x, int y, int width, String description) {
-		super(id, x, y, width, buttonHeight, description);
+		super(id, x, y, width, DefaultButtonSettings.buttonHeight, description);
 
 		this.enabled = false;
-
 		this.description = description;
+		stuff = new MCThingy();
+		button = new DescriptionElement(stuff, description, width);
 
-		this.height = (Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(description, width).size())
-					   * 8;
+		this.height = button.getButtonHeight();
 
-	}
-
-	public static int getExpectedLines(String text, int width) {
-		return Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(text, width).size();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void drawButton(Minecraft par1Minecraft, int mouseX, int mouseY) {
+		Colour fgColour = button.fgColour();
+		GL11.glColor4f(fgColour.red(), fgColour.green(), fgColour.blue(), fgColour.alpha());
 
-		FontRenderer fnt = Minecraft.getMinecraft().fontRenderer;
-
-		int lineNum = getExpectedLines(description, width);
-
-		fnt.drawSplitString(description, xPosition, yPosition,
-							this.width, 0x000000);
+		stuff.fontRenderer().drawSplitString(description, xPosition, yPosition, this.width, fgColour.rgb());
 
 	}
 
 	public int getHeight() {
-		return this.height + 5;
-	}
-
-	// don't allow the element to be clickable if not an achievement
-	@Override
-	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3) {
-		return super.mousePressed(par1Minecraft, par2, par3);
+		return this.height + DescriptionElement.bottomPadding;
 	}
 
 }

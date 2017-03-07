@@ -1,12 +1,13 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
+import com.stateshifterlabs.achievementbooks.client.AchievmentElementCompositeSettings;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import net.minecraft.client.gui.GuiButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AchievementGui {
+public class AchievementElementComposite {
 
 	private int id;
 	private final PageElement element;
@@ -14,15 +15,13 @@ public class AchievementGui {
 	private final int left;
 	private final int maxWidth;
 	private int height = 0;
-	private int padding = 10;
 
-	public AchievementGui(int id, PageElement element, int top, int left, int maxWidth) {
+	public AchievementElementComposite(int id, PageElement element, int top, int left, int maxWidth) {
 		this.id = id;
 		this.element = element;
 		this.top = top;
-		this.left = left + 25;
-
 		this.maxWidth = maxWidth;
+		this.left = left + AchievmentElementCompositeSettings.leftPadding;
 	}
 
 	public List<GuiButton> buttons() {
@@ -44,6 +43,6 @@ public class AchievementGui {
 
 
 	public int height() {
-		return height + padding;
+		return height + AchievmentElementCompositeSettings.bottomPadding;
 	}
 }

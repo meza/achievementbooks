@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.client.BookSettings;
 import com.stateshifterlabs.achievementbooks.common.NBTUtils;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -21,12 +22,10 @@ import java.util.List;
 
 public class GUI extends GuiScreen {
 
-	public static final int GUI_ID = 20;
-	public static int bookWidth = 417;
-	public static int bookHeight = 245;
+
 	private static ResourceLocation bgl;
 	private static ResourceLocation bgr;
-	private final int bookFrameHeight = 20;
+
 	private int nextButtonId;
 	private int prevButtonId;
 	private EntityPlayer player;
@@ -65,8 +64,8 @@ public class GUI extends GuiScreen {
 	@SuppressWarnings("unchecked")
 	public void initGui(int bookTop, int bookLeft) {
 
-		int maxWidth = (bookWidth / 2) - 35;
-		int top = bookTop + bookFrameHeight;
+		int maxWidth = (BookSettings.bookWidth / 2) - 35;
+		int top = bookTop + BookSettings.bookFrameHeight;
 		int left = bookLeft;
 
 		clickDelay = 5;
@@ -76,7 +75,7 @@ public class GUI extends GuiScreen {
 		for (PageElement element : book.openPage(pageOffset).elements()) {
 
 			if (element.type() == Type.HEADER) {
-				HeaderGui header = new HeaderGui(element.id(), element, top, left, maxWidth);
+				HeaderElementComposite header = new HeaderElementComposite(element.id(), element, top, left, maxWidth);
 				buttonList.addAll(header.buttons());
 				top = top + header.height();
 			}
@@ -89,21 +88,22 @@ public class GUI extends GuiScreen {
 			}
 
 			if (element.type() == Type.ACHIEVEMENT) {
-				AchievementGui achievementGui = new AchievementGui(element.id(), element, top, left, maxWidth);
-				buttonList.addAll(achievementGui.buttons());
-				top = top + achievementGui.height();
+				AchievementElementComposite
+						achievementElementComposite = new AchievementElementComposite(element.id(), element, top, left, maxWidth);
+				buttonList.addAll(achievementElementComposite.buttons());
+				top = top + achievementElementComposite.height();
 			}
 
 		}
 
-		top = bookTop + bookFrameHeight;
+		top = bookTop + BookSettings.bookFrameHeight;
 		try {
 			if (pageOffset + 1 < book.pageCount()) {
 				for (PageElement element : book.openPage(pageOffset + 1).elements()) {
 
 					if (element.type() == Type.HEADER) {
-						HeaderGui header =
-								new HeaderGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
+						HeaderElementComposite header =
+								new HeaderElementComposite(element.id(), element, top, left + (BookSettings.bookWidth / 2) - 15, maxWidth);
 
 						buttonList.addAll(header.buttons());
 						top = top + header.height();
@@ -111,17 +111,17 @@ public class GUI extends GuiScreen {
 
 					if (element.type() == Type.TEXT) {
 						DescriptionLine description =
-								new DescriptionLine(element.id(), left + 25 + (bookWidth / 2) - 15, top, maxWidth,
+								new DescriptionLine(element.id(), left + 25 + (BookSettings.bookWidth / 2) - 15, top, maxWidth,
 													element.formattedDescription());
 						buttonList.add(description);
 						top = top + description.getHeight();
 					}
 
 					if (element.type() == Type.ACHIEVEMENT) {
-						AchievementGui achievementGui =
-								new AchievementGui(element.id(), element, top, left + (bookWidth / 2) - 15, maxWidth);
-						buttonList.addAll(achievementGui.buttons());
-						top = top + achievementGui.height();
+						AchievementElementComposite achievementElementComposite =
+								new AchievementElementComposite(element.id(), element, top, left + (BookSettings.bookWidth / 2) - 15, maxWidth);
+						buttonList.addAll(achievementElementComposite.buttons());
+						top = top + achievementElementComposite.height();
 					}
 
 				}
@@ -131,12 +131,11 @@ public class GUI extends GuiScreen {
 		}
 
 		if (pageOffset > 0) {
-			buttonList.add(new PaginationButton(prevButtonId, bookLeft, bookTop + bookHeight - 23, false, clickDelay));
+			buttonList.add(new PaginationButton(prevButtonId, bookLeft, bookTop + BookSettings.bookHeight - 23, false));
 		}
 		if (pageOffset + 1 < book.pageCount() - 1) {
 			buttonList
-					.add(new PaginationButton(nextButtonId, bookLeft + bookWidth - 22, bookTop + bookHeight - 23, true,
-											  clickDelay));
+					.add(new PaginationButton(nextButtonId, bookLeft + BookSettings.bookWidth - 22, bookTop + BookSettings.bookHeight - 23, true));
 		}
 	}
 
@@ -145,8 +144,8 @@ public class GUI extends GuiScreen {
 		clickDelay = Math.max(0, clickDelay - 1);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		int bookLeft = (this.width - bookWidth) / 2;
-		int bookTop = (int) ((this.height - bookHeight) / 2.5);
+		int bookLeft = (this.width - BookSettings.bookWidth) / 2;
+		int bookTop = (int) ((this.height - BookSettings.bookHeight) / 2.5);
 
 		if (oldLeft != bookLeft || oldTop != bookTop) {
 			oldLeft = bookLeft;
@@ -155,10 +154,10 @@ public class GUI extends GuiScreen {
 		}
 
 		this.mc.getTextureManager().bindTexture(bgl);
-		this.drawTexturedModalRect(bookLeft, bookTop, 0, 0, bookWidth / 2, bookHeight);
+		this.drawTexturedModalRect(bookLeft, bookTop, 0, 0, BookSettings.bookWidth / 2, BookSettings.bookHeight);
 
 		this.mc.getTextureManager().bindTexture(bgr);
-		this.drawTexturedModalRect(bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
+		this.drawTexturedModalRect(bookLeft + BookSettings.bookWidth / 2, bookTop, 0, 0, BookSettings.bookWidth / 2, BookSettings.bookHeight);
 
 		super.drawScreen(mouseX, mouseY, par3);
 	}
@@ -169,8 +168,8 @@ public class GUI extends GuiScreen {
 		this.fontRendererObj = mcInstance.fontRendererObj;
 		this.width = width;
 		this.height = height;
-		int bookLeft = (this.width - bookWidth) / 2;
-		int bookTop = (int) ((this.height - bookHeight) / 2.5);
+		int bookLeft = (this.width - BookSettings.bookWidth) / 2;
+		int bookTop = (int) ((this.height - BookSettings.bookHeight) / 2.5);
 		this.initGui(bookTop, bookLeft);
 	}
 
@@ -200,8 +199,8 @@ public class GUI extends GuiScreen {
 	}
 
 	private void nextPage() {
-		int bookLeft = (this.width - bookWidth) / 2;
-		int bookTop = (int) ((this.height - bookHeight) / 2.5);
+		int bookLeft = (this.width - BookSettings.bookWidth) / 2;
+		int bookTop = (int) ((this.height - BookSettings.bookHeight) / 2.5);
 
 		pageOffset = pageOffset + 2;
 
@@ -211,8 +210,8 @@ public class GUI extends GuiScreen {
 	}
 
 	private void previousPage() {
-		int bookLeft = (this.width - bookWidth) / 2;
-		int bookTop = (int) ((this.height - bookHeight) / 2.5);
+		int bookLeft = (this.width - BookSettings.bookWidth) / 2;
+		int bookTop = (int) ((this.height - BookSettings.bookHeight) / 2.5);
 
 		pageOffset = pageOffset - 2;
 

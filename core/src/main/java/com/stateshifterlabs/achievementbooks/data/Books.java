@@ -43,4 +43,16 @@ public class Books implements Iterable<Book> {
 	public final int hashCode() {
 		return books != null ? books.hashCode() : 0;
 	}
+
+	public Book migration() {
+
+		for(Book book : books) {
+			if (book.isMigrationTarget()) {
+				return book;
+			}
+		}
+
+		return null;
+
+	}
 }
