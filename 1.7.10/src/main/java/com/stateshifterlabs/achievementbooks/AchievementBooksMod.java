@@ -8,6 +8,7 @@ import com.stateshifterlabs.achievementbooks.commands.ListCommand;
 import com.stateshifterlabs.achievementbooks.commands.MainCommand;
 import com.stateshifterlabs.achievementbooks.commands.ReloadCommand;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
+import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
@@ -50,10 +51,13 @@ public class AchievementBooksMod {
 	public void init(FMLInitializationEvent event) {
 		loader.init();
 		new GameSave(storage, books, networkAgent);
-		if (books.migration() != null) {
-			MigrationNetworkAgent x = new MigrationNetworkAgent(books.migration(), networkAgent, configDir);
-			FMLCommonHandler.instance().bus().register(x);
+
+		final Book migrationTargetBook = books.migration();
+		if (migrationTargetBook != null) {
+			MigrationNetworkAgent migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir);
+			FMLCommonHandler.instance().bus().register(migrationNetworkAgent);
 		}
+
 	}
 
 	@EventHandler

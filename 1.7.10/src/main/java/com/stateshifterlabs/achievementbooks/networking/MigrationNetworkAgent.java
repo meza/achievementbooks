@@ -39,7 +39,7 @@ public class MigrationNetworkAgent
 		this.targetBook = targetBook;
 		this.networkAgent = networkAgent;
 		this.configDir = configDir;
-		String channelName = String.format("achievementbooksmigra");
+		String channelName = String.format("mezamigr");
 		wrapper = new SimpleNetworkWrapper(channelName);
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.CLIENT);
 	}
@@ -50,8 +50,8 @@ public class MigrationNetworkAgent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
 		if (player != null && !player.worldObj.isRemote) {
-			AchievementData data = importer.getUserSave(event.player.getDisplayName(), targetBook);
-			sendMigrationCompletedAchievements((EntityPlayerMP) event.player, data);
+			AchievementData data = importer.getUserSave(player.getDisplayName(), targetBook);
+			sendMigrationCompletedAchievements((EntityPlayerMP) player, data);
 		}
 
 	}
