@@ -18,6 +18,10 @@ public class AchievementStorage {
 		storage.put(data.username(), data);
 	}
 
+	public boolean hasPlayerData(String name) {
+		return storage.containsKey(name);
+	}
+
 	public AchievementData forPlayer(Player player) {
 		final String name = player.getDisplayName();
 		return forPlayer(name);

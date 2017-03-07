@@ -28,8 +28,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.minecraft.client.Minecraft.getMinecraft;
-
 public class SA {
 	private static String achievementList = "/SimpleAchievements/achievementList.txt";
 	private static String formatConfig = "/SimpleAchievements/divConfig.json";
@@ -37,8 +35,8 @@ public class SA {
 	private final String configDir;
 	private Gson gson;
 
-	public SA() {
-		configDir = getMinecraft().mcDataDir.getAbsolutePath() + "/config";
+	public SA(String configDirPath) {
+		configDir = configDirPath + "/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
