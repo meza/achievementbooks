@@ -1,60 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+repositories {
+    mavenCentral()
 }
 
-apply plugin: 'forge'
+dependencies {
 
+}
 sourceSets {
     main {
-        resources {
-            srcDirs += project(":core").sourceSets.main.resources.srcDirs
+        java {
+            srcDirs += project(":core").sourceSets.main.java.srcDirs
         }
     }
 }
 
-version="${mod_version}"
-minecraft {
-    version = "${minecraft_version}-${forge_version}-${minecraft_version}"
-    runDir = "eclipse"
-}
-
-group= "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks-mccore"
-
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include '**/*.info'
-        include '**/*.properties'
-
-        // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude '**/models/**/*.json'
-        exclude '**/*.info'
-        exclude '**/*.properties'
-    }
-}
-
-idea { module { inheritOutputDirs = true } }
+group = "com.stateshifterlabs.achievementbooks"
+archivesBaseName = "achievementbooks-mc-core"

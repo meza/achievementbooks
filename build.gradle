@@ -23,7 +23,7 @@ task cleanUpMinecraftRunClutter {
 }
 
 
-configure(subprojects.findAll { it.name != 'core' }) {
+configure(subprojects.findAll { it.name != 'core' &&  it.name != 'mccore'  }) {
 
     dependencies {
         testCompile 'junit:junit:4.12'

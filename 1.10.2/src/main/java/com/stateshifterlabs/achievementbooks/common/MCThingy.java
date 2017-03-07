@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.common;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.facade.MCPlayer;
 import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -16,4 +17,10 @@ public class MCThingy implements MinecraftStuff {
 	public FontRenderer fontRenderer() {
 		return Minecraft.getMinecraft().fontRendererObj;
 	}
+
+	@Override
+	public MCPlayer getPlayer() {
+		return new MCPlayer(Minecraft.getMinecraft().thePlayer);
+	}
+
 }

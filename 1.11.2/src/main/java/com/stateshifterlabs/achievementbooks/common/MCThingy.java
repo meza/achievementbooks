@@ -20,6 +20,7 @@ public class MCThingy implements MinecraftStuff {
 
 	@Override
 	public MCPlayer getPlayer() {
-		return new MCPlayer(Minecraft.getMinecraft().thePlayer);
+		return new MCPlayer(Minecraft.getMinecraft().player);
 	}
+
 }
