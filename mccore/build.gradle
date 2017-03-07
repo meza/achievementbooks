@@ -1,16 +1,43 @@
-repositories {
-    mavenCentral()
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
 }
 
-dependencies {
+apply plugin: 'forge'
 
-}
 sourceSets {
     main {
         java {
-            srcDirs += project(":core").sourceSets.main.java.srcDirs
+            srcDirs += project(":mccore").sourceSets.main.java.srcDirs
+        }
+        resources {
+            srcDirs += project(":core").sourceSets.main.resources.srcDirs
         }
     }
+}
+
+version="${mod_version}"
+minecraft {
+    version = "${minecraft_version}-${forge_version}-${minecraft_version}"
+}
+
+group= "com.stateshifterlabs.achievementbooks"
+archivesBaseName = "achievementbooks"
+
+dependencies {
+    compile project(":core")
 }
 
 group = "com.stateshifterlabs.achievementbooks"
