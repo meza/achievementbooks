@@ -31,7 +31,6 @@ public class MigrationNetworkAgent
 	private File configDir;
 	private int packetId = 10000;
 	private int delay = 160;
-	private boolean remote = false;
 	private final SA importer;
 
 	public MigrationNetworkAgent(Book targetBook, NetworkAgent networkAgent, File configDir) {
@@ -50,7 +49,6 @@ public class MigrationNetworkAgent
 	@SideOnly(Side.SERVER)
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
-		remote = true;
 		if (player != null && !player.worldObj.isRemote) {
 			AchievementData data = importer.getUserSave(event.player.getDisplayName(), targetBook);
 			sendMigrationCompletedAchievements((EntityPlayerMP) event.player, data);
@@ -82,7 +80,7 @@ public class MigrationNetworkAgent
 			SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
 
 			AchievementData data;
-			if(!remote) {
+			if(!event.player.getEntityWorld().isRemote) {
 				 data = importer.getUserSave(event.player.getDisplayName(), targetBook);
 			} else {
 				data = storage.forPlayer(event.player.getDisplayName());
