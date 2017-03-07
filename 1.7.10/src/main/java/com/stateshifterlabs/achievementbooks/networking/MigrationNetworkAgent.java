@@ -11,6 +11,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
@@ -48,10 +49,12 @@ public class MigrationNetworkAgent
 	@SubscribeEvent
 	@SideOnly(Side.SERVER)
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+		EntityPlayer player = event.player;
 		remote = true;
-		AchievementData data = importer.getUserSave(event.player.getDisplayName(), targetBook);
-
-		sendMigrationCompletedAchievements((EntityPlayerMP) event.player, data);
+		if (player != null && !player.worldObj.isRemote) {
+			AchievementData data = importer.getUserSave(event.player.getDisplayName(), targetBook);
+			sendMigrationCompletedAchievements((EntityPlayerMP) event.player, data);
+		}
 
 	}
 

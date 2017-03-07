@@ -32,19 +32,20 @@ public class ImportUserSaveCommand extends CommandBase {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
+		if(!sender.getEntityWorld().isRemote) {
+			SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
 
-		SA importer = new SA();
+			Book book = books.migration();
 
-		Book book = books.migration();
+			if (book == null) {
+				return;
+			}
 
-		if(book == null) {
-			return;
+			AchievementData data = importer.getUserSave(Minecraft.getMinecraft().thePlayer.getDisplayName(), book);
+			networkAgent.sendCompletedAchievements(data);
+
+			sender.addChatMessage(new ChatComponentText("Imported the save data"));
 		}
-
-		AchievementData data = importer.getUserSave(Minecraft.getMinecraft().thePlayer.getDisplayName(), book);
-		networkAgent.sendCompletedAchievements(data);
-
-		sender.addChatMessage(new ChatComponentText("Imported the save data"));
 
 	}
 }
