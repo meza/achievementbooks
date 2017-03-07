@@ -16,6 +16,7 @@ import com.stateshifterlabs.achievementbooks.data.GameSave;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.facade.MCSound;
+import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -31,6 +32,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.File;
 
@@ -47,7 +50,7 @@ public class AchievementBooksMod {
 	private NetworkAgent networkAgent;
 	private Loader loader;
 	private int delay = 160;
-	private MCThingy stuff;
+	private MinecraftStuff stuff;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -62,6 +65,9 @@ public class AchievementBooksMod {
 	public void init(FMLInitializationEvent event) {
 		loader.init();
 		new GameSave(storage, books, networkAgent);
+		if (books.migration() != null) {
+			FMLCommonHandler.instance().bus().register(this);
+		}
 	}
 
 	@Mod.EventHandler
@@ -83,21 +89,17 @@ public class AchievementBooksMod {
 
 		ICommandManager server = event.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
-
-		if (books.migration() != null) {
-			FMLCommonHandler.instance().bus().register(this);
-		}
 	}
 
+
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		delay--;
 		if(delay>1) {
 			return;
 		}
 		delay = 160;
-
-
 
 		Item SAbook = Item.getByNameOrId("simpleachievements:achievement_book");
 		final InventoryPlayer inventory = event.player.inventory;

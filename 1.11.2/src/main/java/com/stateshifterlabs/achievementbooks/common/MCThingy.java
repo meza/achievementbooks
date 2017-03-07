@@ -5,6 +5,8 @@ import com.stateshifterlabs.achievementbooks.facade.MCPlayer;
 import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MCThingy implements MinecraftStuff {
 
@@ -19,6 +21,7 @@ public class MCThingy implements MinecraftStuff {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public MCPlayer getPlayer() {
 		return new MCPlayer(Minecraft.getMinecraft().player);
 	}
