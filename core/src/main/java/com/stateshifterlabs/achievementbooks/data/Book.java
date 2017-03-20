@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+
 import com.stateshifterlabs.achievementbooks.SA.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.items.Colour;
 
@@ -10,8 +11,6 @@ import java.util.Map;
 
 public class Book {
 
-	public static final String US = "US";
-	public static final String UK = "UK";
 	private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
 	private final List<Integer> elementIds = new ArrayList<Integer>();
 	private int addedPages = 0;
@@ -20,7 +19,7 @@ public class Book {
 	private boolean craftable = false;
 	private String itemName = "";
 	private Colour colour = Colour.RED;
-	private String language = "UK";
+	private Language language = Language.UK;
 	private boolean isMigrationTarget = false;
 
 	public void withName(String name) {
@@ -170,11 +169,11 @@ public class Book {
 		return result;
 	}
 
-	public void withLanguage(String language) {
+	public void withLanguage(Language language) {
 		this.language = language;
 	}
 
-	public String language() {
+	public Language language() {
 		return this.language;
 	}
 

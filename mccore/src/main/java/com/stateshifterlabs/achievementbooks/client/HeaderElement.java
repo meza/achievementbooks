@@ -1,7 +1,7 @@
 package com.stateshifterlabs.achievementbooks.client;
 
 import com.stateshifterlabs.achievementbooks.client.gui.Colour;
-import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
+import com.stateshifterlabs.achievementbooks.facades.MinecraftFacade;
 import net.minecraft.client.gui.FontRenderer;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.List;
 public class HeaderElement {
 
 	public static int bottomPadding = 10;
-	private final MinecraftStuff stuff;
+	private final MinecraftFacade stuff;
 	private final String headerText;
 	private final int width;
 
-	public HeaderElement(MinecraftStuff stuff, String headerText, int width) {
+	public HeaderElement(MinecraftFacade stuff, String headerText, int width) {
 
 		this.stuff = stuff;
 		this.headerText = headerText;

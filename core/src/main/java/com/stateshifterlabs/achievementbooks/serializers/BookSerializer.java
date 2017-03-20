@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.stateshifterlabs.achievementbooks.data.Book;
+import com.stateshifterlabs.achievementbooks.data.Language;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 
@@ -27,7 +28,7 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 			book.addProperty("craftingMaterial", src.material());
 		}
 
-		if(src.language().equals(Book.UK)) {
+		if(src.language().equals(Language.UK)) {
 			book.addProperty("colour", src.colour());
 		} else {
 			book.addProperty("color", src.colour());
@@ -92,11 +93,11 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 		book.withName(bookObject.get("bookName").getAsString());
 		book.withItemName(bookObject.get("itemName").getAsString());
 		if(bookObject.has("color")) {
-			book.withLanguage(Book.US);
+			book.withLanguage(Language.US);
 			book.withColour(bookObject.get("color").getAsString());
 		}
 		if(bookObject.has("colour")) {
-			book.withLanguage(Book.UK);
+			book.withLanguage(Language.UK);
 			book.withColour(bookObject.get("colour").getAsString());
 		}
 		if(bookObject.has("craftingMaterial")) {

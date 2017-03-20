@@ -2,16 +2,16 @@ package com.stateshifterlabs.achievementbooks.client;
 
 import com.stateshifterlabs.achievementbooks.client.gui.Colour;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
-import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
+import com.stateshifterlabs.achievementbooks.facades.MinecraftFacade;
 import net.minecraft.util.ResourceLocation;
 
 public class AchievementElement {
 	private final ResourceLocation texture;
-	private final MinecraftStuff stuff;
+	private final MinecraftFacade stuff;
 	private final PageElement element;
 	private int width;
 
-	public AchievementElement(MinecraftStuff stuff, PageElement element, int width) {
+	public AchievementElement(MinecraftFacade stuff, PageElement element, int width) {
 		texture = new ResourceLocation(stuff.getModId().toLowerCase(), "textures/gui/checkboxes.png");
 		this.stuff = stuff;
 		this.element = element;
