@@ -15,7 +15,7 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 - you can have multiple achievement books for different parts of your game
 - you don't need to deal with difficult formatting files
 - you can describe your books in an easy to read format
-- you can upgrade your configs without the need to reset the book process
+- you can add/remove/edit entries without players losing their achievement progress
 - you can reload the books from the config without restarting the game
 
 ## User Manual
