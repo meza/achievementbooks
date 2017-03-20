@@ -37,7 +37,6 @@ public class AchievementBooksMod {
 	private Books books = new Books();
 	private NetworkAgent networkAgent;
 	private Loader loader;
-	private int delay = 160;
 	private File configDir;
 
 	@EventHandler

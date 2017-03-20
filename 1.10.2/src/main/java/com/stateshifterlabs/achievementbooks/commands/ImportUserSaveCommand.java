@@ -35,7 +35,7 @@ public class ImportUserSaveCommand extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
-		SA importer = new SA();
+		SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
 
 		Book book = books.migration();
 

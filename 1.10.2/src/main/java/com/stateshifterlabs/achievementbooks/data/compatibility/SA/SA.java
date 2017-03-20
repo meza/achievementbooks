@@ -14,7 +14,6 @@ import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.DimensionManager;
 
 import java.io.BufferedWriter;
@@ -36,8 +35,8 @@ public class SA {
 	private final String configDir;
 	private Gson gson;
 
-	public SA() {
-		configDir = Minecraft.getMinecraft().mcDataDir.getAbsolutePath()+"/config";
+	public SA(String configDirPath) {
+		configDir = configDirPath + "/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());

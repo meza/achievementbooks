@@ -4,6 +4,7 @@ import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -39,7 +40,7 @@ public class ImportCommand extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
-		SA importer = new SA();
+		SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
 		Book newBook = importer.createElementList(importer.parseFormattings());
 
 		importer.saveBook(newBook);
