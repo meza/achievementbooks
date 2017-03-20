@@ -10,7 +10,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -31,6 +30,7 @@ public class MigrationNetworkAgent
 	private File configDir;
 	private int packetId = 10000;
 	private int delay = 160;
+	private int delayServer = 160;
 	private final SA importer;
 
 	public MigrationNetworkAgent(Book targetBook, NetworkAgent networkAgent, File configDir) {
@@ -41,7 +41,7 @@ public class MigrationNetworkAgent
 		this.configDir = configDir;
 		String channelName = String.format("mezamigr");
 		wrapper = new SimpleNetworkWrapper(channelName);
-		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.CLIENT);
+		wrapper.registerMessage(new MigrationClientHandler(storage), MigrationCompletionDetailsMessage.class, packetId++, Side.CLIENT);
 	}
 
 
@@ -57,17 +57,32 @@ public class MigrationNetworkAgent
 	}
 
 	private void sendMigrationCompletedAchievements(EntityPlayerMP player, AchievementData data) {
-		CompletionDetailsMessage completionDetailsMessage = new CompletionDetailsMessage();
+		MigrationCompletionDetailsMessage completionDetailsMessage = new MigrationCompletionDetailsMessage();
 		completionDetailsMessage.withData(data);
 		wrapper.sendTo(completionDetailsMessage, player);
+	}
+
+
+	@SubscribeEvent
+	@SideOnly(Side.SERVER)
+	public void onServerPlayerTick(TickEvent.PlayerTickEvent event) {
+		delayServer--;
+		if(delayServer>1) {
+			return;
+		}
+		delayServer = 160;
+		EntityPlayer player = event.player;
+
+		Item SAbook = (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
+		final InventoryPlayer inventory = player.inventory;
+
+		updatePlayerInventory(event, SAbook, inventory, importer.getUserSave(event.player.getDisplayName(), targetBook));
+
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		if(!storage.hasPlayerData(event.player.getDisplayName())) {
-			return;
-		}
 		delay--;
 		if(delay>1) {
 			return;
@@ -75,18 +90,14 @@ public class MigrationNetworkAgent
 		delay = 160;
 		Item SAbook = (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
 		final InventoryPlayer inventory = event.player.inventory;
+
+		if(!event.player.getEntityWorld().isRemote) {
+			updatePlayerInventory(event, SAbook, inventory, storage.forPlayer(event.player.getDisplayName()));
+		}
+	}
+
+	private void updatePlayerInventory(TickEvent.PlayerTickEvent event, Item SAbook, InventoryPlayer inventory, AchievementData data) {
 		if(inventory.hasItem(SAbook)) {
-
-			SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
-
-			AchievementData data;
-			if(!event.player.getEntityWorld().isRemote) {
-				 data = importer.getUserSave(event.player.getDisplayName(), targetBook);
-			} else {
-				data = storage.forPlayer(event.player.getDisplayName());
-			}
-			networkAgent.sendCompletedAchievements(data);
-			//event.player.addChatMessage(new ChatComponentText("Imported the save data"));
 
 			Item theBook = (Item) Item.itemRegistry.getObject(MODID+":"+targetBook.itemName());
 
@@ -97,8 +108,8 @@ public class MigrationNetworkAgent
 				if (stack == null) {
 					continue;
 				}
-				System.out.println(String.format("Inventory %d, stack name %s", i, stack.getUnlocalizedName()));
 				if (stack.getItem() == SAbook) {
+					inventory.setInventorySlotContents(i, (ItemStack) null);
 					ItemStack newBook = new ItemStack(theBook, 1);
 					inventory.setInventorySlotContents(i, newBook);
 				}
