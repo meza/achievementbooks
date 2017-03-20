@@ -306,7 +306,7 @@ An extra information for the player, if the achievement is targeting a specific 
 
 ```
 
-## Migrating an existing server from SA
+## Migrating an existing server from SA (1.7.10, 1.9.4, 1.10.2)
 
 Should you wish to migrate an already existing server to Achievement Books, there are tools for you.
 The main problems are that you need to get rid of the old book, and give your players the new one with their
