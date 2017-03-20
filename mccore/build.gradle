@@ -34,11 +34,10 @@ minecraft {
 }
 
 group= "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks"
+archivesBaseName = "achievementbooks-mccore"
 
 dependencies {
     compile project(":core")
 }
 
-group = "com.stateshifterlabs.achievementbooks"
-archivesBaseName = "achievementbooks-mc-core"
+idea { module { inheritOutputDirs = true } }

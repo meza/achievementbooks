@@ -18,6 +18,7 @@ import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.facade.MCSound;
 import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -89,6 +90,10 @@ public class AchievementBooksMod {
 
 		ICommandManager server = event.getServer().getCommandManager();
 		((ServerCommandManager) server).registerCommand(mainCommand);
+
+		if (books.migration() != null) {
+			FMLCommonHandler.instance().bus().register(this);
+		}
 	}
 
 
