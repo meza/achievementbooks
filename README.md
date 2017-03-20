@@ -306,10 +306,51 @@ An extra information for the player, if the achievement is targeting a specific 
 
 ```
 
+## Migrating an existing server from SA
 
+Should you wish to migrate an already existing server to Achievement Books, there are tools for you.
+The main problems are that you need to get rid of the old book, and give your players the new one with their
+progress intact.
+Achievement Books can help you with this, but you need to follow these steps very carefully.
 
->#### Acknowledgment
->This mod has been inspired by the Simple Achievements mod which has aided my journey into Minecraft, with Sky Factory.
->Upon building my own modpack, I needed a bit more flexibility, hence a "simple" book wasn't enough.
+First, you need to import the old achievement book configuration if you haven't already.
 
+You do that with
 
+```/ab import```
+
+**To run a successful migration, don't change the achievement texts just yet!!!**
+
+Also make sure you have both Achievement Books _and_ Simple Achievements mods loaded while you migrate.
+
+Once your new book is in a format you're happy with, it's time to give it to your players.
+
+You need to add:
+```"migrationTarget":true``` to the book config, like so:
+
+For example our smallest example would be:
+```JSON
+{
+	"itemName": "book_smallest",
+	"bookName": "The smallest book",
+	"migrationTarget":true,
+	"pages": []
+}
+```
+
+This will indicate to the mod, that this is the book you wish to migrate your players to.
+
+> Make sure to remove this after a certain period has passed
+
+Once this is in place, restart the server and issue a modpack update to your players with the new configuration.
+
+From this point, whenever any of your players have the old achievement book in their inventory, it will get replaced
+by the book you've just created, and all their achievement progress will be brought in as well.
+
+That's it.
+
+Once you think everyone has already got on at least once and got the book, you can remove SA from the mod list.
+
+> ###Important
+> **The migration compares achievement text between the old book and the new one. Don't change their texts until
+the migration is over**

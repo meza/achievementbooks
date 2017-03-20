@@ -1,3 +1,5 @@
+- Added tests around core functionality (save/load/parse/import)
+- Abstracted core functionality away
 - Added 1.11.2 support
 - Added a migration method for SA
 - Added support for importing already existing SA saves
