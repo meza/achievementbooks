@@ -1,3 +1,4 @@
+- Removed texture reload after /ab reload for now.
 - Added tests around core functionality (save/load/parse/import)
 - Abstracted core functionality away
 - Added 1.11.2 support

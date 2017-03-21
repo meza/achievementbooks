@@ -19,11 +19,11 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void refreshResources() {
-		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				Minecraft.getMinecraft().refreshResources();
-			}
-		});
+//		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+//			@Override
+//			public void run() {
+//				Minecraft.getMinecraft().refreshResources();
+//			}
+//		});
 	}
 }
