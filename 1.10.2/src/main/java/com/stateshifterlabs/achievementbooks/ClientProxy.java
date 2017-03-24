@@ -18,6 +18,11 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomModelResourceLocation(item, meta, resourceLocation);
 	}
 
+	@Override
+	public String getDataDir() {
+		return Minecraft.getMinecraft().mcDataDir.getAbsolutePath();
+	}
+
 	public void refreshResources() {
 //		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
 //			@Override

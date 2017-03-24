@@ -18,6 +18,7 @@ import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -32,6 +33,9 @@ import java.io.File;
 public class AchievementBooksMod {
 	public static final String MODID = "achievementbooks";
 	public static final String VERSION = "@VERSION@";
+
+	@SidedProxy(serverSide = "com.stateshifterlabs.achievementbooks.CommonProxy", clientSide = "com.stateshifterlabs.achievementbooks.ClientProxy")
+	public static CommonProxy proxy;
 
 	private final AchievementStorage storage = new AchievementStorage();
 	private Books books = new Books();
@@ -70,8 +74,8 @@ public class AchievementBooksMod {
 
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
-		mainCommand.add(new ImportCommand(loader, networkAgent));
-		mainCommand.add(new ImportUserSaveCommand(books, networkAgent));
+		mainCommand.add(new ImportCommand(loader, networkAgent, proxy.getDataDir()));
+		mainCommand.add(new ImportUserSaveCommand(books, networkAgent, proxy.getDataDir()));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

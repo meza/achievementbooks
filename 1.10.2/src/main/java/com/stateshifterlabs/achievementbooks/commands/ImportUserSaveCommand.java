@@ -16,10 +16,12 @@ public class ImportUserSaveCommand extends CommandBase {
 
 	private Books books;
 	private NetworkAgent networkAgent;
+	private String dataDir;
 
-	public ImportUserSaveCommand(Books books, NetworkAgent networkAgent) {
+	public ImportUserSaveCommand(Books books, NetworkAgent networkAgent, String dataDir) {
 		this.books = books;
 		this.networkAgent = networkAgent;
+		this.dataDir = dataDir;
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class ImportUserSaveCommand extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
-		SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
+		SA importer = new SA(dataDir);
 
 		Book book = books.migration();
 

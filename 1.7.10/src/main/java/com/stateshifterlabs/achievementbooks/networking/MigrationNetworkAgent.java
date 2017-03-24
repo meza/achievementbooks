@@ -62,6 +62,10 @@ public class MigrationNetworkAgent
 		wrapper.sendTo(completionDetailsMessage, player);
 	}
 
+	public Item getBook() {
+		return (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
+	}
+
 
 	@SubscribeEvent
 	@SideOnly(Side.SERVER)
@@ -73,7 +77,7 @@ public class MigrationNetworkAgent
 		delayServer = 160;
 		EntityPlayer player = event.player;
 
-		Item SAbook = (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
+		Item SAbook = getBook();
 		final InventoryPlayer inventory = player.inventory;
 
 		updatePlayerInventory(event, SAbook, inventory, importer.getUserSave(event.player.getDisplayName(), targetBook));
@@ -88,7 +92,7 @@ public class MigrationNetworkAgent
 			return;
 		}
 		delay = 160;
-		Item SAbook = (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
+		Item SAbook = getBook();
 		final InventoryPlayer inventory = event.player.inventory;
 
 		if(!event.player.getEntityWorld().isRemote) {
@@ -111,8 +115,8 @@ public class MigrationNetworkAgent
 				if (stack.getItem() == SAbook) {
 					inventory.setInventorySlotContents(i, (ItemStack) null);
 					if(!event.player.worldObj.isRemote) {
-						AchievementData bookData = importer.getUserSave(event.player.getDisplayName(), targetBook);
-						networkAgent.sendCompletedAchievements(bookData);
+//						AchievementData bookData = importer.getUserSave(event.player.getDisplayName(), targetBook);
+						networkAgent.sendAchievementsTo((EntityPlayerMP) event.player);
 					}
 					ItemStack newBook = new ItemStack(theBook, 1);
 					inventory.setInventorySlotContents(i, newBook);

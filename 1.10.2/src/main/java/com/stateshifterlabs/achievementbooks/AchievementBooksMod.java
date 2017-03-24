@@ -72,8 +72,8 @@ public class AchievementBooksMod {
 
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
-		mainCommand.add(new ImportCommand(loader, networkAgent));
-		mainCommand.add(new ImportUserSaveCommand(books, networkAgent));
+		mainCommand.add(new ImportCommand(loader, networkAgent, proxy.getDataDir()));
+		mainCommand.add(new ImportUserSaveCommand(books, networkAgent, proxy.getDataDir()));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

@@ -5,7 +5,6 @@ import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
@@ -18,11 +17,14 @@ public class ImportCommand extends CommandBase {
 
 	private Loader loader;
 	private NetworkAgent networkAgent;
+	private String dataDir;
 
-	public ImportCommand(Loader loader, NetworkAgent networkAgent) {
+
+	public ImportCommand(Loader loader, NetworkAgent networkAgent, String dataDir) {
 
 		this.loader = loader;
 		this.networkAgent = networkAgent;
+		this.dataDir = dataDir;
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class ImportCommand extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) {
 
 		if(!sender.getEntityWorld().isRemote) {
-			SA importer = new SA(Minecraft.getMinecraft().mcDataDir.getAbsolutePath());
+			SA importer = new SA(dataDir);
 			Book newBook = importer.createElementList(importer.parseFormattings());
 
 			importer.saveBook(newBook);
@@ -55,6 +57,9 @@ public class ImportCommand extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(
 					"New book file created in config/achievementbooks/imported_achievement_book.json"));
 			sender.addChatMessage(new ChatComponentText("It's not going to be perfect, but gets the most of the job done."));
+		} else {
+			sender.addChatMessage(new ChatComponentText("Importing currently only works in Single Player mode."));
+			sender.addChatMessage(new ChatComponentText("Change to SP and create your book there"));
 		}
 
 	}
