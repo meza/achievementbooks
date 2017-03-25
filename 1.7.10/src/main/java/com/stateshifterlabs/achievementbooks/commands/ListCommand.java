@@ -54,7 +54,7 @@ public class ListCommand extends CommandBase {
 
 		for(Book book: books) {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
-			txt = UTF8Utils.utf8String(book.name()," ", EnumChatFormatting.BLUE.toString(), "(", String.valueOf(Item.getIdFromItem(item)), ")");
+			txt = UTF8Utils.utf8String(" - ", book.name()," ", EnumChatFormatting.BLUE.toString(), "(", String.valueOf(Item.getIdFromItem(item)), ")");
 			if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
 				txt = String.format(" - %s (%d)", book.name(), Item.getIdFromItem(item));
 			}
