@@ -38,7 +38,7 @@ public class BookSerializerTest {
 		for (int i = 0; i < numberOfTestIterations; i++) {
 
 			RandomTestData<JsonElement, Book> testData = generator.generate(BookGenerator.NO_STATUS);
-			BookSerializer serializer = new BookSerializer();
+			BookSerializer serializer = new BookSerializer(null);
 
 			JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
 			Book actual = serializer.deserialize(actualJson, typeOfT, deserializationContext);
@@ -57,7 +57,7 @@ public class BookSerializerTest {
 
 			RandomTestData<JsonElement, Book> testData = generator.generate();
 
-			BookSerializer serializer = new BookSerializer();
+			BookSerializer serializer = new BookSerializer(null);
 			Book actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
 			assertEquals("Book deserializer is broken", testData.objectFormat(), actual);

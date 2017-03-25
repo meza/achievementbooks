@@ -95,7 +95,7 @@ public class Loader {
 
 
 				GsonBuilder gsonBuilder = new GsonBuilder();
-				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer());
+				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer(conf));
 				Gson gson = gsonBuilder.create();
 
 				Book book = gson.fromJson(new FileReader(conf), Book.class);

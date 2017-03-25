@@ -40,7 +40,7 @@ public class SA {
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
-		builder.registerTypeAdapter(Book.class, new BookSerializer());
+		builder.registerTypeAdapter(Book.class, new BookSerializer(null));
 		gson = builder.create();
 	}
 
