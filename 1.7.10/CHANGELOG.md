@@ -1,3 +1,4 @@
+- Added pretty error messages everywhere
 - Added a complete migration support for SA
 - Fixed crash on opening the book in b69
 - Fixed a weird crash and restructured source loading 
