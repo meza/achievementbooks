@@ -7,6 +7,7 @@ import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -33,6 +34,19 @@ public class ImportCommand extends CommandBase {
 	}
 
 	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+		if (sender.getCommandSenderName().equalsIgnoreCase("server")) {
+			return false;
+		}
+
+		if (sender.getEntityWorld().isRemote) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "import";
 	}
@@ -40,27 +54,31 @@ public class ImportCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 
-		if(!sender.getEntityWorld().isRemote) {
-			SA importer = new SA(dataDir);
-			Book newBook = importer.createElementList(importer.parseFormattings());
-
-			importer.saveBook(newBook);
-			loader.init();
-
-			importer.parseSaveData(newBook, networkAgent);
-
-			Item item = GameRegistry.findItem(MODID, newBook.itemName());
-			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
-					.addItemStackToInventory(new ItemStack(item, 1));
-
-			sender.addChatMessage(new ChatComponentText("Finished importing the achievement book."));
-			sender.addChatMessage(new ChatComponentText(
-					"New book file created in config/achievementbooks/imported_achievement_book.json"));
-			sender.addChatMessage(new ChatComponentText("It's not going to be perfect, but gets the most of the job done."));
-		} else {
-			sender.addChatMessage(new ChatComponentText("Importing currently only works in Single Player mode."));
-			sender.addChatMessage(new ChatComponentText("Change to SP and create your book there"));
+		if (!((EntityPlayerMP) sender).mcServer.isSinglePlayer() || sender.getEntityWorld().isRemote || sender.getCommandSenderName().equalsIgnoreCase("server")) {
+			sender.addChatMessage(
+					new ChatComponentText("Please run the import process in a single player world to avoid problems" +
+										  "."));
+			sender.addChatMessage(new ChatComponentText("When you have the new book config, add it to the modpack"));
+			return;
 		}
+
+		SA importer = new SA(dataDir);
+		Book newBook = importer.createElementList(importer.parseFormattings());
+
+		importer.saveBook(newBook);
+		loader.init();
+
+		importer.parseSaveData(newBook, networkAgent);
+
+		Item item = GameRegistry.findItem(MODID, newBook.itemName());
+		sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
+				.addItemStackToInventory(new ItemStack(item, 1));
+
+		sender.addChatMessage(new ChatComponentText("Finished importing the achievement book."));
+		sender.addChatMessage(new ChatComponentText(
+				"New book file created in config/achievementbooks/imported_achievement_book.json"));
+		sender.addChatMessage(
+				new ChatComponentText("It's not going to be perfect, but gets the most of the job done."));
 
 	}
 }

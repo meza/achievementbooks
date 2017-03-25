@@ -2,6 +2,7 @@ package com.stateshifterlabs.achievementbooks.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
@@ -93,14 +94,16 @@ public class Loader {
 
 		for (File conf : files) {
 			try {
-
-
 				GsonBuilder gsonBuilder = new GsonBuilder();
-				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer());
+				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer(conf));
 				Gson gson = gsonBuilder.create();
+				try {
+					Book book = gson.fromJson(new FileReader(conf), Book.class);
+					books.addBook(book);
+				} catch (JsonSyntaxException e) {
+					throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
+				}
 
-				Book book = gson.fromJson(new FileReader(conf), Book.class);
-				books.addBook(book);
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

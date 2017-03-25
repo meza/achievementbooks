@@ -40,7 +40,7 @@ public class SA {
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
-		builder.registerTypeAdapter(Book.class, new BookSerializer());
+		builder.registerTypeAdapter(Book.class, new BookSerializer(null));
 		gson = builder.create();
 	}
 
@@ -147,20 +147,25 @@ public class SA {
 		String worldDir = DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
 		String saveFile = worldDir + saveData;
 
-		try {
-			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+		File save = new File(saveFile);
 
-			for(String player: result.players()) {
-				AchievementData playerData = result.forPlayer(player);
-				if (networkAgent != null) {
-					networkAgent.sendCompletedAchievements(playerData);;
+		if(save.exists()) {
+			try {
+				AchievementStorage result = gson.fromJson(new FileReader(save), AchievementStorage.class);
+
+				for (String player : result.players()) {
+					AchievementData playerData = result.forPlayer(player);
+					if (networkAgent != null) {
+						networkAgent.sendCompletedAchievements(playerData);
+						;
+					}
 				}
+
+				return result;
+
+			} catch (FileNotFoundException e) {
+
 			}
-
-			return result;
-
-		} catch (FileNotFoundException e) {
-
 		}
 
 		return new AchievementStorage();

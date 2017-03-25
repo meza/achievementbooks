@@ -7,6 +7,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -31,7 +32,10 @@ public class GiveCommand extends CommandBase {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-
+		if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
+			sender.addChatMessage(new ChatComponentText("Please use /give to give a book to a specific player"));
+			return;
+		}
 		for(Book book: books) {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
 			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory.addItemStackToInventory(new ItemStack(item, 1));

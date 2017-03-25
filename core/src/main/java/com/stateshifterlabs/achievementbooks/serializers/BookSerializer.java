@@ -5,17 +5,24 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.stateshifterlabs.achievementbooks.data.Book;
+import com.stateshifterlabs.achievementbooks.data.JsonParseError;
 import com.stateshifterlabs.achievementbooks.data.Language;
 import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 
+import java.io.File;
 import java.lang.reflect.Type;
 
 public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Book> {
+	private File conf;
+
+	public BookSerializer(File conf) {
+		this.conf = conf;
+	}
+
 	@Override
 	public JsonElement serialize(
 			Book src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context
@@ -84,13 +91,21 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 	@Override
 	public Book deserialize(
 			JsonElement json, Type typeOfT, JsonDeserializationContext context
-	) throws JsonParseException {
+	) throws RuntimeException {
 
 		Book book = new Book();
 
 		JsonObject bookObject = json.getAsJsonObject();
 
+		if(!bookObject.has("bookName")) {
+			throw new JsonParseError("bookName parameter is required, but not set", conf);
+		}
 		book.withName(bookObject.get("bookName").getAsString());
+
+		if(!bookObject.has("itemName")) {
+			throw new JsonParseError("itemName parameter is required, but not set", conf);
+		}
+
 		book.withItemName(bookObject.get("itemName").getAsString());
 		if(bookObject.has("color")) {
 			book.withLanguage(Language.US);
@@ -110,6 +125,10 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 			}
 		}
 
+		if(!bookObject.has("pages")) {
+			throw new JsonParseError("pages parameter is required, but not set", conf);
+		}
+
 		final JsonArray bookJson = bookObject.getAsJsonArray("pages");
 
 		for (int i = 0; i<bookJson.size(); i++) {
@@ -118,7 +137,9 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 
 			for(int j = 0; j<pageElements.size(); j++) {
 				JsonObject pageJson = pageElements.get(j).getAsJsonObject();
-
+				if(!pageJson.has("id")) {
+					continue;
+				}
 				PageElement element = new PageElement(pageJson.get("id").getAsInt());
 
 				if(pageJson.has("achievement")) {

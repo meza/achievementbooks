@@ -49,6 +49,10 @@ public class ListCommand extends CommandBase {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
 
 			txt = String.format(" - §r%s§r §9(%d)§r", book.name(), Item.getIdFromItem(item));
+			if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
+				txt = String.format(" - %s (%d)", book.name(), Item.getIdFromItem(item));
+			}
+
 			sender.addChatMessage(new ChatComponentText(txt));
 
 		}

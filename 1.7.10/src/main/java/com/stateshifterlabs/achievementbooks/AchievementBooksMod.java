@@ -57,7 +57,7 @@ public class AchievementBooksMod {
 
 		final Book migrationTargetBook = books.migration();
 		if (migrationTargetBook != null) {
-			MigrationNetworkAgent migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir);
+			MigrationNetworkAgent migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir, storage);
 			FMLCommonHandler.instance().bus().register(migrationNetworkAgent);
 		}
 

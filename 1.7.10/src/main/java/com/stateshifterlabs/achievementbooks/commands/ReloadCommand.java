@@ -1,5 +1,7 @@
 package com.stateshifterlabs.achievementbooks.commands;
 
+import com.stateshifterlabs.achievementbooks.data.DuplicatePageElementIdException;
+import com.stateshifterlabs.achievementbooks.data.JsonParseError;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -26,8 +28,14 @@ public class ReloadCommand extends CommandBase {
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] p_71515_2_) {
-		loader.init();
-		String message = "Achievement Books Data reloaded. Textures may not appear correctly until a full game restart";
-		sender.addChatMessage(new ChatComponentText(message));
+		try {
+			loader.init();
+			String message = "Achievement Books Data reloaded. Textures may not appear correctly until a full game restart";
+			sender.addChatMessage(new ChatComponentText(message));
+		} catch (DuplicatePageElementIdException e) {
+			sender.addChatMessage(new ChatComponentText(e.simpleMessage()));
+		} catch (JsonParseError e) {
+			sender.addChatMessage(new ChatComponentText(e.simpleMessage()));
+		}
 	}
 }
