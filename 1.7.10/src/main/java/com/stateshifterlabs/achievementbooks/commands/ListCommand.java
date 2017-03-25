@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.commands;
 
+import com.stateshifterlabs.achievementbooks.UTF8Utils;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -58,7 +59,7 @@ public class ListCommand extends CommandBase {
 				txt = String.format(" - %s (%d)", book.name(), Item.getIdFromItem(item));
 			}
 
-			sender.addChatMessage(new ChatComponentText(txt));
+			sender.addChatMessage(new ChatComponentText(UTF8Utils.utf8String(txt)));
 
 		}
 
