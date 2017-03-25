@@ -2,7 +2,6 @@ package com.stateshifterlabs.achievementbooks.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,20 +30,23 @@ public class MainCommand extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
+		String txt = "";
 		for (int i = 0; i < subCommands.size(); i++) {
-			String txt = "";
-
 			CommandBase c = subCommands.get(i);
-			txt += "/ " + getCommandName() + " " + c.getCommandName();
 
-			if (i < subCommands.size() - 1) {
-				txt += ", ";
+			if (c.canCommandSenderUseCommand(sender)) {
+				txt += c.getCommandName();
 			}
 
-			sender.addChatMessage(new ChatComponentTranslation(txt));
+			if (i < subCommands.size() - 1) {
+				txt += "|";
+			}
+		}
+		if(subCommands.size()==0) {
+			return "/" + getCommandName();
 		}
 
-		return "</" + getCommandName() + ">";
+		return "/" + getCommandName() + " <" + txt + ">";
 	}
 
 	@Override

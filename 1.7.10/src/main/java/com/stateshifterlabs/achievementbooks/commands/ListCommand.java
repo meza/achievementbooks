@@ -30,6 +30,11 @@ public class ListCommand extends CommandBase {
 	}
 
 	@Override
+	public int getRequiredPermissionLevel() {
+		return 1;
+	}
+
+	@Override
 	public String getCommandName() {
 		return "list";
 	}

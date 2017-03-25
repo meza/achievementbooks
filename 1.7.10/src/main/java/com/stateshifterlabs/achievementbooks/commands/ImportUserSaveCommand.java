@@ -23,6 +23,11 @@ public class ImportUserSaveCommand extends CommandBase {
 	}
 
 	@Override
+	public int getRequiredPermissionLevel() {
+		return 4;
+	}
+
+	@Override
 	public String getCommandName() {
 		return "import_user";
 	}

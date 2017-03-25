@@ -17,6 +17,11 @@ public class ReloadCommand extends CommandBase {
 	}
 
 	@Override
+	public int getRequiredPermissionLevel() {
+		return 1;
+	}
+
+	@Override
 	public String getCommandName() {
 		return "reload";
 	}
