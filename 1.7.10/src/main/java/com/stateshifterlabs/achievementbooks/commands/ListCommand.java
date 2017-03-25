@@ -8,6 +8,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +54,12 @@ public class ListCommand extends CommandBase {
 
 		for(Book book: books) {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
-
-			txt = String.format(" - §r%s§r §9(%d)§r", book.name(), Item.getIdFromItem(item));
+			txt = UTF8Utils.utf8String(book.name()," ", EnumChatFormatting.BLUE.toString(), "(", String.valueOf(Item.getIdFromItem(item)), ")");
 			if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
 				txt = String.format(" - %s (%d)", book.name(), Item.getIdFromItem(item));
 			}
 
-			sender.addChatMessage(new ChatComponentText(UTF8Utils.utf8String(txt)));
-
+			sender.addChatMessage(new ChatComponentText(txt));
 		}
-
 	}
 }
