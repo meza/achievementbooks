@@ -43,6 +43,14 @@ minecraft {
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
+runClient {
+    workingDir = "eclipse"
+}
+
+runServer {
+    workingDir = "eclipse-server"
+}
+
 
 processResources {
     inputs.property "version", project.version

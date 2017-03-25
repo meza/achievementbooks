@@ -39,6 +39,15 @@ minecraft {
     replaceIn "AchievementBooksMod.java"
 }
 
+runClient {
+    workingDir = "eclipse"
+}
+
+runServer {
+    workingDir = "eclipse-server"
+}
+
+
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 
