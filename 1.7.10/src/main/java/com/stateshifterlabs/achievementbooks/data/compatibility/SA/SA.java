@@ -119,6 +119,10 @@ public class SA {
 
 			scan.close();
 
+			if(page.elements().length > 0) {
+				book.addPage(page);
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
