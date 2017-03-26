@@ -16,7 +16,8 @@ public enum Colour {
 	YELLOW("yellow"),
 	GREEN("green"),
 	OLIVE("olive"),
-	PEACH("peach");
+	PEACH("peach"),
+	DEFAULT(BLACK.getText());
 
 	private String representation;
 
@@ -30,7 +31,7 @@ public enum Colour {
 				return colour;
 			}
 		}
-		return BLACK;
+		return DEFAULT;
 	}
 
 	public String getText() {
