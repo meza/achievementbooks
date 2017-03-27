@@ -97,7 +97,7 @@ public class SA {
 						Map<String, String> x = achievementText(text);
 
 						element.withAchievement(x.get("achievement"));
-						if(x.containsKey("mod")) {
+						if (x.containsKey("mod")) {
 							element.withMod(x.get("mod"));
 						}
 					} else if (formatting.isHeader()) {
@@ -119,7 +119,7 @@ public class SA {
 
 			scan.close();
 
-			if(page.elements().length > 0) {
+			if (page.elements().length > 0) {
 				book.addPage(page);
 			}
 
@@ -153,7 +153,7 @@ public class SA {
 
 		File save = new File(saveFile);
 
-		if(save.exists()) {
+		if (save.exists()) {
 			try {
 				AchievementStorage result = gson.fromJson(new FileReader(save), AchievementStorage.class);
 
@@ -187,12 +187,11 @@ public class SA {
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(firstPass);
 		Map<String, String> retval = new HashMap<String, String>();
-		if(m.find()) {
+		if (m.find()) {
 			retval.put("achievement", m.group(1));
 			retval.put("mod", m.group(2));
 			return retval;
-		}
-		else {
+		} else {
 			retval.put("achievement", firstPass);
 			return retval;
 		}

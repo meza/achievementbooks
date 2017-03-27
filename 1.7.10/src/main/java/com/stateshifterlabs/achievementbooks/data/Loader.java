@@ -104,7 +104,6 @@ public class Loader {
 					throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
 				}
 
-
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

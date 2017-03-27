@@ -85,7 +85,6 @@ public class GameSave {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			//AchievementBooksMod.logger.severe("Could not save achievements file!");
 		}
 	}
 
