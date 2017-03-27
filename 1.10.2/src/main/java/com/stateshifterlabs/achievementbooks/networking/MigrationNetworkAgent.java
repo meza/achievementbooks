@@ -1,6 +1,5 @@
 package com.stateshifterlabs.achievementbooks.networking;
 
-
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -24,8 +23,8 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 public class MigrationNetworkAgent
 {
 
+	private final AchievementStorage storage;
 	private SimpleNetworkWrapper wrapper;
-	private AchievementStorage storage;
 	private Book targetBook;
 	private NetworkAgent networkAgent;
 	private File configDir;
@@ -34,15 +33,15 @@ public class MigrationNetworkAgent
 	private int delayServer = 160;
 	private final SA importer;
 
-	public MigrationNetworkAgent(Book targetBook, NetworkAgent networkAgent, File configDir) {
+	public MigrationNetworkAgent(Book targetBook, NetworkAgent networkAgent, File configDir, AchievementStorage mainStorage) {
 		importer = new SA(configDir.getAbsolutePath());
-		this.storage = new AchievementStorage();
+		this.storage = mainStorage;
 		this.targetBook = targetBook;
 		this.networkAgent = networkAgent;
 		this.configDir = configDir;
 		String channelName = String.format("mezamigr");
 		wrapper = new SimpleNetworkWrapper(channelName);
-		wrapper.registerMessage(new MigrationClientHandler(storage), MigrationCompletionDetailsMessage.class, packetId++, Side.CLIENT);
+		wrapper.registerMessage(new MigrationClientHandler(mainStorage), MigrationCompletionDetailsMessage.class, packetId++, Side.CLIENT);
 	}
 
 
@@ -52,6 +51,7 @@ public class MigrationNetworkAgent
 		EntityPlayer player = event.player;
 		if (player != null && !player.worldObj.isRemote) {
 			AchievementData data = importer.getUserSave(player.getName(), targetBook);
+			storage.append(data);
 			sendMigrationCompletedAchievements((EntityPlayerMP) player, data);
 		}
 
@@ -79,8 +79,10 @@ public class MigrationNetworkAgent
 
 		Item SAbook = getBook();
 		final InventoryPlayer inventory = player.inventory;
+		final AchievementData userSave = importer.getUserSave(event.player.getName(), targetBook);
+		storage.append(userSave);
 
-		updatePlayerInventory(event, SAbook, inventory, importer.getUserSave(event.player.getName(), targetBook));
+		updatePlayerInventory(event, SAbook, inventory);
 
 	}
 
@@ -96,12 +98,13 @@ public class MigrationNetworkAgent
 		final InventoryPlayer inventory = event.player.inventory;
 
 		if(!event.player.getEntityWorld().isRemote) {
-			updatePlayerInventory(event, SAbook, inventory, storage.forPlayer(event.player.getName()));
+			final AchievementData userSave = importer.getUserSave(event.player.getName(), targetBook);
+			networkAgent.sendCompletedAchievements(userSave);
+			updatePlayerInventory(event, SAbook, inventory);
 		}
 	}
 
-	private void updatePlayerInventory(TickEvent.PlayerTickEvent event, Item SAbook, InventoryPlayer inventory, AchievementData data) {
-
+	private void updatePlayerInventory(TickEvent.PlayerTickEvent event, Item SAbook, InventoryPlayer inventory) {
 		if(inventory.hasItemStack(new ItemStack(SAbook, 1))) {
 
 			Item theBook = (Item) Item.getByNameOrId(MODID+":"+targetBook.itemName());
@@ -115,18 +118,13 @@ public class MigrationNetworkAgent
 				}
 				if (stack.getItem() == SAbook) {
 					inventory.setInventorySlotContents(i, (ItemStack) null);
-
 					if(!event.player.worldObj.isRemote) {
-//						AchievementData bookData = importer.getUserSave(event.player.getName(), targetBook);
 						networkAgent.sendAchievementsTo((EntityPlayerMP) event.player);
 					}
-
 					ItemStack newBook = new ItemStack(theBook, 1);
 					inventory.setInventorySlotContents(i, newBook);
 				}
 			}
-
-
 		}
 	}
 

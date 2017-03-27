@@ -67,7 +67,6 @@ public class MigrationNetworkAgent
 		return (Item) Item.itemRegistry.getObject("SimpleAchievements:sa.achievementBook");
 	}
 
-
 	@SubscribeEvent
 	@SideOnly(Side.SERVER)
 	public void onServerPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -126,8 +125,6 @@ public class MigrationNetworkAgent
 					inventory.setInventorySlotContents(i, newBook);
 				}
 			}
-
-
 		}
 	}
 
