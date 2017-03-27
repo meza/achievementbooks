@@ -15,20 +15,21 @@ public class MainCommand extends CommandBase {
 
 	private List<CommandBase> subCommands = new ArrayList<CommandBase>();
 
-	public MainCommand() {
-
+	@Override
+	public int getRequiredPermissionLevel() {
+		return Main.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "achievementbooks";
+		return Main.NAME;
 	}
 
 	@Override
 	public List<String> getCommandAliases() {
 		List<String> aliases = new ArrayList<String>();
 
-		aliases.add("ab");
+		aliases.add(Main.ALIAS1);
 
 		return aliases;
 	}
@@ -53,7 +54,9 @@ public class MainCommand extends CommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] strings, @Nullable BlockPos pos) {
+	public List<String> getTabCompletionOptions(
+			MinecraftServer server, ICommandSender sender, String[] strings, @Nullable BlockPos pos
+	) {
 		List<String> tabOptions = new ArrayList<String>();
 
 		if (strings.length == 1) {

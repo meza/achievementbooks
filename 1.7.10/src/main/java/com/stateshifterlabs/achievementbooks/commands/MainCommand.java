@@ -10,20 +10,21 @@ public class MainCommand extends CommandBase {
 
 	private List<CommandBase> subCommands = new ArrayList<CommandBase>();
 
-	public MainCommand() {
-
+	@Override
+	public int getRequiredPermissionLevel() {
+		return Main.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "achievementbooks";
+		return Main.NAME;
 	}
 
 	@Override
 	public List<String> getCommandAliases() {
 		List<String> aliases = new ArrayList<String>();
 
-		aliases.add("ab");
+		aliases.add(Main.ALIAS1);
 
 		return aliases;
 	}
@@ -42,7 +43,7 @@ public class MainCommand extends CommandBase {
 				txt += "|";
 			}
 		}
-		if(subCommands.size()==0) {
+		if (subCommands.size() == 0) {
 			return "/" + getCommandName();
 		}
 
@@ -71,7 +72,6 @@ public class MainCommand extends CommandBase {
 			}
 		}
 	}
-
 
 	public void add(CommandBase command) {
 		subCommands.add(command);
