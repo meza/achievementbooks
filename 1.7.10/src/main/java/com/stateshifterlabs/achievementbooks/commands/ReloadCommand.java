@@ -6,6 +6,7 @@ import com.stateshifterlabs.achievementbooks.data.Loader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 
 public class ReloadCommand extends CommandBase {
 
@@ -18,25 +19,24 @@ public class ReloadCommand extends CommandBase {
 
 	@Override
 	public int getRequiredPermissionLevel() {
-		return 1;
+		return Reload.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "reload";
+		return Reload.NAME;
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "reload //Reloads all books in the conifg";
+		return Reload.USAGE;
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] p_71515_2_) {
 		try {
 			loader.init();
-			String message = "Achievement Books Data reloaded. Textures may not appear correctly until a full game restart";
-			sender.addChatMessage(new ChatComponentText(message));
+			sender.addChatMessage(new ChatComponentTranslation("ab.command.reload.success"));
 		} catch (DuplicatePageElementIdException e) {
 			sender.addChatMessage(new ChatComponentText(e.simpleMessage()));
 		} catch (JsonParseError e) {

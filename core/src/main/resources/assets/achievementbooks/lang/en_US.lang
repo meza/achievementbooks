@@ -6,3 +6,5 @@ ab.command.import.error.multiplayer.error=Please run the import process in a sin
 ab.command.import.error.multiplayer.advice=When you have the new book config, add it to the modpack
 
 ab.command.list.title=Current Achievement Books
+
+ab.command.reload.success=Achievement Books Data reloaded. Textures may not appear correctly until a full game restart
