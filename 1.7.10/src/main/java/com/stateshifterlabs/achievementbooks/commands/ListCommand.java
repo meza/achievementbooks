@@ -8,6 +8,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
@@ -25,37 +26,38 @@ public class ListCommand extends CommandBase {
 	}
 
 	@Override
+	public int getRequiredPermissionLevel() {
+		return com.stateshifterlabs.achievementbooks.commands.List.PERMISSION;
+	}
+
+	@Override
 	public List<String> getCommandAliases() {
 		List<String> aliases = new ArrayList<String>();
-		aliases.add("ls");
+		aliases.add(com.stateshifterlabs.achievementbooks.commands.List.ALIAS1);
 		return aliases;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 1;
-	}
-
-	@Override
 	public String getCommandName() {
-		return "list";
+		return com.stateshifterlabs.achievementbooks.commands.List.NAME;
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "list";
+		return com.stateshifterlabs.achievementbooks.commands.List.USAGE;
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 
-		String txt = "Current Achievement Books:";
-		sender.addChatMessage(new ChatComponentText(txt));
+		String txt;
+		sender.addChatMessage(new ChatComponentTranslation("ab.command.list.title").appendText(":"));
 
-		for(Book book: books) {
+		for (Book book : books) {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
-			txt = UTF8Utils.utf8String(" - ", book.name()," ", EnumChatFormatting.BLUE.toString(), "(", String.valueOf(Item.getIdFromItem(item)), ")");
-			if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
+			txt = UTF8Utils.utf8String(" - ", book.name(), " ", EnumChatFormatting.BLUE.toString(), "(",
+									   String.valueOf(Item.getIdFromItem(item)), ")");
+			if (sender.getCommandSenderName().equalsIgnoreCase("server")) {
 				txt = String.format(" - %s (%d)", book.name(), Item.getIdFromItem(item));
 			}
 
