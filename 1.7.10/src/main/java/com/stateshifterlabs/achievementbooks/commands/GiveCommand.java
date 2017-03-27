@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.commands;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.Books;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
@@ -14,36 +15,40 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 public class GiveCommand extends CommandBase {
 
 
+	private final LanguageRegistry t;
 	private Books books;
+
 
 	public GiveCommand(Books books) {
 		this.books = books;
+		t = LanguageRegistry.instance();
 	}
 
 	@Override
 	public int getRequiredPermissionLevel() {
-		return 4;
+		return Give.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "give";
+		return Give.NAME;
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "give";
+		return Give.USAGE;
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if(sender.getCommandSenderName().equalsIgnoreCase("server")) {
-			sender.addChatMessage(new ChatComponentText("Please use /give to give a book to a specific player"));
+		if (sender.getCommandSenderName().equalsIgnoreCase("server")) {
+			sender.addChatMessage(new ChatComponentText(t.getStringLocalization("ab.command.give.error.console")));
 			return;
 		}
-		for(Book book: books) {
+		for (Book book : books) {
 			Item item = GameRegistry.findItem(MODID, book.itemName());
-			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory.addItemStackToInventory(new ItemStack(item, 1));
+			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
+					.addItemStackToInventory(new ItemStack(item, 1));
 		}
 
 	}

@@ -5,6 +5,7 @@ import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,6 +17,7 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
 public class ImportCommand extends CommandBase {
 
+	private final LanguageRegistry t;
 	private Loader loader;
 	private NetworkAgent networkAgent;
 	private String dataDir;
@@ -26,16 +28,22 @@ public class ImportCommand extends CommandBase {
 		this.loader = loader;
 		this.networkAgent = networkAgent;
 		this.dataDir = dataDir;
+		t = LanguageRegistry.instance();
 	}
 
 	@Override
 	public int getRequiredPermissionLevel() {
-		return 4;
+		return Import.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "import";
+		return Import.NAME;
+	}
+
+	@Override
+	public String getCommandUsage(ICommandSender sender) {
+		return Import.NAME;
 	}
 
 	@Override
@@ -52,18 +60,11 @@ public class ImportCommand extends CommandBase {
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
-		return "import";
-	}
-
-	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 
 		if (!((EntityPlayerMP) sender).mcServer.isSinglePlayer() || sender.getEntityWorld().isRemote || sender.getCommandSenderName().equalsIgnoreCase("server")) {
-			sender.addChatMessage(
-					new ChatComponentText("Please run the import process in a single player world to avoid problems" +
-										  "."));
-			sender.addChatMessage(new ChatComponentText("When you have the new book config, add it to the modpack"));
+			sender.addChatMessage(new ChatComponentText("ab.command.import.error.multiplayer.error"));
+			sender.addChatMessage(new ChatComponentText("ab.command.import.error.multiplayer.advice"));
 			return;
 		}
 

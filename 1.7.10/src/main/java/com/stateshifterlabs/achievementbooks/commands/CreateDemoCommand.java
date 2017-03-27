@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.commands;
 
 import com.stateshifterlabs.achievementbooks.data.Loader;
+import com.stateshifterlabs.achievementbooks.items.DemoBook;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -20,23 +21,23 @@ public class CreateDemoCommand extends CommandBase {
 
 	@Override
 	public int getRequiredPermissionLevel() {
-		return 4;
+		return Init.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "init";
+		return Init.NAME;
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "init";
+		return Init.USAGE;
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] p_71515_2_) {
 		loader.init(true);
-		Item item = GameRegistry.findItem(MODID, "book_demo");
+		Item item = GameRegistry.findItem(MODID, DemoBook.NAME);
 		sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
 				.addItemStackToInventory(new ItemStack(item, 1));
 
