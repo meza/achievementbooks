@@ -18,7 +18,7 @@ public class Book {
 	private String craftingMaterial = "";
 	private boolean craftable = false;
 	private String itemName = "";
-	private Colour colour = Colour.DEFAULT;
+	private Colour colour = Colour.defaultColour();
 	private Language language = Language.UK;
 	private boolean isMigrationTarget = false;
 

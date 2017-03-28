@@ -50,7 +50,7 @@ public class BookTest {
 		final Book book = new Book();
 		final Colour colour = fairy.baseProducer().randomElement(Colour.class);
 
-		assertEquals("Empty book colour is not the default RED", Colour.RED.getText(), book.colour());
+		assertEquals("Empty book colour is not the default", Colour.defaultColour().getText(), book.colour());
 		book.withColour(colour.getText());
 		assertEquals("Book colour cannot be set", colour.getText(), book.colour());
 
