@@ -1,6 +1,5 @@
 package com.stateshifterlabs.achievementbooks.networking;
 
-import com.stateshifterlabs.achievementbooks.common.Minecraft17Facade;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -22,8 +21,8 @@ public class NetworkAgent
 
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.SERVER);
-		wrapper.registerMessage(new ServerToggleHandler(storage), ToggleAchievementMessage.class, packetId++, Side.SERVER);
-		wrapper.registerMessage(new ClientToggleHandler(storage, new Minecraft17Facade()), ToggleAchievementMessage.class, packetId++, Side.CLIENT);
+		wrapper.registerMessage(new ServerToggleHandler(storage, this), ToggleAchievementMessage.class, packetId++, Side.SERVER);
+//		wrapper.registerMessage(new ClientToggleHandler(storage, new Minecraft17Facade()), ToggleAchievementMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ServerPageTurnHandler(storage), PageTurnMessage.class, packetId++, Side.SERVER);
 	}
 

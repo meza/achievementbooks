@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -62,9 +63,9 @@ public class ImportCommand extends CommandBase {
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 
-		if (!((EntityPlayerMP) sender).mcServer.isSinglePlayer() || sender.getEntityWorld().isRemote || sender.getCommandSenderName().equalsIgnoreCase("server")) {
-			sender.addChatMessage(new ChatComponentText("ab.command.import.error.multiplayer.error"));
-			sender.addChatMessage(new ChatComponentText("ab.command.import.error.multiplayer.advice"));
+		if (sender.getEntityWorld().isRemote || sender.getCommandSenderName().equalsIgnoreCase("server") || !((EntityPlayerMP) sender).mcServer.isSinglePlayer()) {
+			sender.addChatMessage(new ChatComponentTranslation("ab.command.import.error.multiplayer.error"));
+			sender.addChatMessage(new ChatComponentTranslation("ab.command.import.error.multiplayer.advice"));
 			return;
 		}
 

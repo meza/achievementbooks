@@ -47,6 +47,9 @@ runClient {
 
 runServer {
     workingDir = "eclipse-server"
+    args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true"
+    ]
 }
 
 group= "com.stateshifterlabs.achievementbooks"
