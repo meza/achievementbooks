@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.commands;
 
+import com.stateshifterlabs.achievementbooks.data.DemoAlreadyExistsException;
 import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.items.DemoBook;
 import net.minecraft.command.CommandBase;
@@ -9,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -38,9 +40,15 @@ public class CreateDemoCommand extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		loader.init(true);
-		Item item = Item.REGISTRY.getObject(new ResourceLocation(MODID, DemoBook.NAME));
-		sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory.addItemStackToInventory(new ItemStack(item, 1));
+		try {
+			loader.init(true);
+			Item item = Item.REGISTRY.getObject(new ResourceLocation(MODID, DemoBook.NAME));
+			sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory
+					.addItemStackToInventory(new ItemStack(item, 1));
+		} catch (DemoAlreadyExistsException e) {
+			//TODO translate
+			sender.addChatMessage(new TextComponentString(e.getMessage()));
+		}
 	}
 
 }

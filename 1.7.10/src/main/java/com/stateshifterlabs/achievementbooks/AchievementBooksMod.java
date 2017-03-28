@@ -3,7 +3,6 @@ package com.stateshifterlabs.achievementbooks;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ImportCommand;
-import com.stateshifterlabs.achievementbooks.commands.ImportUserSaveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ListCommand;
 import com.stateshifterlabs.achievementbooks.commands.MainCommand;
 import com.stateshifterlabs.achievementbooks.commands.ReloadCommand;
@@ -20,7 +19,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.command.ICommandManager;
@@ -64,18 +62,11 @@ public class AchievementBooksMod {
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-
-	}
-
-	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
 		mainCommand.add(new ImportCommand(loader, networkAgent, proxy.getDataDir()));
-		mainCommand.add(new ImportUserSaveCommand(books, networkAgent, proxy.getDataDir()));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

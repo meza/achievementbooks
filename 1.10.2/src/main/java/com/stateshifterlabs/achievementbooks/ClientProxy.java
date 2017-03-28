@@ -23,12 +23,4 @@ public class ClientProxy extends CommonProxy {
 		return Minecraft.getMinecraft().mcDataDir.getAbsolutePath();
 	}
 
-	public void refreshResources() {
-//		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-//			@Override
-//			public void run() {
-//				Minecraft.getMinecraft().refreshResources();
-//			}
-//		});
-	}
 }

@@ -77,10 +77,7 @@ public class Loader {
 			File file = new File(configDir.getAbsolutePath() + "/demo.json");
 
 			if (file.exists()) {
-				int i = 1;
-				do {
-					file = new File(configDir.getAbsolutePath() + "/demo" + i + ".json");
-				} while (file.exists());
+				throw new DemoAlreadyExistsException();
 			}
 
 			URL url = AchievementBooksMod.class.getResource("/config/demo.json");
@@ -103,6 +100,7 @@ public class Loader {
 				} catch (JsonSyntaxException e) {
 					throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
 				}
+
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

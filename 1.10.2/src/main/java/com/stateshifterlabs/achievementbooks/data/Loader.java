@@ -75,10 +75,7 @@ public class Loader {
 			File file = new File(configDir.getAbsolutePath() + "/demo.json");
 
 			if (file.exists()) {
-				int i = 1;
-				do {
-					file = new File(configDir.getAbsolutePath() + "/demo" + i + ".json");
-				} while (file.exists());
+				throw new DemoAlreadyExistsException();
 			}
 
 			URL url = AchievementBooksMod.class.getResource("/config/demo.json");

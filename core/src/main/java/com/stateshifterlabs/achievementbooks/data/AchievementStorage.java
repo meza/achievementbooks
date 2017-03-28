@@ -28,6 +28,9 @@ public class AchievementStorage {
 	}
 
 	public List<String> players() {
+		if(storage.size() == 0) {
+			return new ArrayList<String>();
+		}
 		return new ArrayList<String>(storage.keySet());
 	}
 

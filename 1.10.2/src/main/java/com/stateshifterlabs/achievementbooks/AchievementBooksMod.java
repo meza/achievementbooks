@@ -3,7 +3,6 @@ package com.stateshifterlabs.achievementbooks;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ImportCommand;
-import com.stateshifterlabs.achievementbooks.commands.ImportUserSaveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ListCommand;
 import com.stateshifterlabs.achievementbooks.commands.MainCommand;
 import com.stateshifterlabs.achievementbooks.commands.ReloadCommand;
@@ -21,7 +20,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
@@ -56,15 +54,9 @@ public class AchievementBooksMod {
 		final Book migrationTargetBook = books.migration();
 		if (migrationTargetBook != null) {
 			MigrationNetworkAgent
-					migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir);
+					migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir, storage);
 			FMLCommonHandler.instance().bus().register(migrationNetworkAgent);
 		}
-	}
-
-	@Mod.EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
-
 	}
 
 	@Mod.EventHandler
@@ -73,7 +65,6 @@ public class AchievementBooksMod {
 		MainCommand mainCommand = new MainCommand();
 		mainCommand.add(new ReloadCommand(loader));
 		mainCommand.add(new ImportCommand(loader, networkAgent, proxy.getDataDir()));
-		mainCommand.add(new ImportUserSaveCommand(books, networkAgent, proxy.getDataDir()));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));
