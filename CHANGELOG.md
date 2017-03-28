@@ -1,3 +1,8 @@
+- Added explicit permission levels
+- Standardized command names and parameters
+- Added more helpful error messages
+- Restricted import to single player worlds
+- Exported all messages to translation files
 - Removed texture reload after /ab reload for now.
 - Added tests around core functionality (save/load/parse/import)
 - Abstracted core functionality away
