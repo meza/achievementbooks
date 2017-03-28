@@ -22,7 +22,7 @@ public class NetworkAgent
 
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.SERVER);
-		wrapper.registerMessage(new ServerToggleHandler(storage), ToggleAchievementMessage.class, packetId++, Side.SERVER);
+		wrapper.registerMessage(new ServerToggleHandler(storage, this), ToggleAchievementMessage.class, packetId++, Side.SERVER);
 		wrapper.registerMessage(new ClientToggleHandler(storage, new Minecraft111Facade()), ToggleAchievementMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ServerPageTurnHandler(storage), PageTurnMessage.class, packetId++, Side.SERVER);
 	}

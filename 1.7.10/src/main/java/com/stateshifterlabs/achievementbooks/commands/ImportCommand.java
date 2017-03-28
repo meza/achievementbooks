@@ -5,7 +5,6 @@ import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.data.compatibility.SA.SA;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,7 +17,6 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
 public class ImportCommand extends CommandBase {
 
-	private final LanguageRegistry t;
 	private Loader loader;
 	private NetworkAgent networkAgent;
 	private String dataDir;
@@ -29,7 +27,6 @@ public class ImportCommand extends CommandBase {
 		this.loader = loader;
 		this.networkAgent = networkAgent;
 		this.dataDir = dataDir;
-		t = LanguageRegistry.instance();
 	}
 
 	@Override

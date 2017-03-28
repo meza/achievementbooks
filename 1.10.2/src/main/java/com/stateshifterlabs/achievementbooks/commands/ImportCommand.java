@@ -61,8 +61,8 @@ public class ImportCommand extends CommandBase {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
-		if (!((EntityPlayerMP) sender).mcServer.isSinglePlayer() || sender.getEntityWorld().isRemote ||
-			sender.getName().equalsIgnoreCase("server")) {
+		if (sender.getEntityWorld().isRemote ||
+			sender.getName().equalsIgnoreCase("server") || !((EntityPlayerMP) sender).mcServer.isSinglePlayer()) {
 
 			sender.addChatMessage(new TextComponentTranslation("ab.command.import.error.multiplayer.error"));
 			sender.addChatMessage(new TextComponentTranslation("ab.command.import.error.multiplayer.advice"));

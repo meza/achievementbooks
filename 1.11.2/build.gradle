@@ -45,12 +45,18 @@ archivesBaseName = "achievementbooks"
 
 runClient {
     workingDir = "eclipse"
+    args = [
+            "--username",
+            "vsbmeza"
+    ]
 }
 
 runServer {
     workingDir = "eclipse-server"
+    args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true"
+    ]
 }
-
 
 processResources {
     inputs.property "version", project.version
