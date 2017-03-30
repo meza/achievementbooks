@@ -12,4 +12,5 @@ public class CommonProxy {
 	}
 
 	public void refreshResources() { }
+
 }

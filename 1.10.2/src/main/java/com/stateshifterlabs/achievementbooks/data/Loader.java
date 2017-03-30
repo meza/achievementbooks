@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.CommonProxy;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
@@ -27,16 +28,18 @@ public class Loader {
 	private final AchievementStorage storage;
 	private final NetworkAgent networkAgent;
 	private Sound sound;
+	private CommonProxy proxy;
 	private File configDir;
 	private Books books;
 	private Map<String, AchievementBookItem> items = new HashMap<String, AchievementBookItem>();
 
-	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent, Sound sound) {
+	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent, Sound sound, CommonProxy proxy) {
 		this.configDir = configDir;
 		this.books = books;
 		this.storage = storage;
 		this.networkAgent = networkAgent;
 		this.sound = sound;
+		this.proxy = proxy;
 	}
 
 	public Books init() {
@@ -120,6 +123,8 @@ public class Loader {
 				items.get(book.itemName()).updateBook(book);
 			} else {
 				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent, sound);
+				final String name = String.format("book-%s", book.colour());
+				proxy.registerItemRenderer(achievementBook, 0, name);
 				GameRegistry.register(achievementBook);
 				if (book.isCraftable()) {
 					final ItemStack itemStack = new ItemStack(achievementBook);

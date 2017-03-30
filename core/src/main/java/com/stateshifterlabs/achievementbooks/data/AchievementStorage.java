@@ -68,4 +68,8 @@ public class AchievementStorage {
 	public final int hashCode() {
 		return storage != null ? storage.hashCode() : 0;
 	}
+
+	public int size() {
+		return storage.size();
+	}
 }

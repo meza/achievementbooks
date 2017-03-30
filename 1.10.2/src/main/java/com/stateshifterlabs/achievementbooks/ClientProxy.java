@@ -9,6 +9,7 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
 public class ClientProxy extends CommonProxy {
 
+	@Override
 	public void registerItemRenderer(Item item, int meta, String id) {
 
 		final ModelResourceLocation resourceLocation =

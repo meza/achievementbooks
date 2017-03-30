@@ -70,7 +70,7 @@ public class AchievementBookItem extends Item implements IForgeRegistryEntry<Ite
 		this.book = book;
 	}
 
-	public ModelResourceLocation getModelLocation(ItemStack stack) {
+	public ModelResourceLocation getModelLocation() {
 		return new ModelResourceLocation(MODID + ":book-" + book.colour(), "inventory");
 	}
 }

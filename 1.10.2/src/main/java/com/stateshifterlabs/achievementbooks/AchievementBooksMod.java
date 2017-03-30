@@ -43,7 +43,7 @@ public class AchievementBooksMod {
 	public void preInit(FMLPreInitializationEvent event) {
 		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID);
 		networkAgent = new NetworkAgent(storage);
-		loader = new Loader(configDir, books, storage, networkAgent, new MCSound());
+		loader = new Loader(configDir, books, storage, networkAgent, new MCSound(), proxy);
 	}
 
 	@Mod.EventHandler
@@ -57,6 +57,11 @@ public class AchievementBooksMod {
 					migrationNetworkAgent = new MigrationNetworkAgent(migrationTargetBook, networkAgent, configDir, storage);
 			FMLCommonHandler.instance().bus().register(migrationNetworkAgent);
 		}
+	}
+
+	@Mod.EventHandler
+	public void postInit(FMLInitializationEvent event) {
+
 	}
 
 	@Mod.EventHandler

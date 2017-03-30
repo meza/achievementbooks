@@ -42,6 +42,7 @@ minecraft {
 runClient {
     workingDir = "eclipse"
     args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true",
             "--username",
             "vsbmeza"
     ]
