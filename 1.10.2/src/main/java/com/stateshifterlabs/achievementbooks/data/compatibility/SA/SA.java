@@ -147,7 +147,9 @@ public class SA {
 
 		try {
 			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
-
+			if (result == null) {
+				return new AchievementStorage();
+			}
 			for (String player : result.players()) {
 				AchievementData playerData = result.forPlayer(player);
 				if (networkAgent != null) {

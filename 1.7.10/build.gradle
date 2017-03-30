@@ -43,13 +43,25 @@ runClient {
             "--username",
             "vsbmeza"
     ]
+//    jvmArgs = [
+//            "-XX:+PrintGCDetails",
+//            "-XX:+PrintHeapAtGC",
+//            "-XX:+PrintTenuringDistribution"
+//    ]
+
 }
 
 runServer {
     workingDir = "eclipse-server"
     args = [
             "-Dfml.ignoreInvalidMinecraftCertificates=true"
+
     ]
+//    jvmArgs = [
+//            "-XX:+PrintGCDetails",
+//            "-XX:+PrintHeapAtGC",
+//            "-XX:+PrintTenuringDistribution"
+//    ]
 }
 
 group= "com.stateshifterlabs.achievementbooks"
