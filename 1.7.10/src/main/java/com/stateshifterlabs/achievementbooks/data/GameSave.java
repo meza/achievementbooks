@@ -7,6 +7,8 @@ import com.stateshifterlabs.achievementbooks.serializers.AchievementStorageSeria
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.DimensionManager;
@@ -102,6 +104,12 @@ public class GameSave {
 			save();
 		}
 
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.SERVER)
+	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+		save();
 	}
 
 	@SubscribeEvent

@@ -12,6 +12,8 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -103,6 +105,12 @@ public class GameSave {
 			save();
 		}
 
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.SERVER)
+	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+		save();
 	}
 
 	@SubscribeEvent

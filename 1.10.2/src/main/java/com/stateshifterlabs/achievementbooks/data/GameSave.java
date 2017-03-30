@@ -12,6 +12,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +53,7 @@ public class GameSave {
 
 		File saveFile = new File(saveDir.getAbsolutePath() + "/achievementbooks.save.json");
 
-		if(!saveFile.exists()) {
+		if (!saveFile.exists()) {
 			return;
 		}
 
@@ -90,7 +91,7 @@ public class GameSave {
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load load) {
-		if(!load.getWorld().isRemote) {
+		if (!load.getWorld().isRemote) {
 			load();
 		}
 
@@ -98,18 +99,22 @@ public class GameSave {
 
 	@SubscribeEvent
 	public void onWorldSave(WorldEvent.Save save) {
-		if(!save.getWorld().isRemote) {
+		if (!save.getWorld().isRemote) {
 			save();
 		}
 
 	}
 
 	@SubscribeEvent
-	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event)
-	{
+	@SideOnly(net.minecraftforge.fml.relauncher.Side.SERVER)
+	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+		save();
+	}
+
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
-		if (player != null && !player.worldObj.isRemote)
-		{
+		if (player != null && !player.worldObj.isRemote) {
 			networkAgent.sendAchievementsTo((EntityPlayerMP) player);
 		}
 	}
