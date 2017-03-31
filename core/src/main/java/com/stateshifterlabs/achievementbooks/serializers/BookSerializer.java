@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.stateshifterlabs.achievementbooks.UTF8Utils;
 import com.stateshifterlabs.achievementbooks.data.Book;
 import com.stateshifterlabs.achievementbooks.data.JsonParseError;
 import com.stateshifterlabs.achievementbooks.data.Language;

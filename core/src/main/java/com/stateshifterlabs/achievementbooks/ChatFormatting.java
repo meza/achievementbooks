@@ -35,7 +35,7 @@ public enum ChatFormatting {
 	private ChatFormatting(char code, boolean isFormat) {
 		this.code = code;
 		this.isFormat = isFormat;
-		this.toString = "§" + code;
+		this.toString = UTF8Utils.utf8String("§", String.valueOf(code));
 	}
 
 	public String toString() {
