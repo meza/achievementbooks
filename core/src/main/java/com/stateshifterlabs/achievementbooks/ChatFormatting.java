@@ -24,7 +24,6 @@ public enum ChatFormatting {
 	ITALIC('o', true),
 	RESET('r');
 
-	public static final char PREFIX_CODE = '§';
 	private final char code;
 	private final boolean isFormat;
 	private final String toString;

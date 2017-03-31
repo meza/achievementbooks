@@ -95,7 +95,7 @@ public class PageElement {
         if (!hasMod()) {
             return "";
         }
-        return UTF8Utils.utf8String(ChatFormatting.BLUE.toString(), ChatFormatting.ITALIC.toString(), String.format("[%s]", mod), ChatFormatting.RESET.toString());
+        return UTF8Utils.utf8String(ChatFormatting.DARK_BLUE.toString(), ChatFormatting.ITALIC.toString(), String.format("[%s]", mod), ChatFormatting.RESET.toString());
     }
 
     public void withMod(String mod) {
