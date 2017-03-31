@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -14,12 +15,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,7 +93,7 @@ public class Loader {
 				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer(conf));
 				Gson gson = gsonBuilder.create();
 				try {
-					Book book = gson.fromJson(new FileReader(conf), Book.class);
+					Book book = gson.fromJson(new BufferedReader(Files.newReader(conf, Charset.defaultCharset())), Book.class);
 					books.addBook(book);
 				} catch (JsonSyntaxException e) {
 					throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
