@@ -71,6 +71,9 @@ command can create a json file for you.
 The result is not going to be perfect due to formatting issues, but it's going to be close enough not to cause a big
 pain to migrate.
 
+> Import only works in single player mode to enable you to fiddle around with the settings easily. Once done, you can
+copy the new file over and use it on a server.
+
 #### Init
 ```
 /achievementbooks init

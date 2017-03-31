@@ -1,3 +1,5 @@
+- Standardised most things across all versions 
+- Fixed character encoding issues
 - Added explicit permission levels
 - Standardized command names and parameters
 - Added more helpful error messages
