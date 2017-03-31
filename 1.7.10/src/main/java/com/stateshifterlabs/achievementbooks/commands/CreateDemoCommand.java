@@ -9,6 +9,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -41,8 +42,12 @@ public class CreateDemoCommand extends CommandBase {
 		try {
 			loader.init(true);
 			Item item = GameRegistry.findItem(MODID, DemoBook.NAME);
-			sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
-					.addItemStackToInventory(new ItemStack(item, 1));
+			if (!sender.getCommandSenderName().equalsIgnoreCase("server")) {
+				sender.getEntityWorld().getPlayerEntityByName(sender.getCommandSenderName()).inventory
+						.addItemStackToInventory(new ItemStack(item, 1));
+			} else {
+				sender.addChatMessage(new ChatComponentTranslation("ab.command.init.success"));
+			}
 		} catch (DemoAlreadyExistsException e) {
 			//TODO translate
 			sender.addChatMessage(new ChatComponentText(e.getMessage()));

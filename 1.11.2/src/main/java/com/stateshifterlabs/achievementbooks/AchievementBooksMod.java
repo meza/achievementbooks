@@ -14,6 +14,7 @@ import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -25,6 +26,9 @@ public class AchievementBooksMod {
 	public static final String MODID = "achievementbooks";
 	public static final String VERSION = "@VERSION@";
 
+	@SidedProxy(serverSide = "com.stateshifterlabs.achievementbooks.CommonProxy", clientSide = "com.stateshifterlabs.achievementbooks.ClientProxy")
+	public static CommonProxy proxy;
+
 	private final AchievementStorage storage = new AchievementStorage();
 	private Books books = new Books();
 	private NetworkAgent networkAgent;
@@ -35,7 +39,7 @@ public class AchievementBooksMod {
 		File configDir =
 				new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/" + MODID);
 		networkAgent = new NetworkAgent(storage);
-		loader = new Loader(configDir, books, storage, networkAgent, new MCSound());
+		loader = new Loader(configDir, books, storage, networkAgent, new MCSound(), proxy);
 	}
 
 	@Mod.EventHandler

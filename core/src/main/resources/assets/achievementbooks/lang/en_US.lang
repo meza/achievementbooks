@@ -8,3 +8,5 @@ ab.command.import.error.multiplayer.advice=When you have the new book config, ad
 ab.command.list.title=Current Achievement Books
 
 ab.command.reload.success=Achievement Books Data reloaded. Textures may not appear correctly until a full game restart
+
+ab.command.init.success=Demo file created

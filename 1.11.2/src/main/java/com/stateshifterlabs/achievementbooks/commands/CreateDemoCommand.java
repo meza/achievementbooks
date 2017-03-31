@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -43,8 +44,14 @@ public class CreateDemoCommand extends CommandBase {
 		try {
 			loader.init(true);
 			Item item = Item.REGISTRY.getObject(new ResourceLocation(MODID, DemoBook.NAME));
-			sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory
-					.addItemStackToInventory(new ItemStack(item, 1));
+			if (!sender.getName().equalsIgnoreCase("server")) {
+
+				sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory
+						.addItemStackToInventory(new ItemStack(item, 1));
+			} else {
+				sender.sendMessage(new TextComponentTranslation("ab.command.init.success"));
+			}
+
 		} catch (DemoAlreadyExistsException e) {
 			//TODO translate
 			sender.sendMessage(new TextComponentString(e.getMessage()));

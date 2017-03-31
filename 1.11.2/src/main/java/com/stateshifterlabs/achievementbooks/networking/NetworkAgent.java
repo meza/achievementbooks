@@ -41,7 +41,7 @@ public class NetworkAgent
 
 	public void sendAchievementsTo(EntityPlayerMP player) {
 		CompletionDetailsMessage msg = new CompletionDetailsMessage();
-		msg.withData(storage.forPlayer(player.getDisplayName().toString()));
+		msg.withData(storage.forPlayer(player.getName()));
 		wrapper.sendTo(msg, player);
 	}
 

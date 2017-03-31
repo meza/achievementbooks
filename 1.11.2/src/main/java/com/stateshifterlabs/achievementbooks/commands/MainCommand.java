@@ -5,7 +5,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -36,21 +35,19 @@ public class MainCommand extends CommandBase {
 
 	@Override
 	public String getUsage(ICommandSender sender) {
+		String txt = "";
 		for (int i = 0; i < subCommands.size(); i++) {
-			String txt = "";
-
 			CommandBase c = subCommands.get(i);
-			txt += "/ " + getName() + " " + c.getName();
-
+			txt += c.getName();
 			if (i < subCommands.size() - 1) {
-				txt += ", ";
+				txt += "|";
 			}
-
-
-			sender.sendMessage(new TextComponentString(txt));
+		}
+		if (subCommands.size() == 0) {
+			return "/" + getName();
 		}
 
-		return "</" + getName() + ">";
+		return "/" + getName() + " <" + txt + ">";
 	}
 
 	@Override

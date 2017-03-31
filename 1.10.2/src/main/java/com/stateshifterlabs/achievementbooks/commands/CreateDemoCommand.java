@@ -43,8 +43,12 @@ public class CreateDemoCommand extends CommandBase {
 		try {
 			loader.init(true);
 			Item item = Item.REGISTRY.getObject(new ResourceLocation(MODID, DemoBook.NAME));
-			sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory
-					.addItemStackToInventory(new ItemStack(item, 1));
+			if (!sender.getName().equalsIgnoreCase("server")) {
+				sender.getEntityWorld().getPlayerEntityByName(sender.getName()).inventory
+						.addItemStackToInventory(new ItemStack(item, 1));
+			} else {
+
+			}
 		} catch (DemoAlreadyExistsException e) {
 			//TODO translate
 			sender.addChatMessage(new TextComponentString(e.getMessage()));
