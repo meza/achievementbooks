@@ -1,6 +1,6 @@
 package com.stateshifterlabs.achievementbooks.data;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.stateshifterlabs.achievementbooks.ChatFormatting;
 import com.stateshifterlabs.achievementbooks.UTF8Utils;
 
 public class PageElement {
