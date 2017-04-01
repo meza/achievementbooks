@@ -28,7 +28,6 @@ sourceSets {
     }
 }
 
-version="${mod_version}"
 minecraft {
     version = "${minecraft_version}-${forge_version}-${minecraft_version}"
     runDir = "eclipse"
