@@ -9,6 +9,7 @@ import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
 public class ClientProxy extends CommonProxy {
 
+	@Override
 	public void registerItemRenderer(Item item, int meta, String id) {
 
 		final ModelResourceLocation resourceLocation =
@@ -18,12 +19,9 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomModelResourceLocation(item, meta, resourceLocation);
 	}
 
-	public void refreshResources() {
-		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				Minecraft.getMinecraft().refreshResources();
-			}
-		});
+	@Override
+	public String getDataDir() {
+		return Minecraft.getMinecraft().mcDataDir.getAbsolutePath();
 	}
+
 }

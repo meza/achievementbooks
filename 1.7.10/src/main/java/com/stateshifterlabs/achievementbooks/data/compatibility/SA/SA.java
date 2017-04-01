@@ -28,8 +28,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.minecraft.client.Minecraft.getMinecraft;
-
 public class SA {
 	private static String achievementList = "/SimpleAchievements/achievementList.txt";
 	private static String formatConfig = "/SimpleAchievements/divConfig.json";
@@ -37,12 +35,12 @@ public class SA {
 	private final String configDir;
 	private Gson gson;
 
-	public SA() {
-		configDir = getMinecraft().mcDataDir.getAbsolutePath() + "/config";
+	public SA(String configDirPath) {
+		configDir = configDirPath + "/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
-		builder.registerTypeAdapter(Book.class, new BookSerializer());
+		builder.registerTypeAdapter(Book.class, new BookSerializer(null));
 		gson = builder.create();
 	}
 
@@ -99,7 +97,7 @@ public class SA {
 						Map<String, String> x = achievementText(text);
 
 						element.withAchievement(x.get("achievement"));
-						if(x.containsKey("mod")) {
+						if (x.containsKey("mod")) {
 							element.withMod(x.get("mod"));
 						}
 					} else if (formatting.isHeader()) {
@@ -120,6 +118,10 @@ public class SA {
 			}
 
 			scan.close();
+
+			if (page.elements().length > 0) {
+				book.addPage(page);
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -149,20 +151,27 @@ public class SA {
 		String worldDir = DimensionManager.getCurrentSaveRootDirectory().getAbsolutePath();
 		String saveFile = worldDir + saveData;
 
-		try {
-			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+		File save = new File(saveFile);
 
-			for(String player: result.players()) {
-				AchievementData playerData = result.forPlayer(player);
-				if (networkAgent != null) {
-					networkAgent.sendCompletedAchievements(playerData);;
+		if (save.exists()) {
+			try {
+				AchievementStorage result = gson.fromJson(new FileReader(save), AchievementStorage.class);
+				if (result == null) {
+					return new AchievementStorage();
 				}
+				for (String player : result.players()) {
+					AchievementData playerData = result.forPlayer(player);
+					if (networkAgent != null) {
+						networkAgent.sendCompletedAchievements(playerData);
+						;
+					}
+				}
+
+				return result;
+
+			} catch (FileNotFoundException e) {
+
 			}
-
-			return result;
-
-		} catch (FileNotFoundException e) {
-
 		}
 
 		return new AchievementStorage();
@@ -180,12 +189,11 @@ public class SA {
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(firstPass);
 		Map<String, String> retval = new HashMap<String, String>();
-		if(m.find()) {
+		if (m.find()) {
 			retval.put("achievement", m.group(1));
 			retval.put("mod", m.group(2));
 			return retval;
-		}
-		else {
+		} else {
 			retval.put("achievement", firstPass);
 			return retval;
 		}

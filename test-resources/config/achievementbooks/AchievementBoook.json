@@ -1,0 +1,567 @@
+{
+	"itemName": "flame_empire_achievement_book",
+	"bookName": "Flame Empire Achievement Book",
+	"colour": "blue",
+	"migrationTarget": true,
+	"pages": [
+		[
+			{
+				"id": -1,
+				"header": "Welcome to Flame Empire",
+				"description": "You can add a brief story line here if you want to. Or just text about the book"
+			},
+			{
+				"id": -1000,
+				"description":"\n"
+			},
+			{
+				"id": -2,
+				"description": "It can be as long as you want it, and may be cool to do... idk, just babbling."
+			}
+		],
+		[
+			{
+				"id": 0,
+				"header": "\u003d\u003d\u003d Starting Out \u003d\u003d\u003d"
+			},
+			{
+				"id": 1,
+				"achievement": "Create your first tool set out of stone",
+				"mod": "Gotta start somewhere!"
+			},
+			{
+				"id": 2,
+				"achievement": "Find all the 9 streamer ores",
+				"mod": "New ores?"
+			},
+			{
+				"id": 3,
+				"achievement": "Craft the X33Ner weiner",
+				"mod": "If you know what i mean"
+			},
+			{
+				"id": 4,
+				"achievement": "Eat a tainted fruit",
+				"mod": "It cant be THAT bad...."
+			},
+			{
+				"id": 5,
+				"achievement": "Create a power source",
+				"mod": "Its been done too many times...."
+			}
+		],
+		[
+			{
+				"id": 6,
+				"achievement": "Check to see if there is a recipe for Mads battleaxe",
+				"mod": "Why would you think it had one"
+			},
+			{
+				"id": 7,
+				"achievement": "get a pet bird and name it X33N",
+				"mod": "Birb"
+			},
+			{
+				"id": 8,
+				"achievement": "Build a shelf for all your books",
+				"mod": "What books?"
+			},
+			{
+				"id": 9,
+				"achievement": "Put a sign on the ground",
+				"mod": "WORTH IT"
+			},
+			{
+				"id": 10,
+				"achievement": "Remember to wear a hat it is cold outside",
+				"mod": "Yay hats"
+			}
+		],
+		[
+			{
+				"id": 11,
+				"achievement": "Buy an Item from a Shop",
+				"mod": "i haz bought something from a shop"
+			},
+			{
+				"id": 12,
+				"achievement": "Try using worldedit",
+				"mod": "Why did you think that would work?"
+			}
+		],
+		[
+			{
+				"id": 13,
+				"header": "\u003d\u003d\u003d Settling Down \u003d\u003d\u003d"
+			},
+			{
+				"id": 14,
+				"achievement": "Destory the smelter controller block with metal still in it",
+				"mod": "OOPS"
+			},
+			{
+				"id": 15,
+				"achievement": "Collect 10 XP bushes",
+				"mod": "Experince by plants"
+			},
+			{
+				"id": 16,
+				"achievement": "Create some Tear Jerker tools",
+				"mod": "Ow!.. AAUUGHHHH"
+			},
+			{
+				"id": 17,
+				"achievement": "Breed a seed to perfection 10/10/10",
+				"mod": "Overpowered? Nah"
+			}
+		],
+		[
+			{
+				"id": 18,
+				"achievement": "Get enough plants to be able to create a stack of diamonds, emeralds, gold, iron, shiny, and redstone per harvest",
+				"mod": "Totally Overpowered"
+			},
+			{
+				"id": 19,
+				"achievement": "Make THE POTATO from fe tweaks and eat it to harvest its powers",
+				"mod": "You have upgraded your potato"
+			},
+			{
+				"id": 20,
+				"achievement": "Recieve a set of corrupted armour",
+				"mod": "You have been corrupted"
+			},
+			{
+				"id": 21,
+				"achievement": "Build your own amazing armour with AW[Finally Me!]"
+			}
+		],
+		[
+			{
+				"id": 22,
+				"achievement": "Make or buy a full set of AW tools and armour",
+				"mod": "Im of my own creation"
+			},
+			{
+				"id": 23,
+				"achievement": "Set up a web screen and share to the world your favorite song WARNING No Windows8 users",
+				"mod": "Rick Roll? Rick Roll."
+			},
+			{
+				"id": 24,
+				"achievement": "Connect a minepad  to a web display then give it to a friend WARNING No Windows8 users",
+				"mod": "Travelling Rick Roll!"
+			},
+			{
+				"id": 25,
+				"achievement": "Create an armor stand for your unused armor",
+				"mod": "It can, uh go there! Yeah. Perfect."
+			}
+		],
+		[
+			{
+				"id": 26,
+				"achievement": "Create storage draws to keep your stuff organized before you make an ME system",
+				"mod": "Ill get there eventually"
+			},
+			{
+				"id": 27,
+				"achievement": "Create a drawer key to lock your drawers",
+				"mod": "No, its MINE!"
+			},
+			{
+				"id": 28,
+				"achievement": "When you move use packing tape to make your drawers moveable",
+				"mod": "Gotta keep it straight!"
+			},
+			{
+				"id": 29,
+				"achievement": "Set up your own shop",
+				"mod": "I haz a shop"
+			}
+		],
+		[
+			{
+				"id": 30,
+				"header": "\u003d\u003d\u003d Automation \u0026 Procrastination \u003d\u003d\u003d"
+			},
+			{
+				"id": 31,
+				"achievement": "Set up an ME sytem",
+				"mod": "Better Than Drawers, Too!"
+			},
+			{
+				"id": 32,
+				"achievement": "Set the Me system up to auto craft parts to make it bigger",
+				"mod": "Better Than Pretty Much Anything"
+			},
+			{
+				"id": 33,
+				"achievement": "Get a stack of flame coins from the events or from the bank",
+				"mod": "Burning money"
+			},
+			{
+				"id": 34,
+				"achievement": "Create a jetpack",
+				"mod": "To infinity. AND BEYOND!"
+			}
+		],
+		[
+			{
+				"id": 35,
+				"achievement": "Create a digital miner",
+				"mod": "This... no JUST this"
+			},
+			{
+				"id": 36,
+				"achievement": "Create a full powersuit and glove",
+				"mod": "OVER POWERED"
+			},
+			{
+				"id": 37,
+				"achievement": "Create your first 3x3x3 reactor",
+				"mod": "Babys First Power"
+			},
+			{
+				"id": 38,
+				"achievement": "Master a tool",
+				"mod": "I AM A MASTER"
+			}
+		],
+		[
+			{
+				"id": 39,
+				"header": "\u003d\u003d\u003d Advanced Technology \u003d\u003d\u003d"
+			},
+			{
+				"id": 40,
+				"achievement": "Create your tool set out of Alumite",
+				"mod": "So prettyyy"
+			},
+			{
+				"id": 41,
+				"achievement": "Create a shell of yourself so you can have more than 1 life",
+				"mod": "I AM REBORN"
+			},
+			{
+				"id": 42,
+				"achievement": "Do the ritual to get the kikoku",
+				"mod": "So pretty and witty"
+			},
+			{
+				"id": 43,
+				"achievement": "Create all the custom streamer armor",
+				"mod": "Ill protect you with my body!"
+			},
+			{
+				"id": 44,
+				"achievement": "Defeat all the streamer bosses at events",
+				"mod": "I.. thought they were friends?"
+			}
+		],
+		[
+
+			{
+				"id": 45,
+				"achievement": "create aimensional transiver to power things",
+				"mod": "Wireless power"
+			},
+			{
+				"id": 46,
+				"achievement": "Show how rich you are and create Shiny Armor",
+				"mod": "I am too rich to care"
+			},
+			{
+				"id": 47,
+				"achievement": "Automate your food production",
+				"mod": "Never go hungry agian!"
+			},
+			{
+				"id": 48,
+				"achievement": "Build an Archimedes ships ship",
+				"mod": "Flying!"
+			}
+		],
+		[
+			{
+				"id": 49,
+				"header": "\u003d\u003d\u003d Mystical Ways \u003d\u003d\u003d"
+			},
+			{
+				"id": 50,
+				"achievement": "Defeat all the twilight forest bosses",
+				"mod": "Twilight Princess"
+			},
+			{
+				"id": 51,
+				"achievement": "Pluck petals of your favorite color and make a block of it, or bury them in the ground",
+				"mod": "So pretty!"
+			},
+			{
+				"id": 52,
+				"achievement": "Make a ring of speed",
+				"mod": "Gotta go fast"
+			},
+			{
+				"id": 53,
+				"achievement": "Get the shard of creation",
+				"mod": "Clarity...at last"
+			},
+			{
+				"id": 54,
+				"achievement": "Get Warp",
+				"mod": "Im insane...."
+			}
+		],
+		[
+			{
+				"id": 55,
+				"achievement": "Use your ME to store your essentia",
+				"mod": "Jars in 2017?"
+			},
+			{
+				"id": 56,
+				"achievement": "Research everything, including hidden knowledge",
+				"mod": "I KNOW IT ALL"
+			},
+			{
+				"id": 57,
+				"achievement": "Reskin your armor using the infusion altar",
+				"mod": "Im so pretty"
+			},
+			{
+				"id": 58,
+				"achievement": "Combine any botania helmet and goggles of revealing",
+				"mod": "Magic comes together"
+			},
+			{
+				"id": 59,
+				"achievement": "Capture Pechs and put them in your basement",
+				"mod": "Unlucky fools"
+			}
+		],
+		[
+			{
+				"id": 60,
+				"achievement": "Create an infernal wand core",
+				"mod": "Hellish"
+			},
+			{
+				"id": 61,
+				"achievement": "Build an infinite mana production using non-passive flowers",
+				"mod": "A bit of thinking does the trick"
+			},
+			{
+				"id": 62,
+				"achievement": "Get all 6 botania relics",
+				"mod": "Fighting the earth to earn prizes..."
+			},
+			{
+				"id": 63,
+				"achievement": "Combine the 3 rings to get the ring of the Aesir",
+				"mod": "Gods of Valhalla, hear me!"
+			},
+			{
+				"id": 64,
+				"achievement": "Kill both versions of the Gaia Guardian",
+				"mod": "Killing the earth is harder than expected"
+			}
+		],
+		[
+			{
+				"id": 65,
+				"achievement": "Create Terrasteel Ancient metal...[]"
+			},
+			{
+				"id": 66,
+				"achievement": "Create the Terrasteel armor and tools Terra Blade,terra shatterer... ",
+				"mod": "Earthen gear"
+			},
+			{
+				"id": 67,
+				"achievement": "Make an Atum portal",
+				"mod": "Ewww sandstorms"
+			},
+			{
+				"id": 68,
+				"achievement": "Kill a pharaoh and claim his blessed gear",
+				"mod": "How2be egyptian"
+			}
+		],
+		[
+			{
+				"id": 69,
+				"header": "\u003d\u003d\u003d Space Travel \u003d\u003d\u003d"
+			},
+			{
+				"id": 70,
+				"achievement": "Create a ship using warp drive and go into space",
+				"mod": "SPACE IS COOL"
+			},
+			{
+				"id": 71,
+				"achievement": "You and a friend have a space battle",
+				"mod": "PEW PEW PEW"
+			},
+			{
+				"id": 72,
+				"achievement": "Creat a forcefeild so no one breaks in and steals your stuff",
+				"mod": "PROTECTION"
+			},
+			{
+				"id": 73,
+				"achievement": "Create your favorite armor and weapon from the pack and have a battle",
+				"mod": "IM A JEDI NOW"
+			}
+		],
+		[
+			{
+				"id": 74,
+				"achievement": "Pod-race with a friend",
+				"mod": "Better Than A Toilet Ship"
+			},
+			{
+				"id": 75,
+				"achievement": "Crash on the moon",
+				"mod": "Crash landing"
+			},
+			{
+				"id": 76,
+				"achievement": "Build tier 8 More Planets rocket",
+				"mod": "Rocket?"
+			},
+			{
+				"id": 77,
+				"achievement": "Build tier 8 Galaxy Space rocket",
+				"mod": "Again??"
+			},
+			{
+				"id": 78,
+				"achievement": "Build tier 8 Extra Planets rocket",
+				"mod": "Is this really necessary?"
+			}
+		],
+		[
+			{
+				"id": 79,
+				"header": "\u003d\u003d\u003d Weird and random \u003d\u003d\u003d"
+			},
+			{
+				"id": 80,
+				"achievement": "Change your nickname for at least 24 hours",
+				"mod": "Goddammit X33N"
+			},
+			{
+				"id": 81,
+				"achievement": "Give Atsu a flower",
+				"mod": "Flowers!"
+			},
+			{
+				"id": 82,
+				"achievement": "Use Google to learn a mod",
+				"mod": "Please...!"
+			},
+			{
+				"id": 83,
+				"achievement": "Use at least one block of ID98 in your house",
+				"mod": "Feeding X33Ns addition"
+			}
+		],
+		[
+			{
+				"id": 84,
+				"achievement": "Say \"Pineapple\" without someone saying \"Pancake\" in chat as a response",
+				"mod": "This is just silly."
+			},
+			{
+				"id": 85,
+				"achievement": "get at least one of every sapling possible. No, you shouldnt plant them all",
+				"mod": "Tree hug"
+			},
+			{
+				"id": 86,
+				"achievement": "Sleep in someone elses bed",
+				"mod": "Hardly know er"
+			},
+			{
+				"id": 87,
+				"achievement": "Crash the server by accident",
+				"mod": "Mad is mad"
+			},
+			{
+				"id": 88,
+				"achievement": "Change your nickname for at least 24 hours",
+				"mod": "Goddammit X33N"
+			},
+			{
+				"id": 89,
+				"achievement": "Dont die during a Stream Event",
+				"mod": "The Impossible"
+			}
+		],
+		[
+			{
+				"id": 90,
+				"achievement": "Get killed by someone at an event",
+				"mod": "wooooow -_-"
+			},
+			{
+				"id": 91,
+				"achievement": "Build a GIANT monument to Mads awesomeness",
+				"mod": "I love mad too much"
+			},
+			{
+				"id": 92,
+				"achievement": "Write MrMadSpy a love poem",
+				"mod": "Wuv. Twew wuv."
+			},
+			{
+				"id": 93,
+				"achievement": "Get a cat and name it Krys",
+				"mod": "Krys the cat"
+			},
+			{
+				"id": 94,
+				"achievement": "Go to a Stream Event",
+				"mod": "The story!"
+			},
+			{
+				"id": 95,
+				"achievement": "Find and catch a Manta Ray",
+				"mod": "Ray man"
+			}
+		],
+		[
+			{
+				"id": 96,
+				"achievement": "Build a way to the heavens! ",
+				"mod": "Knockin on heavens door...."
+			},
+			{
+				"id": 97,
+				"achievement": "Name a villager Lydia",
+				"mod": "She always dies..."
+			},
+			{
+				"id": 98,
+				"achievement": "Name a pickaxe \"Notched Pickaxe\" and put it on the highest mountain you can find",
+				"mod": "Get it?"
+			},
+			{
+				"id": 99,
+				"achievement": "Name a pet Markus Persson",
+				"mod": "Thank you almighty creator"
+			},
+			{
+				"id": 100,
+				"achievement": "Send eliselle a message saying \"Hail Sithis\"",
+				"mod": "For the Brotherhood!"
+			},
+			{
+				"id": 101,
+				"achievement": "Create a fusion reactor from MatterOverdrive",
+				"mod": "TOTALLY USELESS"
+			}
+		]
+	]
+}

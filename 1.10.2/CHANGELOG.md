@@ -1,3 +1,4 @@
+- Added a complete migration support for SA
 - Fixed menu item resource loading upon new book creation
 
 Support for 1.10.2 is new and it's not without bugs.

@@ -10,9 +10,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class ServerToggleHandler implements IMessageHandler<ToggleAchievementMessage, IMessage> {
 
 	private AchievementStorage storage;
+	private NetworkAgent networkAgent;
 
-	public ServerToggleHandler(AchievementStorage storage) {
+	public ServerToggleHandler(AchievementStorage storage, NetworkAgent networkAgent) {
 		this.storage = storage;
+		this.networkAgent = networkAgent;
 	}
 
 
@@ -22,7 +24,7 @@ public class ServerToggleHandler implements IMessageHandler<ToggleAchievementMes
 
 		Player player = new MCPlayer(ctx.getServerHandler().playerEntity);
 		storage.forPlayer(player).toggle(message.bookName(), message.achievementId());
-
+		networkAgent.sendAchievementsTo(ctx.getServerHandler().playerEntity);
 		return null;
 	}
 

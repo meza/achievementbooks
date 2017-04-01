@@ -39,6 +39,23 @@ minecraft {
     replaceIn "AchievementBooksMod.java"
 }
 
+runClient {
+    workingDir = "eclipse"
+    args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true",
+            "--username",
+            "vsbmeza"
+    ]
+}
+
+runServer {
+    workingDir = "eclipse-server"
+    args = [
+            "-Dfml.ignoreInvalidMinecraftCertificates=true"
+    ]
+}
+
+
 group= "com.stateshifterlabs.achievementbooks"
 archivesBaseName = "achievementbooks"
 

@@ -3,7 +3,7 @@ package com.stateshifterlabs.achievementbooks.client.gui;
 
 import com.stateshifterlabs.achievementbooks.client.DefaultButtonSettings;
 import com.stateshifterlabs.achievementbooks.client.DescriptionElement;
-import com.stateshifterlabs.achievementbooks.common.MCThingy;
+import com.stateshifterlabs.achievementbooks.common.Minecraft17Facade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 public class DescriptionLine extends GuiButton {
 
-	private final MCThingy stuff;
+	private final Minecraft17Facade stuff;
 	private final DescriptionElement button;
 	private String description;
 
@@ -20,7 +20,7 @@ public class DescriptionLine extends GuiButton {
 
 		this.enabled = false;
 		this.description = description;
-		stuff = new MCThingy();
+		stuff = new Minecraft17Facade();
 		button = new DescriptionElement(stuff, description, width);
 
 		this.height = button.getButtonHeight();

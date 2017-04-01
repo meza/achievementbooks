@@ -2,7 +2,9 @@ package com.stateshifterlabs.achievementbooks.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.stateshifterlabs.achievementbooks.AchievementBooksMod;
+import com.stateshifterlabs.achievementbooks.CommonProxy;
 import com.stateshifterlabs.achievementbooks.facade.Sound;
 import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
@@ -10,16 +12,12 @@ import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import com.google.common.io.Files;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,16 +25,18 @@ public class Loader {
 	private final AchievementStorage storage;
 	private final NetworkAgent networkAgent;
 	private Sound sound;
+	private CommonProxy proxy;
 	private File configDir;
 	private Books books;
 	private Map<String, AchievementBookItem> items = new HashMap<String, AchievementBookItem>();
 
-	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent, Sound sound) {
+	public Loader(File configDir, Books books, AchievementStorage storage, NetworkAgent networkAgent, Sound sound, CommonProxy proxy) {
 		this.configDir = configDir;
 		this.books = books;
 		this.storage = storage;
 		this.networkAgent = networkAgent;
 		this.sound = sound;
+		this.proxy = proxy;
 	}
 
 	public Books init() {
@@ -75,10 +75,7 @@ public class Loader {
 			File file = new File(configDir.getAbsolutePath() + "/demo.json");
 
 			if (file.exists()) {
-				int i = 1;
-				do {
-					file = new File(configDir.getAbsolutePath() + "/demo" + i + ".json");
-				} while (file.exists());
+				throw new DemoAlreadyExistsException();
 			}
 
 			URL url = AchievementBooksMod.class.getResource("/config/demo.json");
@@ -95,13 +92,14 @@ public class Loader {
 
 
 				GsonBuilder gsonBuilder = new GsonBuilder();
-				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer());
+				gsonBuilder.registerTypeAdapter(Book.class, new BookSerializer(conf));
 				Gson gson = gsonBuilder.create();
-
-				Book book = gson.fromJson(new FileReader(conf), Book.class);
-
-				books.addBook(book);
-
+				try {
+					Book book = gson.fromJson(new BufferedReader(Files.newReader(conf, Charset.defaultCharset())), Book.class);
+					books.addBook(book);
+				} catch (JsonSyntaxException e) {
+					throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
+				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -119,20 +117,15 @@ public class Loader {
 			} else {
 				AchievementBookItem achievementBook = new AchievementBookItem(book, storage, networkAgent, sound);
 				final String name = String.format("book-%s", book.colour());
-				AchievementBooksMod.proxy.registerItemRenderer(achievementBook, 0, name);
+				proxy.registerItemRenderer(achievementBook, 0, name);
 				GameRegistry.register(achievementBook);
-
 				if (book.isCraftable()) {
 					final ItemStack itemStack = new ItemStack(achievementBook);
 					GameRegistry.addRecipe(itemStack, "AB", 'A', Items.BOOK, 'B',
-										   Item.REGISTRY.getObject(new ResourceLocation(book.material())));
+										   Item.getByNameOrId(book.material()));
 				}
 				items.put(book.itemName(), achievementBook);
-
-
 			}
 		}
-
-		AchievementBooksMod.proxy.refreshResources();
 	}
 }

@@ -16,7 +16,7 @@ public class ColoursTest {
 
 		Colour actual = Colour.fromString(nonExistingColour);
 
-		assertEquals("Default colour is not BLACK", Colour.BLACK, actual);
+		assertEquals("Not the default colour is returned for an unknown colour", Colour.defaultColour(), actual);
 
 	}
 }

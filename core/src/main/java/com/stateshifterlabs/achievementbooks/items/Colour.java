@@ -30,6 +30,10 @@ public enum Colour {
 				return colour;
 			}
 		}
+		return defaultColour();
+	}
+
+	public static Colour defaultColour() {
 		return BLACK;
 	}
 

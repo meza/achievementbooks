@@ -27,7 +27,11 @@ public class SaveDataDeserializer implements JsonDeserializer<AchievementStorage
 	public AchievementStorage deserialize(
 			JsonElement json, Type typeOfT, JsonDeserializationContext context
 	) throws JsonParseException {
+
 		AchievementStorage storage = new AchievementStorage();
+		if(!json.isJsonObject()) {
+			return storage;
+		}
 		JsonObject root = json.getAsJsonObject();
 
 		for(Map.Entry<String, JsonElement> userEntry : root.entrySet()) {

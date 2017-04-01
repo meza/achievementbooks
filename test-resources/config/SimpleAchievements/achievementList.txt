@@ -1,0 +1,203 @@
+Welcome To Sky Factory 3!|A Modpack By Bacon_Donut|=======================::1
+Hello and welcome to Sky Factory 3, a Sky Block mod pack! An infinite world of possibility awaits you. You'll be starting in a void world with nothing between you and death but a single tree on one piece of dirt. But don't panic! The mods in this pack will allow you to get all the resources you need to build yourself an amazing world! Read on for more info about how to play this pack, who put it together, and for a list of goals for you to achieve!::1
+ |How To Use This Book|===================::1
+Use the arrows at the bottom of the pages to navigate the book. You will see challenges separated into ages that represent the general path of progression, although you do not need to do them in order. Simply check the box next to each challenge on completion. Careful though, quests become increasingly difficult as you progress! Also, don't forget to craft yourself an Achievement Stand to store this book on!| | | |::1
+A Note About Biomes|==============::1
+The challenges in this book will help you through the early game, but there are several commonly asked question regarding biome behavior in Sky Factory.::1
+You can obtain water by using a barrel to catch rain or snow. If you happen to spawn in a desert where it does not rain you can craft a water bucket. You may also craft Wooden Crucibles to collect water if needed. Look it up in NEI to learn more.::1
+Ocean and Mushroom biomes are both viable locations to spawn in, passive animals will spawn in them. If animals are not spawning, use Bait to lure them into your base.::1
+|Also, if you're the kind of person who likes to train dragons, remember that what biome you hatch your dragon in will determine what kind of dragon it grows up to be!::1
+Credits|=======| |Bacon_Donut. I make Minecraft content full time and you can find me here:| |Twitch.tv/Bacon_Donut|::1
+Special Thanks Also Goes To:|========================| |The Feed the Beast team for all their hardwork and help with the creation and development process::1
+The Challenges|=============| |You can't ever "beat" the pack, but I've provided a list of challenges designed to help you progress. Don't worry if you don't know how to complete some of them, have fun with the process of searching for answers. You'll learn a lot and have some fun too!| |They are divided into ages that roughly match up to game progression, but you do NOT have to do them in order!| | |::1
+---=== Wood Age ===---| |A new age dawns before you! You don't have anything to work with but this tree, so let's make the most of it!::1
+Use a Crook on leaves to get saplings and a Silkworm::0
+Twerk a Sapling into a Tree::0
+Make Dirt by composting saplings or leaves in an Oak Barrel::0
+Infest leaves with a Silkworm::0
+Use a Crook on Infested Leaves to get string::0
+Craft a Sieve and a string mesh::0
+Collect rain water in an Oak Barrel or melt saplings in a Wooden Crucible::0
+Craft Cobblestone from the Small Stones that drop from sifting Dirt::0
+Craft a Hammer to turn Cobble into Gravel, Gravel into Sand, and Sand into Dust::0
+Sift Gravel, Sand, and Dust in a Sieve::0
+Make Tinkers' Construct Tools from Bone or Flint::0
+Make Clay by putting Dust into a water filled Barrel::0
+Craft and cook a Crucible::0
+Heat a Crucible with a Torch and insert Stones or Cobble to make Lava::0
+Build a Cobblestone generator::0
+::1
+::1
+::1
+::1
+---=== Stone Age ===---| |Now that you have a good source of blocks, it's time to expand, upgrade, and improve your island a bit!::1
+Make a dark room 25 blocks away from your base for spawning mobs and obtaining loot::0
+Make a field of grass 25 blocks away from your base for spawning animals::0
+Build a second layer to your island, below the level you started from::0
+Make Obsidian with a Stone Barrel::0
+Make a Tinkers' Construct smeltery for processing ore::0
+Upgrade an existing Tinkers' tool with a metal part::0
+Automate your Cobble with Cobblestone Generator Block or Transfer Node::0
+Upgrade your mob farm to kill monsters automatically::0
+Enchant a Sieve Mesh::0
+::1
+::1
+::1
+::1
+::1
+---=== Farming Age ===---| |Time to fight back against this cold, empty void, and grow some things! ::1
+Make a Watering Can::0
+Capture a Cow in a Jar::0
+Prepare a farming space for several crops::0
+Craft an Inferium Seed::0
+Make a Mattock from Tinkers' Construct::0
+Start a food farm and an Inferium Essence Farm::0
+Prove to the world that Sand grows Sugar Cane faster than dirt with a Block of Snad::0
+Use Nesting Pens to automate resource collection from Chickens::0
+::1
+--== Mystical Farming ==--| |Resources are finite, but crops will grow whatever you need ::1
+Craft an Iron Seed::0
+Craft a Diamond Seed::0
+Use a Soulium Dagger to obtain a Mob Chunk::0
+Use Growth Crystals or Growth Accelerators to speed up crop growth::0
+Craft a Master Infustion Crystal::0
+Craft a Supremium Apple::0
+Craft Supremium armor::0
+::1
+::1
+::1
+--= Age of Exploration =--| |With the right tools you no longer have to be confined to your small island. Time to get out and stretch our legs! Try not to die...::1
+Fly::0
+Use an Angel Block and your ability to fly to start a new island somewhere else::0
+Travel to the Nether::0
+Travel to the bottom of the Nether using a boat::0
+Use a Diamond Chest Transporter to bring home 5 Blaze Spawners::0
+Kill a Wither::0
+Travel to The Beneath Dimension::0
+Travel to the End::0
+Kill the Ender Dragon::0
+Collect Dragons Breath::0
+Travel to the End City and obtain Elytra::0
+Hatch a Dragon Egg and train it::0
+::1
+::1
+::1
+--== Age of Machines ==--| |Your skill with technology is growing. Automation is key.::1
+Craft and power a generator of some kind::0
+Automate turning Cobblestone into Gravel with a SAG Mill or Auto Hammer::0
+Use Energy Conduits to power several machines at once::0
+Automate Loot Bag Creation, Opening, and Compression::0
+Automate crop harvesting::0
+Link an Ender Pouch to an Ender Chest::0
+Create a Refined Storage system to store your things::0
+Automate storage of ore pieces/chunks from an Automatic Sieve::0
+Process sieve materials to ingots::0
+::1
+::1
+::1
+::1
+::1
+--== Age of Power ==--| |Once you start on this path, how much is enough?::1
+Create a Passively cooled reactor from the Extreme Reactors Mod::0
+Create an Actively cooled reactor from the Extreme Reactors Mod::0
+Create the maximum size reactor::0
+Create a turbine from the Extreme Reactors Mod::0
+Produce 1,000 RF/t::0
+Produce 10,000 RF/t::0
+Produce 100k RF/t::0
+Produce 1 million RF/t::0
+::1
+--== Green Energy ==--| |Free, renewable energy!::1
+Build a Solar Array Tier 1 Multiblock Structure::0
+Harness the power of Lightning with a Lightning Rod::0
+Build a Solar Array Tier 4 Multiblock Structure::0
+Collect Ore from the Void with a Void Ore Miner Structure::0
+--= Age of Enhancement =--| |Your tools are not powerful enough, time for an upgrade.::1
+Level up a Tinkers' Tool or Weapon::0
+Add a Diamond Hammer to a Tinkers' Pickaxe to obtain the Smashing Modifier::0
+Craft the highest tier Unbreakable Builder's Wand::0
+Create an unbreakable Tinkers' Tool::0
+Craft a melee Tinkers' Weapon that does 20 damage or more::0
+Build any melee weapon that does 90 or more damage::0
+::1
+::1
+::1
+::1
+--= Alchemic Wizardry =--|::1
+Craft and Place a Blood Altar::0
+Obtain a Master Blood Orb::0
+Automate LP Collection::0
+Use the Rudimentary Snare to obtain a Demonic Will::0
+Use the Sigil of the Phantom Bridge to walk over the void::0
+Craft the Bound Blade, Pickaxe, Axe, and Shovel::0
+Obtain the Living Armor::0
+Automate the creation of Demonic Slates::0
+Create a Tier 5 Blood Altar::0
+::1
+::1
+--= Age of the Botanist =--|::1
+Craft a Lexica Botania::0
+Craft a Petal Apothecary::0
+Create 64 Livingwood and 64 Livingrock with a Pure Daisy::0
+Craft a Mana Pool and a Mana Spreader::0
+Craft a Wand of the Forest::0
+Create a portal to Alfheim::0
+--== Mastery ==--|::1
+Complete the Ritual of Gaia::0
+Complete the Ritual of Gaia II::0
+::1
+::1
+--== Age of Dragons ==--| |You will be tested. It takes a legend to conquer legends.::1
+Craft the Draconic Armor Set::1
+Draconic Helm::0
+Draconic Chestplate::0
+Draconic Leggings::0
+Draconic Boots::0
+Craft the Draconic Tools::1
+Draconic Pickaxe::0
+Draconic Axe::0
+Draconic Shovel::0
+Draconic Hoe::0
+Draconic Staff of Power::0
+::1
+Automate Wither killing::0
+Kill a chaos dragon::0
+Kill 4 chaos dragons::0
+Build a tier 6 energy core::0
+Make a charm of dislocation::0
+Resurrect one of the dragons::0
+Fill a Draconic battery::0
+Create a Draconic Level Fusion Crafter::0
+Jump between 2 tamed dragons while in midair (while both are flying)::0
+::1
+::1
+::1
+::1
+--= Age of the Traveler =--| |You have outgrown your home. The next step is creating your own dimension.::1
+Obtain a Dimlet Parcel from an Endermen or Loot Bag::0
+Build a dimension, travel to it, and stay for at least 10 minutes::0
+Infuse your Machine Infuser to 100%::0
+Use the Absorber to create a custom liquid or block dimension::0
+Create a dimension of Rarity: 4 or higher consisting of Large Liquid Orbs::0
+Use a syringe to create a dimension with Ender Dragons::0
+::1
+::1
+::1
+--== Age of Insanity ==--| |At last you've got your production going and your machines are hard at work. It's time to REALLY have some fun!::1
+Create near infinite Grid Power with an Extra Utilities Dragon Egg Mill::0
+Create a 16x16x16 Colossal Chest::0
+Fill a Quantum Storage Unit with anything::0
+Craft the Rainbow Generator and use it to produce power::0
+Use the Terrain Scanner and regenerate 5 different biome chunks::0
+Produce 1 billion RF/t::0
+Get 20 different Chickens and automate resource collection::0
+Use Diamond blocks to cool a max size reactor::0
+Build Ender IO Farming Stations with Octadic Capacitors which automate 20 different crops::0
+Craft a single Octuple Compressed Cobblestone Block::0
+::1
+::1
+::1
+::1
+---===The End===---::1
+You have completed 100% of the achievements listed. What achievements can you come up with?::1
+100% complete::0

@@ -1,16 +1,16 @@
 package com.stateshifterlabs.achievementbooks.client;
 
 import com.stateshifterlabs.achievementbooks.client.gui.Colour;
-import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
+import com.stateshifterlabs.achievementbooks.facades.MinecraftFacade;
 
 public class DescriptionElement {
 
-	private final MinecraftStuff stuff;
+	private final MinecraftFacade stuff;
 	private final String descriptionText;
 	private final int width;
 	public static int bottomPadding = 5;
 
-	public DescriptionElement(MinecraftStuff stuff, String descriptionText, int width) {
+	public DescriptionElement(MinecraftFacade stuff, String descriptionText, int width) {
 
 		this.stuff = stuff;
 		this.descriptionText = descriptionText;

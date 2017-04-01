@@ -7,5 +7,10 @@ public class CommonProxy {
 
 	}
 
+	public String getDataDir() {
+		return "";
+	}
+
 	public void refreshResources() { }
+
 }

@@ -2,7 +2,6 @@ package com.stateshifterlabs.achievementbooks.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,40 +10,44 @@ public class MainCommand extends CommandBase {
 
 	private List<CommandBase> subCommands = new ArrayList<CommandBase>();
 
-	public MainCommand() {
-
+	@Override
+	public int getRequiredPermissionLevel() {
+		return Main.PERMISSION;
 	}
 
 	@Override
 	public String getCommandName() {
-		return "achievementbooks";
+		return Main.NAME;
 	}
 
 	@Override
 	public List<String> getCommandAliases() {
 		List<String> aliases = new ArrayList<String>();
 
-		aliases.add("ab");
+		aliases.add(Main.ALIAS1);
 
 		return aliases;
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
+		String txt = "";
 		for (int i = 0; i < subCommands.size(); i++) {
-			String txt = "";
-
 			CommandBase c = subCommands.get(i);
-			txt += "/ " + getCommandName() + " " + c.getCommandName();
 
-			if (i < subCommands.size() - 1) {
-				txt += ", ";
+			if (c.canCommandSenderUseCommand(sender)) {
+				txt += c.getCommandName();
 			}
 
-			sender.addChatMessage(new ChatComponentTranslation(txt));
+			if (i < subCommands.size() - 1) {
+				txt += "|";
+			}
+		}
+		if (subCommands.size() == 0) {
+			return "/" + getCommandName();
 		}
 
-		return "</" + getCommandName() + ">";
+		return "/" + getCommandName() + " <" + txt + ">";
 	}
 
 	@Override
@@ -69,7 +72,6 @@ public class MainCommand extends CommandBase {
 			}
 		}
 	}
-
 
 	public void add(CommandBase command) {
 		subCommands.add(command);

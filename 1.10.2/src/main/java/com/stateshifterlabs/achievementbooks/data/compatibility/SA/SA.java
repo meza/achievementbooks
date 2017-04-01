@@ -14,7 +14,6 @@ import com.stateshifterlabs.achievementbooks.data.Page;
 import com.stateshifterlabs.achievementbooks.data.PageElement;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
 import com.stateshifterlabs.achievementbooks.serializers.BookSerializer;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.DimensionManager;
 
 import java.io.BufferedWriter;
@@ -36,12 +35,12 @@ public class SA {
 	private final String configDir;
 	private Gson gson;
 
-	public SA() {
-		configDir = Minecraft.getMinecraft().mcDataDir.getAbsolutePath()+"/config";
+	public SA(String configDirPath) {
+		configDir = configDirPath + "/config";
 
 		GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
 		builder.registerTypeAdapter(FormattingList.class, new FormattingDeserializer());
-		builder.registerTypeAdapter(Book.class, new BookSerializer());
+		builder.registerTypeAdapter(Book.class, new BookSerializer(null));
 		gson = builder.create();
 	}
 
@@ -55,7 +54,7 @@ public class SA {
 	}
 
 	public Book createElementList(FormattingList formattingList) {
-		File achievements = new File(configDir+achievementList);
+		File achievements = new File(configDir + achievementList);
 		Book book = new Book();
 		book.withName("Achievement Book");
 		book.withItemName("imported_achievement_book");
@@ -63,8 +62,7 @@ public class SA {
 
 		int id = 0;
 		int itemsOnPage = 0;
-		try
-		{
+		try {
 			Scanner scan = new Scanner(achievements);
 
 			Page page = new Page();
@@ -77,15 +75,15 @@ public class SA {
 				}
 
 				String[] args = s.split(endStr);
-				if (args.length != 2)
-				{
+				if (args.length != 2) {
 					scan.close();
-					throw new IllegalArgumentException("Illegal format \"" + s + "\". Format must be [text]" + endStr + "[divClass]");
+					throw new IllegalArgumentException(
+							"Illegal format \"" + s + "\". Format must be [text]" + endStr + "[divClass]");
 				}
 
 				String text = args[0].trim().replaceAll("[|]", "\n");
 
-				if(text.isEmpty()) {
+				if (text.isEmpty()) {
 					continue;
 				}
 
@@ -115,10 +113,11 @@ public class SA {
 
 			scan.close();
 
+			if (page.elements().length > 0) {
+				book.addPage(page);
+			}
 
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return book;
@@ -148,11 +147,14 @@ public class SA {
 
 		try {
 			AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
-
-			for(String player: result.players()) {
+			if (result == null) {
+				return new AchievementStorage();
+			}
+			for (String player : result.players()) {
 				AchievementData playerData = result.forPlayer(player);
 				if (networkAgent != null) {
-					networkAgent.sendCompletedAchievements(playerData);;
+					networkAgent.sendCompletedAchievements(playerData);
+					;
 				}
 			}
 
@@ -177,12 +179,11 @@ public class SA {
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(firstPass);
 		Map<String, String> retval = new HashMap<String, String>();
-		if(m.find()) {
+		if (m.find()) {
 			retval.put("achievement", m.group(1));
 			retval.put("mod", m.group(2));
 			return retval;
-		}
-		else {
+		} else {
 			retval.put("achievement", firstPass);
 			return retval;
 		}

@@ -2,7 +2,7 @@ package com.stateshifterlabs.achievementbooks.networking;
 
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.facade.Player;
-import com.stateshifterlabs.achievementbooks.facades.MinecraftStuff;
+import com.stateshifterlabs.achievementbooks.facades.MinecraftFacade;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -11,9 +11,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class ClientToggleHandler implements IMessageHandler<ToggleAchievementMessage, IMessage> {
 
 	private AchievementStorage storage;
-	private MinecraftStuff stuff;
+	private MinecraftFacade stuff;
 
-	public ClientToggleHandler(AchievementStorage storage, MinecraftStuff stuff) {
+	public ClientToggleHandler(AchievementStorage storage, MinecraftFacade stuff) {
 		this.storage = storage;
 		this.stuff = stuff;
 	}

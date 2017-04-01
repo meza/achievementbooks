@@ -5,7 +5,6 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -15,45 +14,46 @@ public class MainCommand extends CommandBase {
 
 	private List<CommandBase> subCommands = new ArrayList<CommandBase>();
 
-	public MainCommand() {
-
+	@Override
+	public int getRequiredPermissionLevel() {
+		return Main.PERMISSION;
 	}
 
 	@Override
 	public String getName() {
-		return "achievementbooks";
+		return Main.NAME;
 	}
 
 	@Override
 	public List<String> getAliases() {
 		List<String> aliases = new ArrayList<String>();
 
-		aliases.add("ab");
+		aliases.add(Main.ALIAS1);
 
 		return aliases;
 	}
 
 	@Override
 	public String getUsage(ICommandSender sender) {
+		String txt = "";
 		for (int i = 0; i < subCommands.size(); i++) {
-			String txt = "";
-
 			CommandBase c = subCommands.get(i);
-			txt += "/ " + getName() + " " + c.getName();
-
+			txt += c.getName();
 			if (i < subCommands.size() - 1) {
-				txt += ", ";
+				txt += "|";
 			}
-
-
-			sender.sendMessage(new TextComponentString(txt));
+		}
+		if (subCommands.size() == 0) {
+			return "/" + getName();
 		}
 
-		return "</" + getName() + ">";
+		return "/" + getName() + " <" + txt + ">";
 	}
 
 	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] strings, @Nullable BlockPos pos) {
+	public List<String> getTabCompletions(
+			MinecraftServer server, ICommandSender sender, String[] strings, @Nullable BlockPos pos
+	) {
 		List<String> tabOptions = new ArrayList<String>();
 
 		if (strings.length == 1) {

@@ -1,6 +1,6 @@
 package com.stateshifterlabs.achievementbooks.networking;
 
-import com.stateshifterlabs.achievementbooks.common.MCThingy;
+import com.stateshifterlabs.achievementbooks.common.Minecraft111Facade;
 import com.stateshifterlabs.achievementbooks.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.data.Book;
@@ -22,8 +22,8 @@ public class NetworkAgent
 
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ClientHandler(storage), CompletionDetailsMessage.class, packetId++, Side.SERVER);
-		wrapper.registerMessage(new ServerToggleHandler(storage), ToggleAchievementMessage.class, packetId++, Side.SERVER);
-		wrapper.registerMessage(new ClientToggleHandler(storage, new MCThingy()), ToggleAchievementMessage.class, packetId++, Side.CLIENT);
+		wrapper.registerMessage(new ServerToggleHandler(storage, this), ToggleAchievementMessage.class, packetId++, Side.SERVER);
+		wrapper.registerMessage(new ClientToggleHandler(storage, new Minecraft111Facade()), ToggleAchievementMessage.class, packetId++, Side.CLIENT);
 		wrapper.registerMessage(new ServerPageTurnHandler(storage), PageTurnMessage.class, packetId++, Side.SERVER);
 	}
 
@@ -41,7 +41,7 @@ public class NetworkAgent
 
 	public void sendAchievementsTo(EntityPlayerMP player) {
 		CompletionDetailsMessage msg = new CompletionDetailsMessage();
-		msg.withData(storage.forPlayer(player.getDisplayName().toString()));
+		msg.withData(storage.forPlayer(player.getName()));
 		wrapper.sendTo(msg, player);
 	}
 
