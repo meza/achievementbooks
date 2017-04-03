@@ -17,24 +17,16 @@ public enum ChatFormatting {
 	LIGHT_PURPLE('d'),
 	YELLOW('e'),
 	WHITE('f'),
-	OBFUSCATED('k', true),
-	BOLD('l', true),
-	STRIKETHROUGH('m', true),
-	UNDERLINE('n', true),
-	ITALIC('o', true),
+	OBFUSCATED('k'),
+	BOLD('l'),
+	STRIKETHROUGH('m'),
+	UNDERLINE('n'),
+	ITALIC('o'),
 	RESET('r');
 
-	private final char code;
-	private final boolean isFormat;
 	private final String toString;
 
 	private ChatFormatting(char code) {
-		this(code, false);
-	}
-
-	private ChatFormatting(char code, boolean isFormat) {
-		this.code = code;
-		this.isFormat = isFormat;
 		this.toString = UTF8Utils.utf8String("§", String.valueOf(code));
 	}
 
