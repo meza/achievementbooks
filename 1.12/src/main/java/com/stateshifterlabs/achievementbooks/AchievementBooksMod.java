@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks;
 
+import com.stateshifterlabs.achievementbooks.client.ItemMashes;
 import com.stateshifterlabs.achievementbooks.commands.CreateDemoCommand;
 import com.stateshifterlabs.achievementbooks.commands.GiveCommand;
 import com.stateshifterlabs.achievementbooks.commands.ListCommand;
@@ -13,11 +14,18 @@ import com.stateshifterlabs.achievementbooks.data.Loader;
 import com.stateshifterlabs.achievementbooks.facade.MCSound;
 import com.stateshifterlabs.achievementbooks.items.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.networking.NetworkAgent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -29,12 +37,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.io.File;
+import java.util.List;
 
 @Mod(modid = AchievementBooksMod.MODID, version = AchievementBooksMod.VERSION, name = AchievementBooksMod.MODID)
 @Mod.EventBusSubscriber(modid = AchievementBooksMod.MODID)
 public class AchievementBooksMod {
 	public static final String MODID = "achievementbooks";
 	public static final String VERSION = "@VERSION@";
+	protected static IForgeRegistry<Item> registry;
 
 	@SidedProxy(serverSide = "com.stateshifterlabs.achievementbooks.CommonProxy", clientSide = "com.stateshifterlabs.achievementbooks.ClientProxy")
 	public static CommonProxy proxy;
@@ -62,19 +72,30 @@ public class AchievementBooksMod {
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		l2.init();
-		final IForgeRegistry<Item> registry = event.getRegistry();
+		registry = event.getRegistry();
 
 		for (final AchievementBookItem item : l2.items()) {
-			System.out.println("LOFASZ");
 			registry.register(item);
 		}
+	}
+
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		List<AchievementBookItem> items = l2.items();
+		for (final AchievementBookItem item : items) {
+
+			System.out.println(String.format("Setting %s to %s", item.getUnlocalizedName(), item.getModelLocation().toString()));
+
+			ModelLoader.setCustomModelResourceLocation(item, 0, item.getModelLocation());
+		}
+
 	}
 
 	@Mod.EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 
 		MainCommand mainCommand = new MainCommand();
-		mainCommand.add(new ReloadCommand(loader));
+		mainCommand.add(new ReloadCommand(loader, registry));
 		mainCommand.add(new CreateDemoCommand(loader));
 		mainCommand.add(new GiveCommand(books));
 		mainCommand.add(new ListCommand(books));

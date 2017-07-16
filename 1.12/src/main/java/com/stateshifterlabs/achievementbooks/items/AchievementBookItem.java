@@ -17,9 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IRegistryDelegate;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooksMod.MODID;
 
@@ -40,7 +42,7 @@ public class AchievementBookItem extends Item {
 		this.sound = sound;
 		setRegistryName(MODID + ":" + book.itemName());
 		setCreativeTab(CreativeTabs.MISC);
-		setUnlocalizedName("achievementbooks" + book.itemName());
+		setUnlocalizedName("achievementbooks:" + book.itemName());
 		setMaxStackSize(1);
 	}
 
@@ -67,7 +69,7 @@ public class AchievementBookItem extends Item {
 		this.book = book;
 	}
 
-	public ModelResourceLocation getModelLocation(ItemStack stack) {
+	public ModelResourceLocation getModelLocation() {
 		return new ModelResourceLocation(MODID + ":book-" + book.colour(), "inventory");
 	}
 }

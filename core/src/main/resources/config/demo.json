@@ -56,6 +56,32 @@
 				"achievement": "Reorder the achievements on page 2 of the Achievement Book Demo",
 				"mod": "Achievement Books"
 			}
+		],
+		[
+			{
+				"id": 11,
+				"header": "Giving Back"
+			},
+			{
+				"id": 12,
+				"achievement": "Follow Meza on http://twitch.tv/vsbmeza3",
+				"mod": "twitch"
+			},
+			{
+				"id": 13,
+				"achievement": "Follow Meza on http://twitter.com/vsbmeza3",
+				"mod": "twitter"
+			},
+			{
+				"id": 14,
+				"achievement": "Subscribe at http://bit.ly/vsbmeza3YT",
+				"mod": "youtube"
+			},
+			{
+				"id": 15,
+				"achievement": "Join Meza's community at http://discord.gg/ZrHQ5mx",
+				"mod": "discord"
+			}
 		]
 	]
 }
