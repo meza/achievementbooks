@@ -1,6 +1,0 @@
-{
-	"parent": "achievementbooks:item/book",
-	"textures": {
-		"layer0": "achievementbooks:items/book-orange"
-	}
-}
