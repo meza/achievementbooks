@@ -3,11 +3,11 @@ package com.stateshifterlabs.achievementbooks.helpers.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.stateshifterlabs.achievementbooks.data.AchievementData;
-import com.stateshifterlabs.achievementbooks.data.AchievementStorage;
-import com.stateshifterlabs.achievementbooks.data.Book;
-import com.stateshifterlabs.achievementbooks.data.Page;
-import com.stateshifterlabs.achievementbooks.data.PageElement;
+import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
+import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
+import com.stateshifterlabs.achievementbooks.core.data.Book;
+import com.stateshifterlabs.achievementbooks.core.data.Page;
+import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import io.codearte.jfairy.Fairy;
 

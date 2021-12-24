@@ -2,8 +2,8 @@ package com.stateshifterlabs.achievementbooks.helpers.generators;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.stateshifterlabs.achievementbooks.SA.Formatting;
-import com.stateshifterlabs.achievementbooks.SA.FormattingList;
+import com.stateshifterlabs.achievementbooks.core.SA.Formatting;
+import com.stateshifterlabs.achievementbooks.core.SA.FormattingList;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import io.codearte.jfairy.Fairy;
 

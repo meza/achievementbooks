@@ -3,13 +3,13 @@ package com.stateshifterlabs.achievementbooks.helpers.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.stateshifterlabs.achievementbooks.data.Book;
-import com.stateshifterlabs.achievementbooks.data.Language;
-import com.stateshifterlabs.achievementbooks.data.Page;
-import com.stateshifterlabs.achievementbooks.data.PageElement;
-import com.stateshifterlabs.achievementbooks.data.Type;
+import com.stateshifterlabs.achievementbooks.core.data.Book;
+import com.stateshifterlabs.achievementbooks.core.data.Language;
+import com.stateshifterlabs.achievementbooks.core.data.Page;
+import com.stateshifterlabs.achievementbooks.core.data.PageElement;
+import com.stateshifterlabs.achievementbooks.core.data.Type;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
-import com.stateshifterlabs.achievementbooks.items.Colour;
+import com.stateshifterlabs.achievementbooks.core.items.Colour;
 import io.codearte.jfairy.Fairy;
 
 public class BookGenerator {
