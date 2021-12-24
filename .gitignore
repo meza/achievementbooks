@@ -1,5 +1,6 @@
 run
 out
+logs
 **/eclipse
 **/eclipse-server
 .gradle
