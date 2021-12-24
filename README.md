@@ -1,12 +1,8 @@
-> __Disclaimer__
->
-> _Whatever you see in the code, it's just a very early work in progress. Don't assume I know what I'm doing._
->
 > @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
 
 # Achievement Books
 
-The Achivement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
+The Achievement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
 
 It is highly configurable via JSON to have headers, free flow text and achievement checklists on multiple pages.
 
@@ -14,7 +10,7 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 
 - you can have multiple achievement books for different parts of your game
 - you don't need to deal with difficult formatting files
-- you can describe your books in an easy to read format
+- you can describe your books in an easy-to-read format
 - you can add/remove/edit entries without players losing their achievement progress
 - you can reload the books from the config without restarting the game
 
@@ -22,10 +18,10 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 
 ### Installing the Mod
 
-Currently Achievement Books only supports 1.7.10, but is under active development for all other versions too.
+Currently, Achievement Books only supports 1.7.10-1.12, but is under active development for all other versions too.
 
 To install it, head over to the project's page on [CurseForge https://minecraft.curseforge.com/projects/achievement-books](https://minecraft.curseforge.com/projects/achievement-books)
- and download it into your mincraft installation's `mods` folder.
+ and download it into your minecraft installation's `mods` folder.
 
 Note, that this is the same process for servers or clients.
 
