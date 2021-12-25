@@ -41,10 +41,6 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 			book.addProperty("color", src.colour());
 		}
 
-		if(src.isMigrationTarget()) {
-			book.addProperty("migrationTarget", true);
-		}
-
 		JsonArray pages = new JsonArray();
 
 		for(int i = 0; i<src.pageCount(); i++) {
@@ -117,12 +113,6 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 		}
 		if(bookObject.has("craftingMaterial")) {
 			book.withMaterial(bookObject.get("craftingMaterial").getAsString());
-		}
-
-		if(bookObject.has("migrationTarget")) {
-			if(bookObject.get("migrationTarget").getAsBoolean()) {
-				book.markAsMigrationTarget();
-			}
 		}
 
 		if(!bookObject.has("pages")) {

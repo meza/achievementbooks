@@ -1,7 +1,4 @@
 package com.stateshifterlabs.achievementbooks.core.data;
-
-
-import com.stateshifterlabs.achievementbooks.core.SA.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
 
 import java.util.ArrayList;
@@ -20,7 +17,6 @@ public class Book {
 	private String itemName = "";
 	private Colour colour = Colour.defaultColour();
 	private Language language = Language.UK;
-	private boolean isMigrationTarget = false;
 
 	public void withName(String name) {
 		this.name = name;
@@ -143,9 +139,6 @@ public class Book {
 		if (itemName != null ? !itemName.equals(book.itemName) : book.itemName != null) {
 			return false;
 		}
-		if (isMigrationTarget != book.isMigrationTarget) {
-			return false;
-		}
 		if (colour != book.colour) {
 			return false;
 		}
@@ -162,7 +155,6 @@ public class Book {
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
 		result = 31 * result + (craftable ? 1 : 0);
-		result = 31 * result + (isMigrationTarget ? 1 : 0);
 		result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
 		result = 31 * result + (colour != null ? colour.hashCode() : 0);
 		result = 31 * result + (language != null ? language.hashCode() : 0);
@@ -183,13 +175,5 @@ public class Book {
 
 	public boolean idExists(int existingId) {
 		return elementIds.contains(existingId);
-	}
-
-	public boolean isMigrationTarget() {
-		return isMigrationTarget;
-	}
-
-	public void markAsMigrationTarget() {
-		isMigrationTarget = true;
 	}
 }

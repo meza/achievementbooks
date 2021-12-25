@@ -1,14 +1,26 @@
 package com.stateshifterlabs.achievementbooks;
 
+import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
+import com.stateshifterlabs.achievementbooks.core.data.Book;
+import com.stateshifterlabs.achievementbooks.core.data.Books;
+import com.stateshifterlabs.achievementbooks.core.data.Loader;
 import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.InputStream;
 
 public class AchievementBooks implements ModInitializer {
     public static final String MODID = "achievementbooks";
@@ -17,17 +29,23 @@ public class AchievementBooks implements ModInitializer {
     // That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
+    private final AchievementStorage storage = new AchievementStorage();
+    private File configDir = new File(String.valueOf(FabricLoader.getInstance().getConfigDir().resolve(MODID)));
+
     @Override
     public void onInitialize() {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
+        Books books = Loader.init(configDir);
 
-        Registry.register(
-                Registry.ITEM,
-                new Identifier(MODID, "book"),
-                new AchievementBookFabricItem()
-        );
+        for (Book book: books) {
+            Registry.register(
+                    Registry.ITEM,
+                    new Identifier(MODID, "book"),
+                    new AchievementBookFabricItem(book)
+            );
+        }
 
         LOGGER.info("Hello Fabric world!");
     }
