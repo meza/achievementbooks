@@ -14,10 +14,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.net.URL;
 import java.nio.charset.Charset;
 
 public class Loader {
-    public static Books init(File configDir, File demoFile) {
+    public static Books init(File configDir, URL demoFile) {
         Books books = new Books();
         books.empty();
         FilenameFilter fileNameFilter = new FilenameFilter() {
@@ -49,9 +50,10 @@ public class Loader {
             File file = new File(configDir.getAbsolutePath() + "/demo.json");
 
             try {
-                FileUtils.copyFile(demoFile, file);
+                FileUtils.copyURLToFile(demoFile, file);
                 return init(configDir, demoFile);
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new CouldNotWriteConfigFile(file);
             }
         }

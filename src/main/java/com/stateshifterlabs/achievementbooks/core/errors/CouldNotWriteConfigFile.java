@@ -9,7 +9,7 @@ public class CouldNotWriteConfigFile extends java.lang.RuntimeException {
     private File file;
 
     public CouldNotWriteConfigFile(File file) {
-        super(UTF8Utils.utf8String(
+        super(String.format(
                 "\n\n" +
                         "*****************************  THIS IS WHY YOUR GAME DOESN'T START  *******************************\n\n"+
                         "\tCannot write file: \"%s\"\n" +
