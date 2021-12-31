@@ -1,16 +1,10 @@
 package com.stateshifterlabs.achievementbooks.core.serializers;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
+import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 
 import java.io.File;
 import java.lang.reflect.Type;

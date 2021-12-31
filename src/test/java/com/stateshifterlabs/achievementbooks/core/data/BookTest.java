@@ -2,8 +2,8 @@ package com.stateshifterlabs.achievementbooks.core.data;
 
 import com.stateshifterlabs.achievementbooks.core.errors.DuplicatePageElementIdException;
 import com.stateshifterlabs.achievementbooks.core.errors.NoSuchAchievementException;
-import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
+import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import io.codearte.jfairy.Fairy;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -14,10 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 public class BookTest {

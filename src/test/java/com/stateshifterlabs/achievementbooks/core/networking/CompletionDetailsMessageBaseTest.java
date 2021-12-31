@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.facade.ByteBufferUtilities;
+import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.helpers.generators.AchievementDataGenerator;
-import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
 import io.codearte.jfairy.Fairy;
 import io.netty.buffer.ByteBuf;
 import org.junit.Before;
@@ -17,9 +17,7 @@ import org.mockito.ArgumentMatcher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CompletionDetailsMessageBaseTest {
 

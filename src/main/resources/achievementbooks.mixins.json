@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.stateshifterlabs.achievementbooks.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ModelLoaderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

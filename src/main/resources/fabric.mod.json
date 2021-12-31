@@ -12,7 +12,9 @@
     "homepage": "https://github.com/meza/achievementbooks",
     "sources": "https://github.com/meza/achievementbooks"
   },
-
+  "mixins": [
+    "achievementbooks.mixins.json"
+  ],
   "license": "CC0-1.0",
   "icon": "assets/modid/icon.png",
   "environment": "*",

@@ -7,8 +7,8 @@ import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 import com.stateshifterlabs.achievementbooks.core.data.Type;
-import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
+import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import io.codearte.jfairy.Fairy;
 
 import java.util.ArrayList;
