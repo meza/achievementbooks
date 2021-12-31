@@ -3,17 +3,20 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+@Environment(value= EnvType.CLIENT)
 public class BookScreen extends Screen {
 
     private Book book;
@@ -50,6 +53,15 @@ public class BookScreen extends Screen {
 
         RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_right-"+book.colour()+".png"));
         drawTexture(matrices, bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
+        ButtonWidget.PressAction nullAction = new ButtonWidget.PressAction() {
+            @Override
+            public void onPress(ButtonWidget button) {
+                return;
+            }
+        };
+
+        this.addDrawableChild(new PageTurnWidget(bookLeft + 20, bookTop+bookHeight - 30, false, nullAction, true));
+        this.addDrawableChild(new PageTurnWidget(bookLeft + bookWidth - 50, bookTop+bookHeight - 30, true, nullAction, true));
     }
 
     @Override
