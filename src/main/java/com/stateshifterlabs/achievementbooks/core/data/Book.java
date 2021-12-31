@@ -1,4 +1,6 @@
 package com.stateshifterlabs.achievementbooks.core.data;
+import com.stateshifterlabs.achievementbooks.core.errors.DuplicatePageElementIdException;
+import com.stateshifterlabs.achievementbooks.core.errors.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
 
 import java.util.ArrayList;

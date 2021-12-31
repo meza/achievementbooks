@@ -1,5 +1,7 @@
 package com.stateshifterlabs.achievementbooks.core.data;
 
+import com.stateshifterlabs.achievementbooks.core.errors.DuplicatePageElementIdException;
+import com.stateshifterlabs.achievementbooks.core.errors.NoSuchAchievementException;
 import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
 import io.codearte.jfairy.Fairy;

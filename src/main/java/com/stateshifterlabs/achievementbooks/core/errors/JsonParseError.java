@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.core.data;
+package com.stateshifterlabs.achievementbooks.core.errors;
 
 import com.stateshifterlabs.achievementbooks.core.UTF8Utils;
 

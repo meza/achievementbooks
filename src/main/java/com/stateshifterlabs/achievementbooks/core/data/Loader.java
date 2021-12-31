@@ -4,13 +4,11 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.stateshifterlabs.achievementbooks.AchievementBooks;
-import com.stateshifterlabs.achievementbooks.core.errors.CouldNotWriteConfigFile;
+import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 import com.stateshifterlabs.achievementbooks.core.serializers.BookSerializer;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.Charset;
 
 public class Loader {
