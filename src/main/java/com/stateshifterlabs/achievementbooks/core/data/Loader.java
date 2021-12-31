@@ -13,7 +13,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class Loader {
-    public static Books init(File configDir) {
+    public static Books init(File configDir, File demoFile) {
         Books books = new Books();
         books.empty();
         FilenameFilter fileNameFilter = new FilenameFilter() {
@@ -36,23 +36,17 @@ public class Loader {
             }
         };
 
-        if (!configDir.exists()) {
-            configDir.mkdirs();
-        }
+        ensureConfigfolder(configDir);
 
         final File[] files = configDir.listFiles(fileNameFilter);
 
+        // Create the demo config if no config is present -> recursive
         if (files.length == 0) {
             File file = new File(configDir.getAbsolutePath() + "/demo.json");
 
-            if (file.exists()) {
-                throw new DemoAlreadyExistsException();
-            }
-
-            URL url = AchievementBooks.class.getResource("/config/demo.json");
             try {
-                FileUtils.copyURLToFile(url, file);
-                return init(configDir);
+                FileUtils.copyFile(demoFile, file);
+                return init(configDir, demoFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -69,12 +63,16 @@ public class Loader {
                 } catch (JsonSyntaxException e) {
                     throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
                 }
-
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
         return books;
+    }
+
+    private static void ensureConfigfolder(File configDir) {
+        if (!configDir.exists()) {
+            configDir.mkdirs();
+        }
     }
 }

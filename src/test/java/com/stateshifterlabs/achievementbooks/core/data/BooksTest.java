@@ -26,10 +26,10 @@ public class BooksTest {
 	@Test
 	public void testBooks() {
 		int numberOfBooksToTestWith = fairy.baseProducer().randomBetween(0, 50);
-		RandomTestData<List<Book>, Books> books = generateBooks(numberOfBooksToTestWith);
+		RandomTestData<List<Book>, Books> generatedRandomBooks = generateBooks(numberOfBooksToTestWith);
 
-		List<Book> expected = books.jsonFormat();
-		Books actual = books.objectFormat();
+		List<Book> expected = generatedRandomBooks.jsonFormat();
+		Books actual = generatedRandomBooks.objectFormat();
 
 		assertEquals(expected.size(), actual.size());
 
@@ -52,16 +52,16 @@ public class BooksTest {
 	}
 
 	public RandomTestData<List<Book>, Books> generateBooks(int amount) {
-		List<Book> books = new ArrayList<>();
-		Books booksObject = new Books();
+		List<Book> generatedBooks = new ArrayList<>();
+		Books booksClassUnderTest = new Books();
 		for(int i=0; i<amount; i++) {
 			Book book = generator.generate().objectFormat();
-			books.add(book);
-			booksObject.addBook(book);
+			generatedBooks.add(book);
+			booksClassUnderTest.addBook(book);
 		}
 
 
-		return new RandomTestData<>(books, booksObject);
+		return new RandomTestData<>(generatedBooks, booksClassUnderTest);
 	}
 
 
