@@ -1,0 +1,18 @@
+{
+  "bookName": "vitae nibh metus",
+  "itemName": "proin tempus venenatis",
+  "migrationTarget": false,
+  "craftingMaterial": "lacus est etiam",
+  "pages": [
+    [
+      {"id": 0, "description": "Nulla mollis Phasellus semper Cras consectetur ornare, erat."},
+      {
+        "achievement": "Quis purus, nibh Praesent augue. Suscipit turpis.",
+        "checked": true,
+        "description": "Vulputate Lorem purus, metus elit at."
+      },
+      {"id": 2, "description": "Tempus in Quisque erat. Ornare, augue. Nisi."},
+      {"id": 3, "header": "Sit Lorem ornare, est.", "description": "Orci. Pede lacus mollis."}
+    ]
+  ]
+}

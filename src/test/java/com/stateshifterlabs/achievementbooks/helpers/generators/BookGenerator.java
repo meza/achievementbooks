@@ -55,7 +55,7 @@ public class BookGenerator {
 
 
         if(!excludeProperties.contains("pages")) {
-            int numberOfPages = fairy.baseProducer().randomBetween(0, 15);
+            int numberOfPages = fairy.baseProducer().randomBetween(1, 15);
 
             JsonArray pagesJson = new JsonArray();
 

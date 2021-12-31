@@ -1,13 +1,14 @@
 package com.stateshifterlabs.achievementbooks.core.serializers;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
+import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
 import io.codearte.jfairy.Fairy;
+import org.apache.commons.io.FileUtils;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +16,13 @@ import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static com.stateshifterlabs.achievementbooks.helpers.Settings.DEFAULT_TEST_ITERATION_COUNT;
@@ -103,5 +110,33 @@ public class BookSerializerTest {
 
 		serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
+	}
+
+	@Test
+	public void testDeserializePagesWithNoIds() throws IOException {
+		Path fixtureDirectory = Paths.get("src","test","resources","serializer");
+
+		// Has 4 pages, 1 is missing its ID
+		File malformedFile = new File(fixtureDirectory.toAbsolutePath() + "/noIdForAPage.json");
+
+		JsonElement jsonElement = JsonParser.parseReader(new FileReader(malformedFile));
+		JsonArray pageElements = jsonElement.getAsJsonObject().getAsJsonArray("pages").get(0).getAsJsonArray();
+		Assume.assumeTrue(
+				"The fixture did not have the expected 4 page elements",
+				pageElements.size() == 4
+		);
+
+		Assume.assumeFalse(
+				"The 2nd page element wasn't missing its ID",
+				pageElements.get(1).getAsJsonObject().has("id")
+		);
+
+		File conf = tempFolder.getRoot();
+		BookSerializer serializer = new BookSerializer(conf);
+
+		Book actual = serializer.deserialize(jsonElement, typeOfT, deserializationContext);
+		Page page = actual.openPage(0);
+
+		assertEquals(3, page.elements().length);
 	}
 }
