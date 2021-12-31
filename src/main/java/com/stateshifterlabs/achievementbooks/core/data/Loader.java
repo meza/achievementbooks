@@ -4,6 +4,8 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.stateshifterlabs.achievementbooks.core.errors.CouldNotWriteConfigFile;
+import com.stateshifterlabs.achievementbooks.core.errors.FreakFileReadError;
 import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 import com.stateshifterlabs.achievementbooks.core.serializers.BookSerializer;
 import org.apache.commons.io.FileUtils;
@@ -63,7 +65,7 @@ public class Loader {
                     throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
                 }
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new FreakFileReadError(conf);
             }
         }
         return books;
