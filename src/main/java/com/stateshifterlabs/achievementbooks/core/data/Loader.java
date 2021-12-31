@@ -62,7 +62,7 @@ public class Loader {
                     Book book = gson.fromJson(new BufferedReader(Files.newReader(conf, Charset.defaultCharset())), Book.class);
                     books.addBook(book);
                 } catch (JsonSyntaxException e) {
-                    throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
+                    throw new JsonParseError("There is an error in the book config. Paste the following file to http://jsonlint.com/ to find what the error is.", conf);
                 }
             } catch (FileNotFoundException e) {
                 throw new FreakFileReadError(conf);
