@@ -48,8 +48,8 @@ public class Loader {
             try {
                 FileUtils.copyFile(demoFile, file);
                 return init(configDir, demoFile);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new CouldNotWriteConfigFile(file);
             }
         }
 
@@ -65,7 +65,7 @@ public class Loader {
                     throw new JsonParseError("There is an error in the book config. Use http://jsonlint.com/ to find it", conf);
                 }
             } catch (FileNotFoundException e) {
-                throw new CouldNotWriteConfigFile(conf);
+                e.printStackTrace();
             }
         }
         return books;
