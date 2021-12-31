@@ -9,10 +9,8 @@ import io.codearte.jfairy.Fairy;
 
 public class AchievementDataGenerator {
 
-	private final Fairy fairy = Fairy.create();
-
-	public RandomTestData<JsonElement, AchievementData> generate(String playerName) {
-
+	public static RandomTestData<JsonElement, AchievementData> generate(String playerName) {
+		Fairy fairy = Fairy.create();
 		AchievementData expected = new AchievementData(playerName);
 
 		JsonObject element = new JsonObject();

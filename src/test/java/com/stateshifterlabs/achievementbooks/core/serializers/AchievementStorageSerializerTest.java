@@ -73,8 +73,8 @@ public class AchievementStorageSerializerTest {
 		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
 		for(int i=0; i<numberOfTestIterations; i++) {
-
-			RandomTestData<JsonElement, AchievementStorage> testData = generator.generate();
+			int numberOfElements = fairy.baseProducer().randomInt(20);
+			RandomTestData<JsonElement, AchievementStorage> testData = generator.generate(numberOfElements);
 
 			AchievementStorageSerializer serializer = new AchievementStorageSerializer(testData.objectFormat());
 
@@ -92,7 +92,7 @@ public class AchievementStorageSerializerTest {
 		AchievementStorage newStorage = new AchievementStorage();
 
 		if (populated) {
-			RandomTestData<JsonElement, AchievementData> xxx = new AchievementDataGenerator().generate("dummy");
+			RandomTestData<JsonElement, AchievementData> xxx = AchievementDataGenerator.generate("dummy");
 			newStorage.append(xxx.objectFormat());
 		}
 

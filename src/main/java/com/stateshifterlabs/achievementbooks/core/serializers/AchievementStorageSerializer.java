@@ -31,16 +31,12 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
 
 
 		for (String player : src.players()) {
-
-
 			AchievementData data = src.forPlayer(player);
 
 			AchievementDataSerializer dataSer = new AchievementDataSerializer(player);
 			JsonElement playerJson = dataSer.serialize(data, AchievementData.class, context);
 
-
 			storage.add(playerJson);
-
 		}
 
 		return storage;

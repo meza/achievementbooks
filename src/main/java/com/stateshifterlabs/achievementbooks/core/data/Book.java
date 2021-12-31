@@ -18,7 +18,6 @@ public class Book {
 	private boolean craftable = false;
 	private String itemName = "";
 	private Colour colour = Colour.defaultColour();
-	private Language language = Language.UK;
 
 	public void withName(String name) {
 		this.name = name;
@@ -144,7 +143,8 @@ public class Book {
 		if (colour != book.colour) {
 			return false;
 		}
-		return language != null ? language.equals(book.language) : book.language == null;
+
+		return true;
 	}
 
 	@Override
@@ -159,16 +159,7 @@ public class Book {
 		result = 31 * result + (craftable ? 1 : 0);
 		result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
 		result = 31 * result + (colour != null ? colour.hashCode() : 0);
-		result = 31 * result + (language != null ? language.hashCode() : 0);
 		return result;
-	}
-
-	public void withLanguage(Language language) {
-		this.language = language;
-	}
-
-	public Language language() {
-		return this.language;
 	}
 
 	public int numberOfElements() {

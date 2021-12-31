@@ -9,7 +9,6 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
-import com.stateshifterlabs.achievementbooks.core.data.Language;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 
@@ -34,12 +33,8 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 		if(src.isCraftable()) {
 			book.addProperty("craftingMaterial", src.material());
 		}
+		book.addProperty("color", src.colour());
 
-		if(src.language().equals(Language.UK)) {
-			book.addProperty("colour", src.colour());
-		} else {
-			book.addProperty("color", src.colour());
-		}
 
 		JsonArray pages = new JsonArray();
 
@@ -104,12 +99,7 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 
 		book.withItemName(bookObject.get("itemName").getAsString());
 		if(bookObject.has("color")) {
-			book.withLanguage(Language.US);
 			book.withColour(bookObject.get("color").getAsString());
-		}
-		if(bookObject.has("colour")) {
-			book.withLanguage(Language.UK);
-			book.withColour(bookObject.get("colour").getAsString());
 		}
 		if(bookObject.has("craftingMaterial")) {
 			book.withMaterial(bookObject.get("craftingMaterial").getAsString());

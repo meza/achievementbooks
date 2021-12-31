@@ -9,24 +9,20 @@ import io.codearte.jfairy.Fairy;
 
 public class AchievementStorageGenerator {
 
-	private AchievementDataGenerator dataGenerator = new AchievementDataGenerator();
 	private Fairy fairy = Fairy.create();
 
 	public RandomTestData<JsonElement, AchievementStorage> generate() {
 		return generate(0);
 	}
 
-	public RandomTestData<JsonElement, AchievementStorage> generate(int minPlayers) {
+	public RandomTestData<JsonElement, AchievementStorage> generate(int numberOfPlayers) {
 
 		JsonArray json = new JsonArray();
-
-		int numberOfPlayers = fairy.baseProducer().randomBetween(0, 10);
-
 		AchievementStorage storage = new AchievementStorage();
 
 		for(int i=0; i<numberOfPlayers; i++) {
 			String playerName = fairy.textProducer().latinWord();
-			RandomTestData<JsonElement, AchievementData> playerData = dataGenerator.generate(playerName);
+			RandomTestData<JsonElement, AchievementData> playerData = AchievementDataGenerator.generate(playerName);
 			storage.append(playerData.objectFormat());
 			json.add(playerData.jsonFormat());
 		}

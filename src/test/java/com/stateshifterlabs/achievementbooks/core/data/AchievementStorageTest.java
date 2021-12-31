@@ -1,15 +1,15 @@
 package com.stateshifterlabs.achievementbooks.core.data;
 
 import com.stateshifterlabs.achievementbooks.core.facade.Player;
+import com.stateshifterlabs.achievementbooks.helpers.generators.AchievementDataGenerator;
 import com.stateshifterlabs.achievementbooks.helpers.generators.AchievementStorageGenerator;
 import io.codearte.jfairy.Fairy;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -59,6 +59,14 @@ public class AchievementStorageTest {
 	}
 
 	@Test
+	public void testSize() {
+		int numberOfPlayers = fairy.baseProducer().randomInt(100);
+		AchievementStorage storage = storageGenerator.generate(numberOfPlayers).objectFormat();
+
+		Assert.assertEquals(numberOfPlayers, storage.size());
+	}
+
+	@Test
 	public void testGetFromMinecraftPlayer() {
 		AchievementStorage storage = new AchievementStorage();
 		String playerName = fairy.textProducer().word();
@@ -75,7 +83,33 @@ public class AchievementStorageTest {
 	}
 
 	@Test
+	public void testHasPlayer() {
+		AchievementStorage storage = new AchievementStorage();
+		String playerName = fairy.textProducer().word();
+		AchievementData data = new AchievementData(playerName);
+
+		Assert.assertFalse(storage.hasPlayerData(playerName));
+		storage.append(data);
+		Assert.assertTrue(storage.hasPlayerData(playerName));
+
+	}
+
+	@Test
 	public void testEquals() {
 		EqualsVerifier.forClass(AchievementStorage.class).verify();
+	}
+
+	@Test
+	public void testAppendReplacesData() {
+		AchievementStorage storage = new AchievementStorage();
+		String playerName = fairy.textProducer().word();
+		AchievementData originalData = AchievementDataGenerator.generate(playerName).objectFormat();
+
+		storage.append(originalData);
+		assertSame(originalData, storage.forPlayer(playerName));
+
+		AchievementData newData = AchievementDataGenerator.generate(playerName).objectFormat();
+		storage.append(newData);
+		assertSame(newData, storage.forPlayer(playerName));
 	}
 }

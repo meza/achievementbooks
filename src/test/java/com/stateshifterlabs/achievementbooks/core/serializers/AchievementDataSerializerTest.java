@@ -22,7 +22,6 @@ public class AchievementDataSerializerTest {
 	private String player;
 	private Fairy fairy = Fairy.create();
 
-	private AchievementDataGenerator generator;
 	private Type typeOfT;
 	private JsonDeserializationContext deserializationContext;
 	private JsonSerializationContext serializationContext;
@@ -31,7 +30,6 @@ public class AchievementDataSerializerTest {
 	@Before
 	public void setUp() {
 		player = randomPlayerName();
-		generator = new AchievementDataGenerator();
 		typeOfT = Mockito.mock(Type.class);
 		deserializationContext = Mockito.mock(JsonDeserializationContext.class);
 		serializationContext = Mockito.mock(JsonSerializationContext.class);
@@ -44,7 +42,7 @@ public class AchievementDataSerializerTest {
 		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
 		for(int i=0; i<numberOfTestIterations; i++) {
-			RandomTestData<JsonElement, AchievementData> testData = generator.generate(player);
+			RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
 			AchievementData actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
 			assertEquals("Achievement Data couldn't be deserialized properly", testData.objectFormat(), actual);
@@ -58,7 +56,7 @@ public class AchievementDataSerializerTest {
 		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
 		for(int i=0; i<numberOfTestIterations; i++) {
-			RandomTestData<JsonElement, AchievementData> testData = generator.generate(player);
+			RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
 			JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
 			//need to convert back to a comparable object. The JSON Format is unpredictable
 			AchievementData actualResult = serializer.deserialize(actualJson, typeOfT, deserializationContext);

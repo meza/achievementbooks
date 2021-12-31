@@ -26,12 +26,10 @@ public class CompletionDetailsMessageBaseTest {
 	private final Fairy fairy = Fairy.create();
 
 	private ByteBufferUtilities byteBufferUtilities;
-	private AchievementDataGenerator generator;
 
 	@Before
 	public void setUp() {
 		byteBufferUtilities = mock(ByteBufferUtilities.class);
-		generator = new AchievementDataGenerator();
 	}
 
 	@Test
@@ -55,7 +53,7 @@ public class CompletionDetailsMessageBaseTest {
 		CompletionDetailsMessageBase completionDetailsMessageBase =
 				new CompletionDetailsMessageBase(byteBufferUtilities);
 		String randomPlayerName = fairy.textProducer().word();
-		RandomTestData<JsonElement, AchievementData> data = generator.generate(randomPlayerName);
+		RandomTestData<JsonElement, AchievementData> data = AchievementDataGenerator.generate(randomPlayerName);
 
 		ByteBuf buffer = mock(ByteBuf.class);
 		final String value = data.jsonFormat().toString();
@@ -73,7 +71,7 @@ public class CompletionDetailsMessageBaseTest {
 		CompletionDetailsMessageBase completionDetailsMessageBase =
 				new CompletionDetailsMessageBase(byteBufferUtilities);
 		String randomPlayerName = fairy.textProducer().word();
-		RandomTestData<JsonElement, AchievementData> data = generator.generate(randomPlayerName);
+		RandomTestData<JsonElement, AchievementData> data = AchievementDataGenerator.generate(randomPlayerName);
 		completionDetailsMessageBase.withData(data.objectFormat());
 
 		ByteBuf buffer = mock(ByteBuf.class);

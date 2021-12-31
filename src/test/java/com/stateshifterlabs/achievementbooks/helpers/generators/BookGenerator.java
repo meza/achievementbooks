@@ -4,13 +4,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.core.data.Language;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 import com.stateshifterlabs.achievementbooks.core.data.Type;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.core.items.Colour;
 import io.codearte.jfairy.Fairy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookGenerator {
 
@@ -22,37 +24,54 @@ public class BookGenerator {
         return generate(true);
     }
 
+    public RandomTestData<JsonElement, Book> generate(List<String> excludeProperties) {
+        return generate(true, excludeProperties);
+    }
+
     public RandomTestData<JsonElement, Book> generate(boolean statusChecks) {
+        List<String> excludeProperties = new ArrayList<>();
+        return generate(statusChecks, excludeProperties);
+    }
+
+    public RandomTestData<JsonElement, Book> generate(boolean statusChecks, List<String> excludeProperties) {
         JsonObject bookJson = new JsonObject();
         Book book = new Book();
 
-        String bookName = fairy.textProducer().latinWord();
-        bookJson.addProperty("bookName", bookName);
-        book.withName(bookName);
+        if(!excludeProperties.contains("bookName")) {
+            String bookName = fairy.textProducer().latinWord();
+            bookJson.addProperty("bookName", bookName);
+            book.withName(bookName);
+        }
 
-        String itemName = fairy.textProducer().latinWord();
-        bookJson.addProperty("itemName", itemName);
-        book.withItemName(itemName);
+        if(!excludeProperties.contains("itemName")) {
+            String itemName = fairy.textProducer().latinWord();
+            bookJson.addProperty("itemName", itemName);
+            book.withItemName(itemName);
+        }
 
         addMigrationTarget(bookJson, book);
         addColour(bookJson, book);
         addCraftingMaterial(bookJson, book);
 
 
-        int numberOfPages = fairy.baseProducer().randomBetween(0, 15);
+        if(!excludeProperties.contains("pages")) {
+            int numberOfPages = fairy.baseProducer().randomBetween(0, 15);
 
-        JsonArray pagesJson = new JsonArray();
+            JsonArray pagesJson = new JsonArray();
 
-        for (int i = 0; i < numberOfPages; i++) {
-            RandomTestData<JsonElement, Page> page = randomPage(statusChecks);
-            pagesJson.add(page.jsonFormat());
-            book.addPage(page.objectFormat());
+            for (int i = 0; i < numberOfPages; i++) {
+                RandomTestData<JsonElement, Page> page = randomPage(statusChecks);
+                pagesJson.add(page.jsonFormat());
+                book.addPage(page.objectFormat());
+            }
+
+            bookJson.add("pages", pagesJson);
         }
-
-        bookJson.add("pages", pagesJson);
 
         return new RandomTestData<>(bookJson, book);
     }
+
+
 
     private void addMigrationTarget(JsonObject bookJson, Book book) {
         boolean shouldIncludeFalseMigrationTarget = fairy.baseProducer().trueOrFalse();
@@ -77,14 +96,7 @@ public class BookGenerator {
         if (fairy.baseProducer().trueOrFalse()) {
             Colour colour = fairy.baseProducer().randomElement(Colour.class);
             String colourText = colour.getText().toLowerCase();
-            boolean british = fairy.baseProducer().trueOrFalse();
-            if (british) {
-                book.withLanguage(Language.UK);
-                bookJson.addProperty("colour", colourText);
-            } else {
-                book.withLanguage(Language.US);
-                bookJson.addProperty("color", colourText);
-            }
+            bookJson.addProperty("color", colourText);
             book.withColour(colourText);
         }
     }

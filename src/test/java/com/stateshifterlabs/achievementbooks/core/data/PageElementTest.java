@@ -102,6 +102,17 @@ public class PageElementTest {
 	}
 
 	@Test
+	public void achievementFormatting() {
+		int id = fairy.baseProducer().randomBetween(0, 1000);
+		String achievement = fairy.textProducer().latinSentence();
+		PageElement element = new PageElement(id);
+
+		element.withAchievement(achievement);
+
+		assertEquals(achievement, element.formattedAchievement());
+	}
+
+	@Test
 	public void testToggle() {
 		int id = fairy.baseProducer().randomBetween(0, 1000);
 		PageElement element = new PageElement(id);
