@@ -4,6 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
@@ -11,9 +14,8 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-public class HeaderLine extends DrawableHelper implements Drawable {
+public class CenteredTextLine extends DrawableHelper implements Drawable, Element, Selectable, BookScreenElement {
 
-	private final int id;
 	private final int top;
 	private final int left;
 	private final int width;
@@ -21,8 +23,7 @@ public class HeaderLine extends DrawableHelper implements Drawable {
 	private final String header;
 	private final TextRenderer textRenderer;
 
-	public HeaderLine(int id, int top, int left, int width, String header, TextRenderer textRenderer) {
-		this.id = id;
+	public CenteredTextLine(int top, int left, int width, String header, TextRenderer textRenderer) {
 		this.top = top;
 		this.left = left;
 		this.width = width;
@@ -43,5 +44,20 @@ public class HeaderLine extends DrawableHelper implements Drawable {
 		}
 
 
+	}
+
+	@Override
+	public SelectionType getType() {
+		return SelectionType.NONE;
+	}
+
+	@Override
+	public void appendNarrations(NarrationMessageBuilder builder) {
+
+	}
+
+	@Override
+	public int height() {
+		return textRenderer.getWrappedLinesHeight(header, width);
 	}
 }

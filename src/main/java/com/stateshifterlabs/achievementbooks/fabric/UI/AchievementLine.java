@@ -1,0 +1,63 @@
+package com.stateshifterlabs.achievementbooks.fabric.UI;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.stateshifterlabs.achievementbooks.AchievementBooks;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+
+public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
+
+    private static Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
+    private final int top;
+    private final int left;
+    private final int width;
+    private final TextRenderer textRenderer;
+    private final TextLine descriptionLine;
+    private int checkboxOffset = 0;
+
+    public AchievementLine(int top, int left, int width, String description, TextRenderer textRenderer) {
+
+        this.top = top;
+        this.left = left;
+        this.width = width;
+        this.textRenderer = textRenderer;
+        this.descriptionLine = new TextLine(top, left+30, width-30, description, textRenderer);
+
+        checkboxOffset = descriptionLine.height()/2-10;
+        if (checkboxOffset < 0) {
+            checkboxOffset = 0;
+        }
+
+    }
+
+    @Override
+    public int height() {
+        return descriptionLine.height() > 20 ? descriptionLine.height() : 20;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        this.drawTexture(matrices, left, top+checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+        descriptionLine.render(matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public SelectionType getType() {
+        return SelectionType.NONE;
+    }
+
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
+
+    }
+}
