@@ -19,55 +19,55 @@ import static org.junit.Assert.assertEquals;
 public class AchievementDataSerializerTest {
 
 
-	private String player;
-	private Fairy fairy = Fairy.create();
+    private String player;
+    private final Fairy fairy = Fairy.create();
 
-	private Type typeOfT;
-	private JsonDeserializationContext deserializationContext;
-	private JsonSerializationContext serializationContext;
-	private AchievementDataSerializer serializer;
+    private Type typeOfT;
+    private JsonDeserializationContext deserializationContext;
+    private JsonSerializationContext serializationContext;
+    private AchievementDataSerializer serializer;
 
-	@Before
-	public void setUp() {
-		player = randomPlayerName();
-		typeOfT = Mockito.mock(Type.class);
-		deserializationContext = Mockito.mock(JsonDeserializationContext.class);
-		serializationContext = Mockito.mock(JsonSerializationContext.class);
-		serializer = new AchievementDataSerializer(player);
-	}
+    @Before
+    public void setUp() {
+        player = randomPlayerName();
+        typeOfT = Mockito.mock(Type.class);
+        deserializationContext = Mockito.mock(JsonDeserializationContext.class);
+        serializationContext = Mockito.mock(JsonSerializationContext.class);
+        serializer = new AchievementDataSerializer(player);
+    }
 
-	@Test
-	public void testDeserialize() {
+    @Test
+    public void testDeserialize() {
 
-		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
+        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
-		for(int i=0; i<numberOfTestIterations; i++) {
-			RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
-			AchievementData actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+        for (int i = 0; i < numberOfTestIterations; i++) {
+            RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
+            AchievementData actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
-			assertEquals("Achievement Data couldn't be deserialized properly", testData.objectFormat(), actual);
-		}
-	}
+            assertEquals("Achievement Data couldn't be deserialized properly", testData.objectFormat(), actual);
+        }
+    }
 
-	@Test
+    @Test
 
-	public void testSerialize() {
+    public void testSerialize() {
 
-		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
+        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
-		for(int i=0; i<numberOfTestIterations; i++) {
-			RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
-			JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
-			//need to convert back to a comparable object. The JSON Format is unpredictable
-			AchievementData actualResult = serializer.deserialize(actualJson, typeOfT, deserializationContext);
+        for (int i = 0; i < numberOfTestIterations; i++) {
+            RandomTestData<JsonElement, AchievementData> testData = AchievementDataGenerator.generate(player);
+            JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
+            //need to convert back to a comparable object. The JSON Format is unpredictable
+            AchievementData actualResult = serializer.deserialize(actualJson, typeOfT, deserializationContext);
 
-			assertEquals("Achievement Data couldn't be serialized properly", testData.objectFormat(), actualResult);
-		}
+            assertEquals("Achievement Data couldn't be serialized properly", testData.objectFormat(), actualResult);
+        }
 
-	}
+    }
 
-	private String randomPlayerName() {
-		return fairy.textProducer().latinWord();
-	}
+    private String randomPlayerName() {
+        return fairy.textProducer().latinWord();
+    }
 
 }

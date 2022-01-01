@@ -2,13 +2,13 @@ package com.stateshifterlabs.achievementbooks.core.facade;
 
 public interface Sound {
 
-	public void openBook();
+    void openBook();
 
-	public void toggle();
+    void toggle();
 
-	public void nextPage();
+    void nextPage();
 
-	public void previousPage();
+    void previousPage();
 
-	public void closeBook();
+    void closeBook();
 }

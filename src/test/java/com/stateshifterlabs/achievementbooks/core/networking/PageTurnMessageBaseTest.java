@@ -13,63 +13,63 @@ import static org.mockito.Mockito.*;
 
 public class PageTurnMessageBaseTest {
 
-	private final Fairy fairy = Fairy.create();
+    private final Fairy fairy = Fairy.create();
 
-	private ByteBufferUtilities byteBufferUtilities;
+    private ByteBufferUtilities byteBufferUtilities;
 
-	@Before
-	public void setUp() {
-		byteBufferUtilities = mock(ByteBufferUtilities.class);
-	}
+    @Before
+    public void setUp() {
+        byteBufferUtilities = mock(ByteBufferUtilities.class);
+    }
 
-	@Test
-	public void testBaseData() {
-		PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
-		assumeTrue(base.bookName() == null);
-		assumeTrue(base.page() == 0);
+    @Test
+    public void testBaseData() {
+        PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
+        assumeTrue(base.bookName() == null);
+        assumeTrue(base.page() == 0);
 
-		String randomBookName = fairy.textProducer().word();
-		int randomPage = fairy.baseProducer().randomInt(50);
+        String randomBookName = fairy.textProducer().word();
+        int randomPage = fairy.baseProducer().randomInt(50);
 
-		base.withData(randomBookName, randomPage);
+        base.withData(randomBookName, randomPage);
 
-		assertEquals("The book name wasn't returned properly in the toggle message", randomBookName, base.bookName());
-		assertEquals("The page offset wasn't returned properly in the toggle message", randomPage, base.page());
+        assertEquals("The book name wasn't returned properly in the toggle message", randomBookName, base.bookName());
+        assertEquals("The page offset wasn't returned properly in the toggle message", randomPage, base.page());
 
-	}
+    }
 
-	@Test
-	public void testToBytes() {
-		PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
-		String randomBookName = fairy.textProducer().word();
-		int randomPage = fairy.baseProducer().randomInt(50);
-		base.withData(randomBookName, randomPage);
+    @Test
+    public void testToBytes() {
+        PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
+        String randomBookName = fairy.textProducer().word();
+        int randomPage = fairy.baseProducer().randomInt(50);
+        base.withData(randomBookName, randomPage);
 
-		ByteBuf buffer = Mockito.mock(ByteBuf.class);
-		base.toBytes(buffer);
+        ByteBuf buffer = Mockito.mock(ByteBuf.class);
+        base.toBytes(buffer);
 
-		verify(buffer, times(1)).writeInt(randomPage);
-		verify(byteBufferUtilities, times(1)).writeUTF8String(buffer, randomBookName);
+        verify(buffer, times(1)).writeInt(randomPage);
+        verify(byteBufferUtilities, times(1)).writeUTF8String(buffer, randomBookName);
 
-	}
+    }
 
-	@Test
-	public void testFromBytes() {
-		PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
-		String randomBookName = fairy.textProducer().word();
-		int randomPage = fairy.baseProducer().randomInt(50);
+    @Test
+    public void testFromBytes() {
+        PageTurnMessageBase base = new PageTurnMessageBase(byteBufferUtilities);
+        String randomBookName = fairy.textProducer().word();
+        int randomPage = fairy.baseProducer().randomInt(50);
 
-		assumeTrue(base.bookName() == null);
-		assumeTrue(base.page() == 0);
+        assumeTrue(base.bookName() == null);
+        assumeTrue(base.page() == 0);
 
-		ByteBuf buffer = Mockito.mock(ByteBuf.class);
+        ByteBuf buffer = Mockito.mock(ByteBuf.class);
 
-		when(buffer.readInt()).thenReturn(randomPage);
-		when(byteBufferUtilities.readUTF8String(buffer)).thenReturn(randomBookName);
+        when(buffer.readInt()).thenReturn(randomPage);
+        when(byteBufferUtilities.readUTF8String(buffer)).thenReturn(randomBookName);
 
-		base.fromBytes(buffer);
+        base.fromBytes(buffer);
 
-		assertEquals("The book name wasn't parsed from the buffer in the toggle message", randomBookName, base.bookName());
-		assertEquals("The page offset wasn't parsed from the buffer in the toggle message", randomPage, base.page());
-	}
+        assertEquals("The book name wasn't parsed from the buffer in the toggle message", randomBookName, base.bookName());
+        assertEquals("The page offset wasn't parsed from the buffer in the toggle message", randomPage, base.page());
+    }
 }

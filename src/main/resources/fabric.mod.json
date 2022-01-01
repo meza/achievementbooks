@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "achievementbooks",
   "version": "${version}",
-
   "name": "Achievement Books",
   "description": "The Achivement Books mod introduces the ability to create * multiple * achievement books for Minecraft.",
   "authors": [
@@ -24,6 +23,9 @@
     ],
     "client": [
       "com.stateshifterlabs.achievementbooks.AchievementBooksClient"
+    ],
+    "server": [
+      "com.stateshifterlabs.achievementbooks.AchievementBooksServer::onGameStarted"
     ]
   },
   "depends": {

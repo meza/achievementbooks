@@ -33,9 +33,7 @@ public class Loader {
                     String str = name.substring(lastIndex);
 
                     // match path name extension
-                    if (str.equals(".json")) {
-                        return true;
-                    }
+                    return str.equals(".json");
                 }
                 return false;
             }

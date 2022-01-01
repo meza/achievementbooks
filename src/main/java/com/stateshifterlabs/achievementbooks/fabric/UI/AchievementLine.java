@@ -21,8 +21,8 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
 
-    private static Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
-    private PageElement achievement;
+    private static final Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
+    private final PageElement achievement;
     private final int top;
     private final int left;
     private final int width;
@@ -37,9 +37,9 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
         this.left = left;
         this.width = width;
         this.textRenderer = textRenderer;
-        this.descriptionLine = new TextLine(top, left+30, width-30, description, textRenderer);
+        this.descriptionLine = new TextLine(top, left + 30, width - 30, description, textRenderer);
 
-        checkboxOffset = descriptionLine.height()/2-10;
+        checkboxOffset = descriptionLine.height() / 2 - 10;
         if (checkboxOffset < 0) {
             checkboxOffset = 0;
         }
@@ -91,7 +91,7 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     }
 
     protected boolean clicked(double mouseX, double mouseY) {
-        return mouseX >= (double)this.left && mouseY >= (double)this.top && mouseX < (double)(this.left + this.width) && mouseY < (double)(this.top + this.height());
+        return mouseX >= (double) this.left && mouseY >= (double) this.top && mouseX < (double) (this.left + this.width) && mouseY < (double) (this.top + this.height());
     }
 
     protected boolean isValidClickButton(int button) {

@@ -17,7 +17,7 @@ import java.util.List;
 public class BookGenerator {
 
     public static final boolean NO_STATUS = false;
-    private Fairy fairy = Fairy.create();
+    private final Fairy fairy = Fairy.create();
     private int elementId = 0;
 
     public RandomTestData<JsonElement, Book> generate() {
@@ -37,13 +37,13 @@ public class BookGenerator {
         JsonObject bookJson = new JsonObject();
         Book book = new Book();
 
-        if(!excludeProperties.contains("bookName")) {
+        if (!excludeProperties.contains("bookName")) {
             String bookName = fairy.textProducer().latinWord();
             bookJson.addProperty("bookName", bookName);
             book.withName(bookName);
         }
 
-        if(!excludeProperties.contains("itemName")) {
+        if (!excludeProperties.contains("itemName")) {
             String itemName = fairy.textProducer().latinWord();
             bookJson.addProperty("itemName", itemName);
             book.withItemName(itemName);
@@ -54,7 +54,7 @@ public class BookGenerator {
         addCraftingMaterial(bookJson, book);
 
 
-        if(!excludeProperties.contains("pages")) {
+        if (!excludeProperties.contains("pages")) {
             int numberOfPages = fairy.baseProducer().randomBetween(1, 15);
 
             JsonArray pagesJson = new JsonArray();
@@ -70,7 +70,6 @@ public class BookGenerator {
 
         return new RandomTestData<>(bookJson, book);
     }
-
 
 
     private void addMigrationTarget(JsonObject bookJson, Book book) {

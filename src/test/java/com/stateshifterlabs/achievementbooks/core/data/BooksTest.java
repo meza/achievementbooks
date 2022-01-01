@@ -15,59 +15,59 @@ import static org.junit.Assert.assertTrue;
 
 public class BooksTest {
 
-	private Fairy fairy = Fairy.create();
-	private BookGenerator generator;
+    private final Fairy fairy = Fairy.create();
+    private BookGenerator generator;
 
-	@Before
-	public void setUp() throws Exception {
-		generator = new BookGenerator();
-	}
+    @Before
+    public void setUp() throws Exception {
+        generator = new BookGenerator();
+    }
 
-	@Test
-	public void testBooks() {
-		int numberOfBooksToTestWith = fairy.baseProducer().randomBetween(0, 50);
-		RandomTestData<List<Book>, Books> generatedRandomBooks = generateBooks(numberOfBooksToTestWith);
+    @Test
+    public void testBooks() {
+        int numberOfBooksToTestWith = fairy.baseProducer().randomBetween(0, 50);
+        RandomTestData<List<Book>, Books> generatedRandomBooks = generateBooks(numberOfBooksToTestWith);
 
-		List<Book> expected = generatedRandomBooks.jsonFormat();
-		Books actual = generatedRandomBooks.objectFormat();
+        List<Book> expected = generatedRandomBooks.jsonFormat();
+        Books actual = generatedRandomBooks.objectFormat();
 
-		assertEquals(expected.size(), actual.size());
+        assertEquals(expected.size(), actual.size());
 
-		for(Book actualBook: actual) {
-			assertTrue(expected.contains(actualBook));
-		}
-	}
+        for (Book actualBook : actual) {
+            assertTrue(expected.contains(actualBook));
+        }
+    }
 
-	@Test
-	public void testClear() {
-		int numberOfBooksToTestWith = fairy.baseProducer().randomBetween(0, 50);
-		Books books = generateBooks(numberOfBooksToTestWith).objectFormat();
+    @Test
+    public void testClear() {
+        int numberOfBooksToTestWith = fairy.baseProducer().randomBetween(0, 50);
+        Books books = generateBooks(numberOfBooksToTestWith).objectFormat();
 
-		assertEquals(numberOfBooksToTestWith, books.size());
+        assertEquals(numberOfBooksToTestWith, books.size());
 
-		books.empty();
+        books.empty();
 
-		assertEquals("Books list could not be emptied", 0, books.size());
+        assertEquals("Books list could not be emptied", 0, books.size());
 
-	}
+    }
 
-	public RandomTestData<List<Book>, Books> generateBooks(int amount) {
-		List<Book> generatedBooks = new ArrayList<>();
-		Books booksClassUnderTest = new Books();
-		for(int i=0; i<amount; i++) {
-			Book book = generator.generate().objectFormat();
-			generatedBooks.add(book);
-			booksClassUnderTest.addBook(book);
-		}
-
-
-		return new RandomTestData<>(generatedBooks, booksClassUnderTest);
-	}
+    public RandomTestData<List<Book>, Books> generateBooks(int amount) {
+        List<Book> generatedBooks = new ArrayList<>();
+        Books booksClassUnderTest = new Books();
+        for (int i = 0; i < amount; i++) {
+            Book book = generator.generate().objectFormat();
+            generatedBooks.add(book);
+            booksClassUnderTest.addBook(book);
+        }
 
 
-	@Test
-	public void testEquals() {
-		EqualsVerifier.forClass(Books.class).verify();
-	}
+        return new RandomTestData<>(generatedBooks, booksClassUnderTest);
+    }
+
+
+    @Test
+    public void testEquals() {
+        EqualsVerifier.forClass(Books.class).verify();
+    }
 
 }

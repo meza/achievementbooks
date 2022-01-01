@@ -27,113 +27,113 @@ import static org.junit.Assert.assertEquals;
 
 public class BookSerializerTest {
 
-	private BookGenerator generator;
-	private Type typeOfT;
-	private JsonDeserializationContext deserializationContext;
-	private Fairy fairy = Fairy.create();
-	private JsonSerializationContext serializationContext;
+    private BookGenerator generator;
+    private Type typeOfT;
+    private JsonDeserializationContext deserializationContext;
+    private final Fairy fairy = Fairy.create();
+    private JsonSerializationContext serializationContext;
 
-	@Rule
-	public TemporaryFolder tempFolder = new TemporaryFolder();
+    @Rule
+    public TemporaryFolder tempFolder = new TemporaryFolder();
 
-	@Before
-	public void setUp() throws Exception {
-		generator = new BookGenerator();
-		typeOfT = Mockito.mock(Type.class);
-		deserializationContext = Mockito.mock(JsonDeserializationContext.class);
-		serializationContext = Mockito.mock(JsonSerializationContext.class);
-	}
+    @Before
+    public void setUp() throws Exception {
+        generator = new BookGenerator();
+        typeOfT = Mockito.mock(Type.class);
+        deserializationContext = Mockito.mock(JsonDeserializationContext.class);
+        serializationContext = Mockito.mock(JsonSerializationContext.class);
+    }
 
-	@Test
-	public void testSerialize() {
-		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
-		for (int i = 0; i < numberOfTestIterations; i++) {
+    @Test
+    public void testSerialize() {
+        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
+        for (int i = 0; i < numberOfTestIterations; i++) {
 
-			RandomTestData<JsonElement, Book> testData = generator.generate(BookGenerator.NO_STATUS);
-			BookSerializer serializer = new BookSerializer(null);
+            RandomTestData<JsonElement, Book> testData = generator.generate(BookGenerator.NO_STATUS);
+            BookSerializer serializer = new BookSerializer(null);
 
-			JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
-			Book actual = serializer.deserialize(actualJson, typeOfT, deserializationContext);
+            JsonElement actualJson = serializer.serialize(testData.objectFormat(), typeOfT, serializationContext);
+            Book actual = serializer.deserialize(actualJson, typeOfT, deserializationContext);
 
-			assertEquals(String.format("Book serializer is broken for book: %s", testData.jsonFormat()),
-						 testData.objectFormat(), actual);
-		}
-	}
+            assertEquals(String.format("Book serializer is broken for book: %s", testData.jsonFormat()),
+                    testData.objectFormat(), actual);
+        }
+    }
 
-	@Test
-	public void testDeserialize() {
+    @Test
+    public void testDeserialize() {
 
-		int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
+        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
 
-		for (int i = 0; i < numberOfTestIterations; i++) {
-			RandomTestData<JsonElement, Book> testData = generator.generate();
+        for (int i = 0; i < numberOfTestIterations; i++) {
+            RandomTestData<JsonElement, Book> testData = generator.generate();
 
-			BookSerializer serializer = new BookSerializer(null);
-			Book actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+            BookSerializer serializer = new BookSerializer(null);
+            Book actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
-			assertEquals("Book deserializer is broken", testData.objectFormat(), actual);
-		}
+            assertEquals("Book deserializer is broken", testData.objectFormat(), actual);
+        }
 
-	}
+    }
 
-	@Test(expected = JsonParseError.class)
-	public void testDeserializeWithNoBookName() {
-		File conf = tempFolder.getRoot();
-		BookSerializer serializer = new BookSerializer(conf);
+    @Test(expected = JsonParseError.class)
+    public void testDeserializeWithNoBookName() {
+        File conf = tempFolder.getRoot();
+        BookSerializer serializer = new BookSerializer(conf);
 
-		RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("bookName"));
+        RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("bookName"));
 
-		serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+        serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
-	}
+    }
 
-	@Test(expected = JsonParseError.class)
-	public void testDeserializeWithNoItemName() {
-		File conf = tempFolder.getRoot();
-		BookSerializer serializer = new BookSerializer(conf);
+    @Test(expected = JsonParseError.class)
+    public void testDeserializeWithNoItemName() {
+        File conf = tempFolder.getRoot();
+        BookSerializer serializer = new BookSerializer(conf);
 
-		RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("itemName"));
+        RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("itemName"));
 
-		serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+        serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
-	}
+    }
 
-	@Test(expected = JsonParseError.class)
-	public void testDeserializeWithNoPages() {
-		File conf = tempFolder.getRoot();
-		BookSerializer serializer = new BookSerializer(conf);
+    @Test(expected = JsonParseError.class)
+    public void testDeserializeWithNoPages() {
+        File conf = tempFolder.getRoot();
+        BookSerializer serializer = new BookSerializer(conf);
 
-		RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("pages"));
+        RandomTestData<JsonElement, Book> testData = generator.generate(Arrays.asList("pages"));
 
-		serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+        serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
 
-	}
+    }
 
-	@Test
-	public void testDeserializePagesWithNoIds() throws IOException {
-		Path fixtureDirectory = Paths.get("src","test","resources","serializer");
+    @Test
+    public void testDeserializePagesWithNoIds() throws IOException {
+        Path fixtureDirectory = Paths.get("src", "test", "resources", "serializer");
 
-		// Has 4 pages, 1 is missing its ID
-		File malformedFile = new File(fixtureDirectory.toAbsolutePath() + "/noIdForAPage.json");
+        // Has 4 pages, 1 is missing its ID
+        File malformedFile = new File(fixtureDirectory.toAbsolutePath() + "/noIdForAPage.json");
 
-		JsonElement jsonElement = JsonParser.parseReader(new FileReader(malformedFile));
-		JsonArray pageElements = jsonElement.getAsJsonObject().getAsJsonArray("pages").get(0).getAsJsonArray();
-		Assume.assumeTrue(
-				"The fixture did not have the expected 4 page elements",
-				pageElements.size() == 4
-		);
+        JsonElement jsonElement = JsonParser.parseReader(new FileReader(malformedFile));
+        JsonArray pageElements = jsonElement.getAsJsonObject().getAsJsonArray("pages").get(0).getAsJsonArray();
+        Assume.assumeTrue(
+                "The fixture did not have the expected 4 page elements",
+                pageElements.size() == 4
+        );
 
-		Assume.assumeFalse(
-				"The 2nd page element wasn't missing its ID",
-				pageElements.get(1).getAsJsonObject().has("id")
-		);
+        Assume.assumeFalse(
+                "The 2nd page element wasn't missing its ID",
+                pageElements.get(1).getAsJsonObject().has("id")
+        );
 
-		File conf = tempFolder.getRoot();
-		BookSerializer serializer = new BookSerializer(conf);
+        File conf = tempFolder.getRoot();
+        BookSerializer serializer = new BookSerializer(conf);
 
-		Book actual = serializer.deserialize(jsonElement, typeOfT, deserializationContext);
-		Page page = actual.openPage(0);
+        Book actual = serializer.deserialize(jsonElement, typeOfT, deserializationContext);
+        Page page = actual.openPage(0);
 
-		assertEquals(3, page.elements().length);
-	}
+        assertEquals(3, page.elements().length);
+    }
 }

@@ -6,41 +6,41 @@ import java.util.List;
 
 public class Books implements Iterable<Book> {
 
-	private final List<Book> books = new ArrayList<Book>();
+    private final List<Book> books = new ArrayList<Book>();
 
-	public void addBook(Book book) {
-		books.add(book);
-	}
+    public void addBook(Book book) {
+        books.add(book);
+    }
 
-	public int size() {
-		return books.size();
-	}
+    public int size() {
+        return books.size();
+    }
 
-	@Override
-	public Iterator<Book> iterator() {
-		return books.iterator();
-	}
+    @Override
+    public Iterator<Book> iterator() {
+        return books.iterator();
+    }
 
-	public void empty() {
-		books.clear();
-	}
+    public void empty() {
+        books.clear();
+    }
 
-	@Override
-	public final boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Books)) {
-			return false;
-		}
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Books)) {
+            return false;
+        }
 
-		Books books1 = (Books) o;
+        Books books1 = (Books) o;
 
-		return books != null ? books.equals(books1.books) : books1.books == null;
-	}
+        return books != null ? books.equals(books1.books) : books1.books == null;
+    }
 
-	@Override
-	public final int hashCode() {
-		return books != null ? books.hashCode() : 0;
-	}
+    @Override
+    public final int hashCode() {
+        return books != null ? books.hashCode() : 0;
+    }
 }

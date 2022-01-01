@@ -1,5 +1,7 @@
 package com.stateshifterlabs.achievementbooks.fabric;
 
+import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
+import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.fabric.UI.BookScreen;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -16,9 +18,10 @@ import net.minecraft.world.World;
 
 public class AchievementBookFabricItem extends Item {
 
-    private Book book;
+    private final Book book;
+    private final AchievementStorage achievementStorage;
 
-    public AchievementBookFabricItem(Book book) {
+    public AchievementBookFabricItem(Book book, AchievementStorage achievementStorage) {
         super(new FabricItemSettings()
                 .group(ItemGroup.MISC)
                 .maxCount(1)
@@ -26,6 +29,8 @@ public class AchievementBookFabricItem extends Item {
                 .fireproof()
         );
         this.book = book;
+        this.achievementStorage = achievementStorage;
+
     }
 
     @Override
@@ -37,7 +42,8 @@ public class AchievementBookFabricItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
 
         if (world.isClient) {
-            MinecraftClient.getInstance().setScreen(new BookScreen(this.book, world, playerEntity));
+            AchievementData achievementData = achievementStorage.forPlayer(playerEntity.getName().asString());
+            MinecraftClient.getInstance().setScreen(new BookScreen(this.book, achievementData, world, playerEntity));
         }
         return TypedActionResult.success(playerEntity.getStackInHand(hand));
     }

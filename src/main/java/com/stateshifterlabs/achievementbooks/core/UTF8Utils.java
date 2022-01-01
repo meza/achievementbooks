@@ -3,7 +3,7 @@ package com.stateshifterlabs.achievementbooks.core;
 import java.nio.charset.Charset;
 
 public class UTF8Utils {
-	public static String utf8String(String... strs) {
-		return new String(String.join("", strs).getBytes(), Charset.defaultCharset());
-	}
+    public static String utf8String(String... strs) {
+        return new String(String.join("", strs).getBytes(), Charset.defaultCharset());
+    }
 }

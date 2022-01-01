@@ -1,6 +1,6 @@
 {
-	"parent": "item/book",
-	"textures": {
-		"layer0": "achievementbooks:item/book"
-	}
+  "parent": "item/book",
+  "textures": {
+    "layer0": "achievementbooks:item/book"
+  }
 }

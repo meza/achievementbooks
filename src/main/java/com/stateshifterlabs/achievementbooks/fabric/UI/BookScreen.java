@@ -2,10 +2,7 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
-import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.core.data.Page;
-import com.stateshifterlabs.achievementbooks.core.data.PageElement;
-import com.stateshifterlabs.achievementbooks.core.data.Type;
+import com.stateshifterlabs.achievementbooks.core.data.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,14 +19,15 @@ import net.minecraft.world.World;
 @Environment(value = EnvType.CLIENT)
 public class BookScreen extends Screen {
 
-    private Book book;
-    private World world;
-    private PlayerEntity player;
+    private final Book book;
+    private final AchievementData achievementData;
+    private final World world;
+    private final PlayerEntity player;
     public static int bookWidth = 417;
     public static int bookHeight = 245;
     public static int pageWidth = bookWidth / 2 - 35;
-    private float lineSeparatorHeight = 10;
-    private float paragraphSeparatorHeight = 20;
+    private final float lineSeparatorHeight = 10;
+    private final float paragraphSeparatorHeight = 20;
     private int contentLeft = 0;
     private int rightPageLeft = 0;
     private int contentTop = 0;
@@ -38,25 +36,28 @@ public class BookScreen extends Screen {
     private boolean isOpen = false;
     private int currentPage = 0;
     private int cachedPage = 0;
-    private ButtonWidget.PressAction turnForward = new ButtonWidget.PressAction() {
+    private final ButtonWidget.PressAction turnForward = new ButtonWidget.PressAction() {
         @Override
         public void onPress(ButtonWidget button) {
-            currentPage = currentPage+2;
+            currentPage = currentPage + 2;
         }
     };
-    private ButtonWidget.PressAction turnBackward = new ButtonWidget.PressAction() {
+    private final ButtonWidget.PressAction turnBackward = new ButtonWidget.PressAction() {
         @Override
         public void onPress(ButtonWidget button) {
-            currentPage = currentPage-2;
+            currentPage = currentPage - 2;
         }
     };
 
 
-    public BookScreen(Book book, World world, PlayerEntity player) {
+    public BookScreen(Book book, AchievementData achievementData, World world, PlayerEntity player) {
         super(new LiteralText(book.name()));
         this.book = book;
+        this.achievementData = achievementData;
         this.world = world;
         this.player = player;
+
+        this.book.loadDone(achievementData.completed(this.book.itemName()));
 
     }
 
@@ -65,7 +66,7 @@ public class BookScreen extends Screen {
         this.bookTop = (int) ((this.height - bookHeight) / 2.5);
         this.contentLeft = bookLeft + 20;
         this.contentTop = bookTop + 20;
-        this.rightPageLeft = (this.width/2) + 15;
+        this.rightPageLeft = (this.width / 2) + 15;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -95,7 +96,7 @@ public class BookScreen extends Screen {
         drawPage(leftPage, contentLeft);
 
         if (currentPage + 1 < book.pageCount()) {
-            Page rightPage = book.openPage(currentPage+1);
+            Page rightPage = book.openPage(currentPage + 1);
             drawPage(rightPage, rightPageLeft);
         }
     }
@@ -116,10 +117,10 @@ public class BookScreen extends Screen {
 
                 if (pageElement.hasDescription()) {
 
-                    heightOffset+=lineSeparatorHeight;
+                    heightOffset += lineSeparatorHeight;
 
                     TextLine textLine = new TextLine(
-                            contentTop+heightOffset,
+                            contentTop + heightOffset,
                             leftMargin,
                             pageWidth,
                             pageElement.formattedDescription(),
@@ -129,31 +130,31 @@ public class BookScreen extends Screen {
                     heightOffset += textLine.height();
                 }
 
-                heightOffset+=paragraphSeparatorHeight;
+                heightOffset += paragraphSeparatorHeight;
             }
 
             if (pageElement.type() == Type.TEXT) {
                 TextLine textLine = new TextLine(
-                        contentTop+heightOffset,
+                        contentTop + heightOffset,
                         leftMargin,
                         pageWidth,
                         pageElement.formattedDescription(),
                         textRenderer
                 );
                 this.addDrawableChild(textLine);
-                heightOffset += textLine.height()+paragraphSeparatorHeight;
+                heightOffset += textLine.height() + paragraphSeparatorHeight;
             }
 
             if (pageElement.type() == Type.ACHIEVEMENT) {
                 AchievementLine cb = new AchievementLine(
                         pageElement,
-                        contentTop+heightOffset,
+                        contentTop + heightOffset,
                         leftMargin,
                         pageWidth,
                         pageElement.formattedAchievement(),
                         textRenderer);
                 this.addDrawableChild(cb);
-                heightOffset += cb.height()+paragraphSeparatorHeight;
+                heightOffset += cb.height() + paragraphSeparatorHeight;
             }
         }
     }

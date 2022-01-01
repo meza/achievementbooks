@@ -7,16 +7,16 @@ import static org.junit.Assert.assertEquals;
 
 public class ColoursTest {
 
-	private Fairy fairy = Fairy.create();
+    private final Fairy fairy = Fairy.create();
 
 
-	@Test
-	public void testDefaultColour() {
-		String nonExistingColour = fairy.textProducer().latinWord();
+    @Test
+    public void testDefaultColour() {
+        String nonExistingColour = fairy.textProducer().latinWord();
 
-		Colour actual = Colour.fromString(nonExistingColour);
+        Colour actual = Colour.fromString(nonExistingColour);
 
-		assertEquals("Not the default colour is returned for an unknown colour", Colour.defaultColour(), actual);
+        assertEquals("Not the default colour is returned for an unknown colour", Colour.defaultColour(), actual);
 
-	}
+    }
 }

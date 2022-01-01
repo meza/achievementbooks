@@ -9,7 +9,7 @@ public class PageElement {
     private String header;
     private String mod;
     private boolean checked = false;
-    private int id;
+    private final int id;
 
     public PageElement(int id) {
         this.id = id;

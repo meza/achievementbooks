@@ -17,7 +17,7 @@ public class ModelLoaderMixin {
     public void loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
         //First, we check if the current item model that is being registered is from our mod. If it isn't, we continue.
         if (!"achievementbooks".equals(id.getNamespace())) return;
-        String bookName = id.getPath().replace("item/","");
+        String bookName = id.getPath().replace("item/", "");
         AchievementBookFabricItem book = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(AchievementBooks.MODID, bookName));
 
         String modelJson = createItemModelJson(book.colour());
@@ -31,7 +31,7 @@ public class ModelLoaderMixin {
         return "{\n" +
                 "\t\"parent\": \"item/book\",\n" +
                 "\t\"textures\": {\n" +
-                "\t\t\"layer0\": \""+AchievementBooks.MODID+":item/book-"+colour+"\"\n" +
+                "\t\t\"layer0\": \"" + AchievementBooks.MODID + ":item/book-" + colour + "\"\n" +
                 "\t}\n" +
                 "}\n";
     }

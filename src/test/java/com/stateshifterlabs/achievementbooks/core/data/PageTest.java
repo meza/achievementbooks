@@ -7,30 +7,30 @@ import org.junit.Test;
 
 public class PageTest {
 
-	private Fairy fairy = Fairy.create();
+    private final Fairy fairy = Fairy.create();
 
-	@Test
-	public void elementArrayTest() {
+    @Test
+    public void elementArrayTest() {
 
-		int arraySize = fairy.baseProducer().randomBetween(0, 10);
-		PageElement[] expected = new PageElement[arraySize];
+        int arraySize = fairy.baseProducer().randomBetween(0, 10);
+        PageElement[] expected = new PageElement[arraySize];
 
-		Page page = new Page();
+        Page page = new Page();
 
-		for(int i = 0; i< arraySize; i++) {
-			PageElement element = new PageElement(i+100);
+        for (int i = 0; i < arraySize; i++) {
+            PageElement element = new PageElement(i + 100);
 
-			expected[i] = element;
-			page.addElement(element);
+            expected[i] = element;
+            page.addElement(element);
 
-		}
+        }
 
-		Assert.assertArrayEquals(expected, page.elements());
+        Assert.assertArrayEquals(expected, page.elements());
 
-	}
+    }
 
-	@Test
-	public void testEquals() {
-		EqualsVerifier.forClass(Page.class).verify();
-	}
+    @Test
+    public void testEquals() {
+        EqualsVerifier.forClass(Page.class).verify();
+    }
 }

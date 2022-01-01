@@ -21,7 +21,7 @@ public class LoaderTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
-    private Path resourceDirectory = Paths.get("src","test","resources");
+    private final Path resourceDirectory = Paths.get("src", "test", "resources");
     Path demoFixture = resourceDirectory.resolve("demo.json");
 
     @Test
