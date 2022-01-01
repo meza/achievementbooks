@@ -1,6 +1,7 @@
 package com.stateshifterlabs.achievementbooks.fabric.UI;
 
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
@@ -10,10 +11,10 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
 
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class CenteredTextLine extends DrawableHelper implements Drawable, Element, Selectable, BookScreenElement {
 
 	private final int top;
