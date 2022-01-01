@@ -1,5 +1,9 @@
 package com.stateshifterlabs.achievementbooks;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.data.Loader;
@@ -14,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AchievementBooks implements ModInitializer {
     public static final String MODID = "achievementbooks";
@@ -34,6 +40,8 @@ public class AchievementBooks implements ModInitializer {
     public static Identifier RUB_SOUND_EVENT_ID = new Identifier(MODID, "rub");
     public static SoundEvent RUB_SOUND_EVENT = new SoundEvent(RUB_SOUND_EVENT_ID);
 
+    private static Map<Identifier, JsonObject> Recipes = new HashMap<>();
+
     @Override
     public void onInitialize() {
         LOGGER.info("Achievement Books initialising");
@@ -46,8 +54,42 @@ public class AchievementBooks implements ModInitializer {
             Identifier identifier = new Identifier(MODID, book.itemName());
             AchievementBookFabricItem item = new AchievementBookFabricItem(book);
             Registry.register(Registry.ITEM, identifier, item);
+
+            if (book.isCraftable()) {
+                AchievementBooks.Recipes.put(identifier, getRecipeFor(book));
+            }
+
         }
 
         LOGGER.info("Achievement Books initialised");
+    }
+
+    public static  Map<Identifier, JsonObject> bookRecipes() {
+        return Recipes;
+    }
+
+    private JsonObject getRecipeFor(Book book) {
+        String template = String.format("{\n" +
+                "  \"type\": \"minecraft:crafting_shapeless\",\n" +
+                "  \"ingredients\": [\n" +
+                "    {\n" +
+                "      \"item\": \"minecraft:book\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"item\": \"%s\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"result\": {\n" +
+                "    \"item\": \"%s:%s\"\n" +
+                "  }\n" +
+                "}",
+                book.material(),
+                MODID,
+                book.itemName()
+        );
+
+        JsonElement result = JsonParser.parseString(template);
+
+        return result.getAsJsonObject();
     }
 }
