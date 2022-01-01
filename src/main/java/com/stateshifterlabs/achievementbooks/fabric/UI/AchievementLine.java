@@ -12,8 +12,8 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
 public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
@@ -54,9 +54,9 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         if (!achievement.checked()) {
-            this.drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
         } else {
-            this.drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
+            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
         }
         descriptionLine.render(matrices, mouseX, mouseY, delta);
     }
@@ -76,7 +76,12 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
         if (isValidClickButton(button) && clicked(mouseX, mouseY)) {
 
             this.achievement.toggleState();
-            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(AchievementBooks.TICK_SOUND_EVENT, 1.0f));
+            SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
+            if (this.achievement.checked()) {
+                soundManager.play(PositionedSoundInstance.master(AchievementBooks.TICK_SOUND_EVENT, 1.0f));
+            } else {
+                soundManager.play(PositionedSoundInstance.master(AchievementBooks.RUB_SOUND_EVENT, 1.0f));
+            }
             return true;
         }
         return false;

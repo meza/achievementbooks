@@ -31,6 +31,9 @@ public class AchievementBooks implements ModInitializer {
     public static Identifier TICK_SOUND_EVENT_ID = new Identifier(MODID, "tick");
     public static SoundEvent TICK_SOUND_EVENT = new SoundEvent(TICK_SOUND_EVENT_ID);
 
+    public static Identifier RUB_SOUND_EVENT_ID = new Identifier(MODID, "rub");
+    public static SoundEvent RUB_SOUND_EVENT = new SoundEvent(RUB_SOUND_EVENT_ID);
+
     @Override
     public void onInitialize() {
         LOGGER.info("Achievement Books initialising");

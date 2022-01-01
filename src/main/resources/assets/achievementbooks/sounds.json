@@ -10,5 +10,9 @@
 	"tick": {
 		"subtitle": "achievementbooks.subtitle.tick",
 		"sounds": [ "achievementbooks:tick" ]
+	},
+	"rub": {
+		"subtitle": "achievementbooks.subtitle.rub",
+		"sounds": [ "achievementbooks:eraser" ]
 	}
 }
