@@ -60,7 +60,7 @@ public class BookScreen extends Screen {
 
     }
 
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(MatrixStack matrices) {
         this.bookLeft = (this.width - bookWidth) / 2;
         this.bookTop = (int) ((this.height - bookHeight) / 2.5);
         this.contentLeft = bookLeft + 20;
@@ -145,7 +145,9 @@ public class BookScreen extends Screen {
             }
 
             if (pageElement.type() == Type.ACHIEVEMENT) {
-                AchievementLine cb = new AchievementLine(contentTop+heightOffset,
+                AchievementLine cb = new AchievementLine(
+                        pageElement,
+                        contentTop+heightOffset,
                         leftMargin,
                         pageWidth,
                         pageElement.formattedAchievement(),
@@ -158,7 +160,7 @@ public class BookScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        drawBackground(matrices, delta, mouseX, mouseY);
+        drawBackground(matrices);
         drawPaginators();
         drawPages();
         super.render(matrices, mouseX, mouseY, delta);

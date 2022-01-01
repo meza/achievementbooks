@@ -2,6 +2,8 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
+import com.stateshifterlabs.achievementbooks.core.data.PageElement;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
@@ -9,12 +11,15 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
 public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
 
     private static Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
+    private PageElement achievement;
     private final int top;
     private final int left;
     private final int width;
@@ -22,7 +27,8 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     private final TextLine descriptionLine;
     private int checkboxOffset = 0;
 
-    public AchievementLine(int top, int left, int width, String description, TextRenderer textRenderer) {
+    public AchievementLine(PageElement achievement, int top, int left, int width, String description, TextRenderer textRenderer) {
+        this.achievement = achievement;
 
         this.top = top;
         this.left = left;
@@ -47,7 +53,11 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        this.drawTexture(matrices, left, top+checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+        if (!achievement.checked()) {
+            this.drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+        } else {
+            this.drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
+        }
         descriptionLine.render(matrices, mouseX, mouseY, delta);
     }
 
@@ -59,5 +69,24 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     @Override
     public void appendNarrations(NarrationMessageBuilder builder) {
 
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (isValidClickButton(button) && clicked(mouseX, mouseY)) {
+
+            this.achievement.toggleState();
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(AchievementBooks.TICK_SOUND_EVENT, 1.0f));
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean clicked(double mouseX, double mouseY) {
+        return mouseX >= (double)this.left && mouseY >= (double)this.top && mouseX < (double)(this.left + this.width) && mouseY < (double)(this.top + this.height());
+    }
+
+    protected boolean isValidClickButton(int button) {
+        return button == 0;
     }
 }

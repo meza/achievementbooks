@@ -10,13 +10,5 @@
 	"tick": {
 		"subtitle": "achievementbooks.subtitle.tick",
 		"sounds": [ "achievementbooks:tick" ]
-	},
-	"page_turn_forward": {
-		"subtitle": "achievementbooks.subtitle.pageTurnForward",
-		"sounds": [ "achievementbooks:flip-forward" ]
-	},
-	"page_turn_backward": {
-		"subtitle": "achievementbooks.subtitle.pageTurnBackward",
-		"sounds": [ "achievementbooks:flip-backward" ]
 	}
 }
