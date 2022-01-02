@@ -1,9 +1,12 @@
 package com.stateshifterlabs.achievementbooks.fabric.networking;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.GameSave;
+import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
@@ -12,6 +15,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+
+import static com.stateshifterlabs.achievementbooks.AchievementBooks.ACHIEVEMENT_LOAD_PACKET_ID;
 
 
 public class ServerActionHandler {
@@ -37,6 +42,11 @@ public class ServerActionHandler {
             AchievementData data = achievementStorage.forPlayer(serverPlayerEntity.getUuidAsString());
             data.toggle(message.bookItemName(), message.achievementId());
             saveHandler.save(AchievementBooks.saveFile());
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(serverPlayerEntity.getUuidAsString()));
+            Gson gson = builder.create();
+            AchievementBooks.LOGGER.info("About to send the achievement data");
+            packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(gson.toJson(data)));
         });
     }
 

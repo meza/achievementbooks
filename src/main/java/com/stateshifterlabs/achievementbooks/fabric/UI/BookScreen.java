@@ -118,7 +118,7 @@ public class BookScreen extends Screen {
         for (PageElement pageElement : page.elements()) {
             if (pageElement.type() == Type.HEADER) {
                 CenteredTextLine centeredTextLine = new CenteredTextLine(
-                        contentTop,
+                        contentTop + heightOffset,
                         leftMargin,
                         pageWidth,
                         pageElement.formattedHeader(),

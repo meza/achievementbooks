@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 public class AchievementBookFabricItem extends Item {
 
-    private final Book book;
+    private Book book;
     private final AchievementStorage achievementStorage;
 
     public AchievementBookFabricItem(
@@ -56,6 +56,10 @@ public class AchievementBookFabricItem extends Item {
             ));
         }
         return TypedActionResult.success(stackInHand);
+    }
+
+    public void updateBook(Book book) {
+        this.book = book;
     }
 
     public String colour() {

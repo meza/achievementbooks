@@ -1,15 +1,23 @@
 package com.stateshifterlabs.achievementbooks;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.stateshifterlabs.achievementbooks.core.data.*;
+import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
 import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
+import com.stateshifterlabs.achievementbooks.fabric.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.fabric.commands.ListCommand;
+import com.stateshifterlabs.achievementbooks.fabric.networking.BufferUtilities;
 import com.stateshifterlabs.achievementbooks.fabric.networking.ServerActionHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -48,7 +56,7 @@ public class AchievementBooks implements ModInitializer {
     public static SoundEvent RUB_SOUND_EVENT = new SoundEvent(RUB_SOUND_EVENT_ID);
 
     private static final Map<Identifier, JsonObject> Recipes = new HashMap<>();
-    private final AchievementStorage achievementStorage = new AchievementStorage();
+    private static final AchievementStorage achievementStorage = new AchievementStorage();
     private GameSave saveHandler;
     private Books books;
     private static File saveFile;
@@ -78,11 +86,38 @@ public class AchievementBooks implements ModInitializer {
 
         }
         new ServerActionHandler(achievementStorage, saveHandler);
+        this.registerCommands();
         LOGGER.info("Achievement Books initialised");
     }
 
+    public static AchievementStorage storage() {
+        return achievementStorage;
+    }
+
     private void onServerStarting(MinecraftServer minecraftServer) {
+        ServerPlayNetworking.registerGlobalReceiver(CLIENT_LOGIN_PACKET_ID, this::achievementLoadRequested);
         LOGGER.info("[SERVER] Server Starting");
+    }
+
+    private void achievementLoadRequested(
+            MinecraftServer minecraftServer,
+            ServerPlayerEntity serverPlayerEntity,
+            ServerPlayNetworkHandler serverPlayNetworkHandler,
+            PacketByteBuf packetByteBuf,
+            PacketSender packetSender) {
+
+        String playerUUID = BufferUtilities.toString(packetByteBuf);
+        minecraftServer.execute(() -> {
+            LOGGER.info("On Player Login " + playerUUID);
+            if (!achievementStorage.hasPlayerData(playerUUID)) return;
+            AchievementData data = achievementStorage.forPlayer(playerUUID);
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(playerUUID));
+            Gson gson = builder.create();
+            LOGGER.info("About to send the achievement data");
+            packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(gson.toJson(data)));
+        });
+
     }
 
     private void onServerStarted(MinecraftServer minecraftServer) {
@@ -93,7 +128,7 @@ public class AchievementBooks implements ModInitializer {
             gameDir = gameDir.resolve("saves");
         }
 
-        saveFile = gameDir.resolve(levelName).resolve("achievementbooks.json").toFile();
+        saveFile = gameDir.resolve(levelName).resolve(MODID).resolve("achievementbooks.save.json").toFile();
         saveHandler.load(saveFile);
     }
 
@@ -128,5 +163,12 @@ public class AchievementBooks implements ModInitializer {
         JsonElement result = JsonParser.parseString(template);
 
         return result.getAsJsonObject();
+    }
+
+    private void registerCommands() {
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
+            ListCommand.register(dispatcher, books);
+            GiveCommand.register(dispatcher, books);
+        });
     }
 }
