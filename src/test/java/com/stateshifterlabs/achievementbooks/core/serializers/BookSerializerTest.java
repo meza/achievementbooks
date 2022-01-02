@@ -2,7 +2,6 @@ package com.stateshifterlabs.achievementbooks.core.serializers;
 
 import com.google.gson.*;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.errors.JsonParseError;
 import com.stateshifterlabs.achievementbooks.helpers.RandomTestData;
 import com.stateshifterlabs.achievementbooks.helpers.generators.BookGenerator;
@@ -59,7 +58,7 @@ public class BookSerializerTest {
 
     }
 
-    @Test
+    @Test(expected = JsonParseError.class)
     public void testDeserializePagesWithNoIds() throws IOException {
         Path fixtureDirectory = Paths.get("src", "test", "resources", "serializer");
 
@@ -81,10 +80,8 @@ public class BookSerializerTest {
         File conf = tempFolder.getRoot();
         BookSerializer serializer = new BookSerializer(conf);
 
-        Book actual = serializer.deserialize(jsonElement, typeOfT, deserializationContext);
-        Page page = actual.openPage(0);
+        serializer.deserialize(jsonElement, typeOfT, deserializationContext);
 
-        assertEquals(3, page.elements().length);
     }
 
     @Test(expected = JsonParseError.class)

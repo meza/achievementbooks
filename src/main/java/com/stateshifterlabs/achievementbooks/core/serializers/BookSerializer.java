@@ -55,7 +55,8 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
             for (int j = 0; j < pageElements.size(); j++) {
                 JsonObject pageJson = pageElements.get(j).getAsJsonObject();
                 if (!pageJson.has("id")) {
-                    continue;
+                    String element = pageElements.get(j).toString();
+                    throw new JsonParseError("ID is required for every element. This doesn't have one: "+element, conf);
                 }
                 PageElement element = new PageElement(pageJson.get("id").getAsInt());
 
