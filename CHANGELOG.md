@@ -1,4 +1,7 @@
-## 2021-01-02
+## 2021-01-03 - version 1.1.1
+- Added a close button on the gui
+
+## 2021-01-02 - version 1.1.0
 Alpha release for 1.18.1 and Fabric.
 It has more or less feature parity with the original version.
 
