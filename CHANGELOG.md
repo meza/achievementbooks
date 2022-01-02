@@ -1,3 +1,8 @@
+## 2021-01-02
+Alpha release for 1.18.1 and Fabric.
+It has more or less feature parity with the original version.
+
+## 2017-04-03
 The very first official release of Achievement Books.
 
 For more information, head to the [project page](https://github.com/meza/achievementbooks) on how to use it.
