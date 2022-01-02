@@ -18,6 +18,12 @@ import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Consumer;
+
+interface ToggleCallback {
+    void onToggleCallback(PageElement achievement);
+}
+
 @Environment(EnvType.CLIENT)
 public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
 
@@ -29,8 +35,16 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     private final TextRenderer textRenderer;
     private final TextLine descriptionLine;
     private int checkboxOffset = 0;
+    private Consumer<PageElement> toggleCallback;
 
-    public AchievementLine(PageElement achievement, int top, int left, int width, String description, TextRenderer textRenderer) {
+    public AchievementLine(
+            PageElement achievement,
+            int top,
+            int left,
+            int width,
+            String description,
+            TextRenderer textRenderer
+    ) {
         this.achievement = achievement;
 
         this.top = top;
@@ -44,6 +58,10 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
             checkboxOffset = 0;
         }
 
+    }
+
+    public void onToggle(Consumer<PageElement> callback) {
+        toggleCallback = callback;
     }
 
     @Override
@@ -80,6 +98,7 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
 
             this.achievement.toggleState();
             SoundManager soundManager = MinecraftClient.getInstance().getSoundManager();
+            toggleCallback.accept(this.achievement);
             if (this.achievement.checked()) {
                 soundManager.play(PositionedSoundInstance.master(AchievementBooks.TICK_SOUND_EVENT, 1.0f));
             } else {

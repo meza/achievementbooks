@@ -3,6 +3,7 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.data.*;
+import com.stateshifterlabs.achievementbooks.core.events.BookEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -11,6 +12,8 @@ import net.minecraft.client.gui.widget.PageTurnWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
@@ -23,6 +26,7 @@ public class BookScreen extends Screen {
     private final AchievementData achievementData;
     private final World world;
     private final PlayerEntity player;
+    private final ItemStack itemStack;
     public static int bookWidth = 417;
     public static int bookHeight = 245;
     public static int pageWidth = bookWidth / 2 - 35;
@@ -36,16 +40,21 @@ public class BookScreen extends Screen {
     private boolean isOpen = false;
     private int currentPage = 0;
     private int cachedPage = 0;
+    private NbtCompound bookData;
     private final ButtonWidget.PressAction turnForward = new ButtonWidget.PressAction() {
         @Override
         public void onPress(ButtonWidget button) {
+
             currentPage = currentPage + 2;
+            onPageTurn();
         }
     };
     private final ButtonWidget.PressAction turnBackward = new ButtonWidget.PressAction() {
         @Override
         public void onPress(ButtonWidget button) {
+
             currentPage = currentPage - 2;
+            onPageTurn();
         }
     };
 
@@ -56,8 +65,11 @@ public class BookScreen extends Screen {
         this.achievementData = achievementData;
         this.world = world;
         this.player = player;
+        this.itemStack = player.getStackInHand(player.getActiveHand());
 
         this.book.loadDone(achievementData.completed(this.book.itemName()));
+
+        this.currentPage = itemStack.getOrCreateNbt().getInt(AchievementBooks.MODID + ":" + book.itemName() + ":pageOffset");
 
     }
 
@@ -153,10 +165,17 @@ public class BookScreen extends Screen {
                         pageWidth,
                         pageElement.formattedAchievement(),
                         textRenderer);
+                cb.onToggle(toggled -> {
+                    BookEvents.ACHIEVEMENT_TOGGLE.invoker().onAchievementToggled(pageElement.id(), book);
+                });
                 this.addDrawableChild(cb);
                 heightOffset += cb.height() + paragraphSeparatorHeight;
             }
         }
+    }
+
+    public void onPageTurn() {
+        BookEvents.PAGE_TURN.invoker().onPageTurn(currentPage, book);
     }
 
     @Override
@@ -180,4 +199,5 @@ public class BookScreen extends Screen {
             this.isOpen = true;
         }
     }
+
 }

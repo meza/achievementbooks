@@ -4,6 +4,8 @@ import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.fabric.UI.BookScreen;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +23,9 @@ public class AchievementBookFabricItem extends Item {
     private final Book book;
     private final AchievementStorage achievementStorage;
 
-    public AchievementBookFabricItem(Book book, AchievementStorage achievementStorage) {
+    public AchievementBookFabricItem(
+            Book book,
+            AchievementStorage achievementStorage) {
         super(new FabricItemSettings()
                 .group(ItemGroup.MISC)
                 .maxCount(1)
@@ -30,7 +34,6 @@ public class AchievementBookFabricItem extends Item {
         );
         this.book = book;
         this.achievementStorage = achievementStorage;
-
     }
 
     @Override
@@ -39,13 +42,20 @@ public class AchievementBookFabricItem extends Item {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
 
+        ItemStack stackInHand = playerEntity.getStackInHand(hand);
         if (world.isClient) {
-            AchievementData achievementData = achievementStorage.forPlayer(playerEntity.getName().asString());
-            MinecraftClient.getInstance().setScreen(new BookScreen(this.book, achievementData, world, playerEntity));
+            AchievementData achievementData = achievementStorage.forPlayer(playerEntity.getUuidAsString());
+            MinecraftClient.getInstance().setScreen(new BookScreen(
+                    this.book,
+                    achievementData,
+                    world,
+                    playerEntity
+            ));
         }
-        return TypedActionResult.success(playerEntity.getStackInHand(hand));
+        return TypedActionResult.success(stackInHand);
     }
 
     public String colour() {

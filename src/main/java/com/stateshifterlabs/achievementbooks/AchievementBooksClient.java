@@ -1,5 +1,6 @@
 package com.stateshifterlabs.achievementbooks;
 
+import com.stateshifterlabs.achievementbooks.fabric.networking.ClientActionDispatcher;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -17,6 +18,8 @@ public class AchievementBooksClient implements ClientModInitializer {
             buf.writeString(client.player.getName().asString());
             sender.sendPacket(AchievementBooks.CLIENT_LOGIN_PACKET_ID, buf);
             AchievementBooks.LOGGER.info("Client initialised");
+
         });
+        new ClientActionDispatcher();
     }
 }
