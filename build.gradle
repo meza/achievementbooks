@@ -90,7 +90,7 @@ curseforge {
         id = project.project_id
         changelogType = "markdown"
         changelog = file("CHANGELOG.md")
-        releaseType = 'alpha'
+        releaseType = project.hasProperty("curseForgeReleaseType") ? project.curseForgeReleaseType : "alpha"
         addGameVersion project.minecraft_version
         addGameVersion "Java 17"
 
