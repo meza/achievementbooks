@@ -1,96 +1,123 @@
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.8" apply false
+    id 'fabric-loom' version '0.10-SNAPSHOT'
+    id 'maven-publish'
+    id 'jvm-test-suite'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 
-repositories { jcenter() }
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
-subprojects {
-    project.ext.modid = "achievementbooks"
-    apply plugin: "java"
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
 
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
+repositories {
+    mavenCentral()
+
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    compileOnly group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+    compileOnly group: 'io.netty', name: 'netty-all', version: '4.0.23.Final'
+    implementation "com.google.guava:guava:31.0.1-jre"
+    testImplementation "junit:junit:4.12"
+    testImplementation 'io.codearte.jfairy:jfairy:0.5.9'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.8'
+    testImplementation "org.mockito:mockito-core:2.+"
+
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
     }
 }
 
-def getVersionAppendage() {
-    def proc = "git rev-parse --short HEAD".execute()
-    proc.waitFor()
-    return proc.exitValue() ? "GITBORK" : proc.text.trim()
+tasks.withType(JavaCompile).configureEach {
+    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+    it.options.release = 17
 }
 
-task cleanUpMinecraftRunClutter {
-    doLast {
-        delete "${rootDir}/classes"
-        delete "${rootDir}/out"
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
     }
 }
 
-
-configure(subprojects.findAll { it.name != 'core' &&  it.name != 'mccore'  }) {
-    dependencies {
-        testCompile 'junit:junit:4.12'
-        testCompile "org.mockito:mockito-core:2.+"
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
     }
-    sourceSets {
-        main {
-            java {
-                srcDirs += project(":core").sourceSets.main.java.srcDirs
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
+
+curseforge {
+    apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
+    project {
+        id = project.project_id
+        changelogType = "markdown"
+        changelog = file("CHANGELOG.md")
+        releaseType = project.hasProperty("curseForgeReleaseType") ? project.curseForgeReleaseType : "alpha"
+        addGameVersion project.minecraft_version
+        addGameVersion "Java 17"
+
+        relations {
+            requiredLibrary "fabric-api"
+        }
+        afterEvaluate {
+            mainArtifact(remapJar)
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+    options {
+        forgeGradleIntegration = false
+    }
+}
+
+test {
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
             }
         }
-
-        test {
-            java.srcDirs += ['src/test/java']
-        }
     }
-
-    apply plugin: 'com.matthewprenger.cursegradle'
-
-    clean.dependsOn cleanUpMinecraftRunClutter
-
-    boolean dev = System.getenv("RELEASE") == null || System.getenv("RELEASE").equalsIgnoreCase("false")
-
-
-    if (project.property("release_type").equalsIgnoreCase("release")) {
-        version = "${tag_name}-MC${minecraft_version}"
-    } else {
-        if (project.hasProperty("build_number")) {
-            version = "${mod_version}b${build_number}-MC${minecraft_version}"
-        } else {
-            version = "${mod_version}b${getVersionAppendage()}-MC${minecraft_version}"
-        }
-    }
-
-    tasks.curseforge.enabled = !dev && project.hasProperty('curseforge_key')
-
-    curseforge {
-        if (project.hasProperty('curseforge_key')) {
-            apiKey = project.curseforge_key
-        }
-
-        project {
-            id = project.projectId
-            changelog = project.file("CHANGELOG.md").getText() + "\n\n##Overall changes\n\n" + project.parent.file("CHANGELOG.md").getText()
-            changelogType = 'markdown'
-            releaseType = project.release_type
-            mainArtifact(jar) {
-                displayName = "Achievement Books ${version}"
-            }
-        }
-    }
-}
-
-String distDir = System.getenv("DIST_DIR");
-if (distDir == null) {
-    distDir = "dist"
-}
-
-task collect(type: Copy) {
-
-    from(subprojects.collect { "${it.buildDir}/libs" })
-    into distDir
-
-
 }

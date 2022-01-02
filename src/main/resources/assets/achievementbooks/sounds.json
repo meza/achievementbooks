@@ -1,0 +1,18 @@
+{
+  "open_book": {
+    "subtitle": "achievementbooks.subtitle.openBook",
+    "sounds": ["achievementbooks:open"]
+  },
+  "close_book": {
+    "subtitle": "achievementbooks.subtitle.closeBook",
+    "sounds": ["achievementbooks:close"]
+  },
+  "tick": {
+    "subtitle": "achievementbooks.subtitle.tick",
+    "sounds": ["achievementbooks:tick"]
+  },
+  "rub": {
+    "subtitle": "achievementbooks.subtitle.rub",
+    "sounds": ["achievementbooks:eraser"]
+  }
+}
