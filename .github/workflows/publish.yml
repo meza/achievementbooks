@@ -13,7 +13,8 @@ on:
           - release
 
 jobs:
-  publish_alpha:
+  publish:
+    name: Publishing ${{ github.event.inputs.releaseType }}
     strategy:
       matrix:
         java: [
@@ -34,8 +35,9 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         env:
-          curseForgeReleaseType: ${{ github.event.inputs.releaseType }}
-        run: ./gradlew curseforge$curseForgeProjectId
+          COM_STATESHIFTERLABS_ACHIEVEMENTBOOKS_curseForgeApiKey: ${{ secrets.curseForgeApiKey }}
+          COM_STATESHIFTERLABS_ACHIEVEMENTBOOKS_curseForgeReleaseType: ${{ github.event.inputs.releaseType }}
+        run: ./gradlew curseforge${{ secrets.curseForgeProjectId }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
