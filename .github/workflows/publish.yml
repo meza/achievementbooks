@@ -35,9 +35,9 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         env:
-          curseForgeApiKey: ${{ secrets.curseForgeApiKey }}
+          curseForgeApiKey: ${{ secrets.CURSEFORGEAPIKEY }}
           curseForgeReleaseType: ${{ github.event.inputs.releaseType }}
-        run: ./gradlew curseforge${{ secrets.curseForgeProjectId }}
+        run: ./gradlew curseforge${{ secrets.CURSEFORGEPROJECTID }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
