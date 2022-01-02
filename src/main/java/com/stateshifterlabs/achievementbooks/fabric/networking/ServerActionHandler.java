@@ -41,7 +41,7 @@ public class ServerActionHandler {
         minecraftServer.execute(() -> {
             AchievementData data = achievementStorage.forPlayer(serverPlayerEntity.getUuidAsString());
             data.toggle(message.bookItemName(), message.achievementId());
-            saveHandler.save(AchievementBooks.saveFile());
+            saveHandler.save();
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(serverPlayerEntity.getUuidAsString()));
             Gson gson = builder.create();

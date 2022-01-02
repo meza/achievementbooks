@@ -15,17 +15,14 @@
     "achievementbooks.mixins.json"
   ],
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/achievementbooks/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       "com.stateshifterlabs.achievementbooks.AchievementBooks"
     ],
     "client": [
-      "com.stateshifterlabs.achievementbooks.AchievementBooksClient"
-    ],
-    "server": [
-      "com.stateshifterlabs.achievementbooks.AchievementBooksServer::onGameStarted"
+      "com.stateshifterlabs.achievementbooks.AchievementBooks"
     ]
   },
   "depends": {

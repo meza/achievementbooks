@@ -8,17 +8,22 @@ import java.io.*;
 
 public class GameSave {
 
-
     private final Gson gson;
+    private final File saveFile;
     private AchievementStorage storage;
     private final Books books;
 
-    public GameSave(AchievementStorage storage, Books books) {
+    public GameSave(File saveFile, AchievementStorage storage, Books books) {
+        this.saveFile = saveFile;
         this.storage = storage;
         this.books = books;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(AchievementStorage.class, new AchievementStorageSerializer(storage));
         gson = builder.create();
+    }
+
+    public void load() {
+        load(this.saveFile);
     }
 
     public void load(File saveFile) {
@@ -32,6 +37,10 @@ public class GameSave {
         } catch (FileNotFoundException e) {
 
         }
+    }
+
+    public void save() {
+        save(this.saveFile);
     }
 
     public void save(File saveFile) {

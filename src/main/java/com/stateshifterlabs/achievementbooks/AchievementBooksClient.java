@@ -3,10 +3,12 @@ package com.stateshifterlabs.achievementbooks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
+import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
+import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
+import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
 import com.stateshifterlabs.achievementbooks.fabric.networking.BufferUtilities;
 import com.stateshifterlabs.achievementbooks.fabric.networking.ClientActionDispatcher;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -16,21 +18,43 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import static com.stateshifterlabs.achievementbooks.AchievementBooks.*;
 
 @Environment(EnvType.CLIENT)
-public class AchievementBooksClient implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        AchievementBooks.LOGGER.info("Client initialising");
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeString(client.player.getUuidAsString());
-            sender.sendPacket(AchievementBooks.CLIENT_LOGIN_PACKET_ID, buf);
-            AchievementBooks.LOGGER.info("Client initialised");
+public class AchievementBooksClient {
+    private static final Logger LOGGER = LogManager.getLogger(AchievementBooksClient.class);
+    private final AchievementStorage achievementStorage;
+    private final Books books;
 
-        });
+    public AchievementBooksClient(AchievementStorage achievementStorage, Books books) {
+
+        this.achievementStorage = achievementStorage;
+        this.books = books;
+
+        LOGGER.info("Client initialising");
+
         new ClientActionDispatcher();
-        ClientPlayNetworking.registerGlobalReceiver(AchievementBooks.ACHIEVEMENT_LOAD_PACKET_ID, this::loadAchievements);
+
+        LOGGER.info("Registering JOIN event handler");
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            client.execute(() -> {
+                LOGGER.info("JOIN event handler invoked on the client");
+                PacketByteBuf buf = PacketByteBufs.create();
+                String playerUUID = client.player.getUuidAsString();
+                buf.writeString(playerUUID);
+                LOGGER.info("Sending "+playerUUID+" to the channel: "+ CLIENT_LOGIN_PACKET_ID);
+                sender.sendPacket(CLIENT_LOGIN_PACKET_ID, buf);
+            });
+        });
+
+        LOGGER.info("Registering the "+ACHIEVEMENT_LOAD_PACKET_ID+" handler in the client");
+        ClientPlayNetworking.registerGlobalReceiver(ACHIEVEMENT_LOAD_PACKET_ID, this::loadAchievements);
+
     }
 
     private void loadAchievements(
@@ -39,17 +63,29 @@ public class AchievementBooksClient implements ClientModInitializer {
             PacketByteBuf packetByteBuf,
             PacketSender packetSender) {
 
+        LOGGER.info("The "+ACHIEVEMENT_LOAD_PACKET_ID+" handler has been invoked on the client");
         String json = BufferUtilities.toString(packetByteBuf);
-        AchievementBooks.LOGGER.info("Achievement Data received: " + json);
+        LOGGER.info("Achievement Data received: " + json);
         minecraftClient.execute(() -> {
+            LOGGER.info("Executing the worker task on the received achievement data");
+
             String player = minecraftClient.player.getUuidAsString();
+            LOGGER.info("Got the UUID for player: "+minecraftClient.player.getName().asString()+" to be: "+player);
 
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(player));
             Gson gson = builder.create();
             AchievementData data = gson.fromJson(json, AchievementData.class);
-            AchievementBooks.LOGGER.info(json);
-            AchievementBooks.storage().append(data);
+            achievementStorage.append(data);
+            LOGGER.info("Appended the new data to the achievement storage");
+
+            for(String bookItemName: achievementStorage.forPlayer(player).books()) {
+                AchievementBookFabricItem bookItem = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(MODID, bookItemName));
+                bookItem.updateBook(data);
+            }
+
+            LOGGER.info("Books for player: ");
+            LOGGER.info(achievementStorage.forPlayer(player).books());
         });
 
     }

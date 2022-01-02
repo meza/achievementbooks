@@ -18,12 +18,13 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Environment(value = EnvType.CLIENT)
 public class BookScreen extends Screen {
-
+    private static final Logger LOGGER = LogManager.getLogger(BookScreen.class);
     private final Book book;
-    private final AchievementData achievementData;
     private final World world;
     private final PlayerEntity player;
     private final ItemStack itemStack;
@@ -59,16 +60,12 @@ public class BookScreen extends Screen {
     };
 
 
-    public BookScreen(Book book, AchievementData achievementData, World world, PlayerEntity player) {
+    public BookScreen(Book book, World world, PlayerEntity player) {
         super(new LiteralText(book.name()));
         this.book = book;
-        this.achievementData = achievementData;
         this.world = world;
         this.player = player;
         this.itemStack = player.getStackInHand(player.getActiveHand());
-
-        this.book.loadDone(achievementData.completed(this.book.itemName()));
-
         this.currentPage = itemStack.getOrCreateNbt().getInt(AchievementBooks.MODID + ":" + book.itemName() + ":pageOffset");
 
     }
