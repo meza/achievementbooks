@@ -85,12 +85,12 @@ publishing {
 }
 
 curseforge {
-    apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : ""
+    apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : System.getenv("curseForgeApiKey")
     project {
         id = project.project_id
         changelogType = "markdown"
         changelog = file("CHANGELOG.md")
-        releaseType = project.hasProperty("curseForgeReleaseType") ? project.curseForgeReleaseType : "alpha"
+        releaseType = project.hasProperty("curseForgeReleaseType") ? project.curseForgeReleaseType : System.getenv("curseForgeReleaseType")
         addGameVersion project.minecraft_version
         addGameVersion "Java 17"
 
