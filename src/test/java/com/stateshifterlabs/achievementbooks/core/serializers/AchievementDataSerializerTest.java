@@ -18,14 +18,12 @@ import static org.junit.Assert.assertEquals;
 
 public class AchievementDataSerializerTest {
 
-
-    private String player;
     private final Fairy fairy = Fairy.create();
-
-    private Type typeOfT;
     private JsonDeserializationContext deserializationContext;
+    private String player;
     private JsonSerializationContext serializationContext;
     private AchievementDataSerializer serializer;
+    private Type typeOfT;
 
     @Before
     public void setUp() {

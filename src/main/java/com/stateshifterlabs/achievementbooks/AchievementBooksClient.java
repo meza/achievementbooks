@@ -47,12 +47,12 @@ public class AchievementBooksClient {
                 PacketByteBuf buf = PacketByteBufs.create();
                 String playerUUID = client.player.getUuidAsString();
                 buf.writeString(playerUUID);
-                LOGGER.info("Sending "+playerUUID+" to the channel: "+ CLIENT_LOGIN_PACKET_ID);
+                LOGGER.info("Sending " + playerUUID + " to the channel: " + CLIENT_LOGIN_PACKET_ID);
                 sender.sendPacket(CLIENT_LOGIN_PACKET_ID, buf);
             });
         });
 
-        LOGGER.info("Registering the "+ACHIEVEMENT_LOAD_PACKET_ID+" handler in the client");
+        LOGGER.info("Registering the " + ACHIEVEMENT_LOAD_PACKET_ID + " handler in the client");
         ClientPlayNetworking.registerGlobalReceiver(ACHIEVEMENT_LOAD_PACKET_ID, this::loadAchievements);
 
     }
@@ -63,14 +63,14 @@ public class AchievementBooksClient {
             PacketByteBuf packetByteBuf,
             PacketSender packetSender) {
 
-        LOGGER.info("The "+ACHIEVEMENT_LOAD_PACKET_ID+" handler has been invoked on the client");
+        LOGGER.info("The " + ACHIEVEMENT_LOAD_PACKET_ID + " handler has been invoked on the client");
         String json = BufferUtilities.toString(packetByteBuf);
         LOGGER.info("Achievement Data received: " + json);
         minecraftClient.execute(() -> {
             LOGGER.info("Executing the worker task on the received achievement data");
 
             String player = minecraftClient.player.getUuidAsString();
-            LOGGER.info("Got the UUID for player: "+minecraftClient.player.getName().asString()+" to be: "+player);
+            LOGGER.info("Got the UUID for player: " + minecraftClient.player.getName().asString() + " to be: " + player);
 
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(player));
@@ -79,7 +79,7 @@ public class AchievementBooksClient {
             achievementStorage.append(data);
             LOGGER.info("Appended the new data to the achievement storage");
 
-            for(String bookItemName: achievementStorage.forPlayer(player).books()) {
+            for (String bookItemName : achievementStorage.forPlayer(player).books()) {
                 AchievementBookFabricItem bookItem = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(MODID, bookItemName));
                 bookItem.updateBook(data);
             }

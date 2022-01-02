@@ -24,6 +24,10 @@ public enum Colour {
         this.representation = representation;
     }
 
+    public static Colour defaultColour() {
+        return BLACK;
+    }
+
     public static Colour fromString(String colourString) {
         for (Colour colour : Colour.values()) {
             if (colour.representation.equalsIgnoreCase(colourString)) {
@@ -31,10 +35,6 @@ public enum Colour {
             }
         }
         return defaultColour();
-    }
-
-    public static Colour defaultColour() {
-        return BLACK;
     }
 
     public String getText() {

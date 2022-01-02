@@ -14,6 +14,14 @@ public class AchievementToggledMessage {
         this.bookItemName = bookItemName;
     }
 
+    public static AchievementToggledMessage decode(PacketByteBuf buf) {
+        String json = buf.readString();
+        JsonObject data = JsonParser.parseString(json).getAsJsonObject();
+
+        return new AchievementToggledMessage(data.get("achievementId").getAsInt(), data.get("bookItemName").getAsString());
+
+    }
+
     public static PacketByteBuf encode(int achievementId, String bookItemName) {
         JsonObject data = new JsonObject();
         data.addProperty("achievementId", achievementId);
@@ -21,14 +29,6 @@ public class AchievementToggledMessage {
         String json = data.toString();
 
         return BufferUtilities.toBuf(json);
-    }
-
-    public static AchievementToggledMessage decode(PacketByteBuf buf) {
-        String json = buf.readString();
-        JsonObject data = JsonParser.parseString(json).getAsJsonObject();
-
-        return new AchievementToggledMessage(data.get("achievementId").getAsInt(), data.get("bookItemName").getAsString());
-
     }
 
     public int achievementId() {

@@ -10,13 +10,9 @@ public class Save {
         return done;
     }
 
-    public void toggle(Integer id) {
-        if (done.contains(id)) {
-            done.remove(id);
-            return;
-        }
-
-        done.add(id);
+    @Override
+    public final int hashCode() {
+        return done != null ? done.hashCode() : 0;
     }
 
     @Override
@@ -34,8 +30,12 @@ public class Save {
 
     }
 
-    @Override
-    public final int hashCode() {
-        return done != null ? done.hashCode() : 0;
+    public void toggle(Integer id) {
+        if (done.contains(id)) {
+            done.remove(id);
+            return;
+        }
+
+        done.add(id);
     }
 }

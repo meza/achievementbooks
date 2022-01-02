@@ -21,13 +21,12 @@ import static org.junit.Assert.assertNotEquals;
 
 public class AchievementStorageSerializerTest {
 
+    private final Fairy fairy = Fairy.create();
+    private JsonDeserializationContext deserializationContext;
     private AchievementStorageGenerator generator;
+    private JsonSerializationContext serializationContext;
     private RandomTestData<JsonElement, AchievementStorage> testData;
     private Type typeOfT;
-    private JsonDeserializationContext deserializationContext;
-    private JsonSerializationContext serializationContext;
-    private final Fairy fairy = Fairy.create();
-
 
     @Before
     public void setUp() {
@@ -35,6 +34,20 @@ public class AchievementStorageSerializerTest {
         typeOfT = Mockito.mock(Type.class);
         deserializationContext = Mockito.mock(JsonDeserializationContext.class);
         serializationContext = Mockito.mock(JsonSerializationContext.class);
+    }
+
+    @Test
+    public void testDeserialize() {
+        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
+
+        for (int i = 0; i < numberOfTestIterations; i++) {
+            RandomTestData<JsonElement, AchievementStorage> testData = generator.generate();
+            AchievementStorageSerializer serializer = new AchievementStorageSerializer(seedStorage(false));
+            AchievementStorage actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
+
+            assertEquals("Achievement storage deserialization is not working properly", testData.objectFormat(), actual);
+        }
+
     }
 
     @Test
@@ -49,20 +62,6 @@ public class AchievementStorageSerializerTest {
 
             assertNotEquals("Achievement storage deserialization is not working properly", testData.objectFormat(),
                     actual);
-        }
-
-    }
-
-    @Test
-    public void testDeserialize() {
-        int numberOfTestIterations = fairy.baseProducer().randomBetween(1, DEFAULT_TEST_ITERATION_COUNT);
-
-        for (int i = 0; i < numberOfTestIterations; i++) {
-            RandomTestData<JsonElement, AchievementStorage> testData = generator.generate();
-            AchievementStorageSerializer serializer = new AchievementStorageSerializer(seedStorage(false));
-            AchievementStorage actual = serializer.deserialize(testData.jsonFormat(), typeOfT, deserializationContext);
-
-            assertEquals("Achievement storage deserialization is not working properly", testData.objectFormat(), actual);
         }
 
     }

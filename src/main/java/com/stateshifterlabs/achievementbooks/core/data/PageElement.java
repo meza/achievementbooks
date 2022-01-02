@@ -4,23 +4,27 @@ import com.stateshifterlabs.achievementbooks.core.ChatFormatting;
 import com.stateshifterlabs.achievementbooks.core.UTF8Utils;
 
 public class PageElement {
+    private final int id;
     private String achievement;
+    private boolean checked = false;
     private String description;
     private String header;
     private String mod;
-    private boolean checked = false;
-    private final int id;
 
     public PageElement(int id) {
         this.id = id;
     }
 
-    public int id() {
-        return id;
-    }
-
     public String achievement() {
         return achievement;
+    }
+
+    public boolean checked() {
+        return this.checked;
+    }
+
+    public String description() {
+        return description;
     }
 
     public String formattedAchievement() {
@@ -33,41 +37,11 @@ public class PageElement {
         return String.format("%s", UTF8Utils.utf8String(achievement));
     }
 
-    public void withAchievement(String achievement) {
-        if (!hasAchievement()) {
-            this.achievement = achievement;
-        }
-    }
-
-    public boolean hasAchievement() {
-        return achievement() != null;
-    }
-
-
     public String formattedDescription() {
         if (!hasDescription()) {
             return "";
         }
         return UTF8Utils.utf8String(ChatFormatting.ITALIC.toString(), String.format("%s", description));
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public void withDescription(String description) {
-        if (!hasDescription()) {
-            this.description = description;
-        }
-    }
-
-    public boolean hasDescription() {
-        return description() != null;
-    }
-
-
-    public String header() {
-        return header;
     }
 
     public String formattedHeader() {
@@ -77,20 +51,6 @@ public class PageElement {
         return UTF8Utils.utf8String(ChatFormatting.BOLD.toString(), header);
     }
 
-    public void withHeader(String header) {
-        if (!hasHeader()) {
-            this.header = header;
-        }
-    }
-
-    public boolean hasHeader() {
-        return header() != null;
-    }
-
-    public String mod() {
-        return mod;
-    }
-
     public String formattedMod() {
         if (!hasMod()) {
             return "";
@@ -98,40 +58,32 @@ public class PageElement {
         return UTF8Utils.utf8String(ChatFormatting.DARK_BLUE.toString(), ChatFormatting.ITALIC.toString(), String.format("[%s]", mod), ChatFormatting.RESET.toString());
     }
 
-    public void withMod(String mod) {
-        if (!hasMod()) {
-            this.mod = mod;
-        }
+    public boolean hasAchievement() {
+        return achievement() != null;
+    }
+
+    public boolean hasDescription() {
+        return description() != null;
+    }
+
+    public boolean hasHeader() {
+        return header() != null;
     }
 
     public boolean hasMod() {
         return mod() != null;
     }
 
-    public void toggleState() {
-        this.checked = !this.checked;
+    @Override
+    public final int hashCode() {
+        int result = achievement != null ? achievement.hashCode() : 0;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (header != null ? header.hashCode() : 0);
+        result = 31 * result + (mod != null ? mod.hashCode() : 0);
+        result = 31 * result + (checked ? 1 : 0);
+        result = 31 * result + id;
+        return result;
     }
-
-    public void toggleState(boolean checked) {
-        this.checked = checked;
-    }
-
-    public boolean checked() {
-        return this.checked;
-    }
-
-    public Type type() {
-        if (achievement != null) {
-            return Type.ACHIEVEMENT;
-        }
-
-        if (header != null) {
-            return Type.HEADER;
-        }
-
-        return Type.TEXT;
-    }
-
 
     @Override
     public final boolean equals(Object o) {
@@ -162,15 +114,60 @@ public class PageElement {
         return mod != null ? mod.equals(that.mod) : that.mod == null;
     }
 
-    @Override
-    public final int hashCode() {
-        int result = achievement != null ? achievement.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (header != null ? header.hashCode() : 0);
-        result = 31 * result + (mod != null ? mod.hashCode() : 0);
-        result = 31 * result + (checked ? 1 : 0);
-        result = 31 * result + id;
-        return result;
+    public String header() {
+        return header;
+    }
+
+    public int id() {
+        return id;
+    }
+
+    public String mod() {
+        return mod;
+    }
+
+    public void toggleState() {
+        this.checked = !this.checked;
+    }
+
+    public void toggleState(boolean checked) {
+        this.checked = checked;
+    }
+
+    public Type type() {
+        if (achievement != null) {
+            return Type.ACHIEVEMENT;
+        }
+
+        if (header != null) {
+            return Type.HEADER;
+        }
+
+        return Type.TEXT;
+    }
+
+    public void withAchievement(String achievement) {
+        if (!hasAchievement()) {
+            this.achievement = achievement;
+        }
+    }
+
+    public void withDescription(String description) {
+        if (!hasDescription()) {
+            this.description = description;
+        }
+    }
+
+    public void withHeader(String header) {
+        if (!hasHeader()) {
+            this.header = header;
+        }
+    }
+
+    public void withMod(String mod) {
+        if (!hasMod()) {
+            this.mod = mod;
+        }
     }
 
 }

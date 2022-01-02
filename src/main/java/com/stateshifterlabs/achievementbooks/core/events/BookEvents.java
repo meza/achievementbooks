@@ -5,9 +5,13 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 public final class BookEvents {
-    private BookEvents() {
-    }
-
+    public static final Event<AchievementToggled> ACHIEVEMENT_TOGGLE = EventFactory.createArrayBacked(
+            AchievementToggled.class,
+            callbacks -> (id, book) -> {
+                for (AchievementToggled callback : callbacks) {
+                    callback.onAchievementToggled(id, book);
+                }
+            });
     public static final Event<PageTurned> PAGE_TURN = EventFactory.createArrayBacked(
             PageTurned.class,
             callbacks -> (newPage, book) -> {
@@ -16,13 +20,8 @@ public final class BookEvents {
                 }
             });
 
-    public static final Event<AchievementToggled> ACHIEVEMENT_TOGGLE = EventFactory.createArrayBacked(
-            AchievementToggled.class,
-            callbacks -> (id, book) -> {
-                for (AchievementToggled callback : callbacks) {
-                    callback.onAchievementToggled(id, book);
-                }
-            });
+    private BookEvents() {
+    }
 
     @FunctionalInterface
     public interface PageTurned {

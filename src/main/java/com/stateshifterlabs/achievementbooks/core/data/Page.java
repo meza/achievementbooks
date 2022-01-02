@@ -7,12 +7,20 @@ public class Page {
 
     private final List<PageElement> pageElements = new ArrayList<PageElement>();
 
+    public void addElement(PageElement element) {
+        pageElements.add(element);
+    }
+
     public PageElement[] elements() {
         return pageElements.toArray(new PageElement[pageElements.size()]);
     }
 
-    public void addElement(PageElement element) {
-        pageElements.add(element);
+    @Override
+    public final int hashCode() {
+        if (pageElements == null) {
+            return 0;
+        }
+        return pageElements.hashCode();
     }
 
     @Override
@@ -27,13 +35,5 @@ public class Page {
         Page page = (Page) o;
 
         return pageElements != null ? pageElements.equals(page.pageElements) : page.pageElements == null;
-    }
-
-    @Override
-    public final int hashCode() {
-        if (pageElements == null) {
-            return 0;
-        }
-        return pageElements.hashCode();
     }
 }

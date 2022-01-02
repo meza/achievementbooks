@@ -37,16 +37,17 @@ public class AchievementStorageTest {
     }
 
     @Test
-    public void testNewPlayer() {
+    public void testAppendReplacesData() {
         AchievementStorage storage = new AchievementStorage();
-        assumeTrue("Achievement Storage is not empty by default", storage.players().size() == 0);
-
         String playerName = fairy.textProducer().word();
+        AchievementData originalData = AchievementDataGenerator.generate(playerName).objectFormat();
 
-        AchievementData actual = storage.forPlayer(playerName);
+        storage.append(originalData);
+        assertSame(originalData, storage.forPlayer(playerName));
 
-        assertNotNull(actual);
-        assertTrue(actual instanceof AchievementData);
+        AchievementData newData = AchievementDataGenerator.generate(playerName).objectFormat();
+        storage.append(newData);
+        assertSame(newData, storage.forPlayer(playerName));
     }
 
     @Test
@@ -59,11 +60,8 @@ public class AchievementStorageTest {
     }
 
     @Test
-    public void testSize() {
-        int numberOfPlayers = fairy.baseProducer().randomInt(100);
-        AchievementStorage storage = storageGenerator.generate(numberOfPlayers).objectFormat();
-
-        Assert.assertEquals(numberOfPlayers, storage.size());
+    public void testEquals() {
+        EqualsVerifier.forClass(AchievementStorage.class).verify();
     }
 
     @Test
@@ -95,21 +93,23 @@ public class AchievementStorageTest {
     }
 
     @Test
-    public void testEquals() {
-        EqualsVerifier.forClass(AchievementStorage.class).verify();
+    public void testNewPlayer() {
+        AchievementStorage storage = new AchievementStorage();
+        assumeTrue("Achievement Storage is not empty by default", storage.players().size() == 0);
+
+        String playerName = fairy.textProducer().word();
+
+        AchievementData actual = storage.forPlayer(playerName);
+
+        assertNotNull(actual);
+        assertTrue(actual instanceof AchievementData);
     }
 
     @Test
-    public void testAppendReplacesData() {
-        AchievementStorage storage = new AchievementStorage();
-        String playerName = fairy.textProducer().word();
-        AchievementData originalData = AchievementDataGenerator.generate(playerName).objectFormat();
+    public void testSize() {
+        int numberOfPlayers = fairy.baseProducer().randomInt(100);
+        AchievementStorage storage = storageGenerator.generate(numberOfPlayers).objectFormat();
 
-        storage.append(originalData);
-        assertSame(originalData, storage.forPlayer(playerName));
-
-        AchievementData newData = AchievementDataGenerator.generate(playerName).objectFormat();
-        storage.append(newData);
-        assertSame(newData, storage.forPlayer(playerName));
+        Assert.assertEquals(numberOfPlayers, storage.size());
     }
 }

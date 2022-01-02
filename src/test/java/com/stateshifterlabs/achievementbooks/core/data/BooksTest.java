@@ -18,6 +18,18 @@ public class BooksTest {
     private final Fairy fairy = Fairy.create();
     private BookGenerator generator;
 
+    public RandomTestData<List<Book>, Books> generateBooks(int amount) {
+        List<Book> generatedBooks = new ArrayList<>();
+        Books booksClassUnderTest = new Books();
+        for (int i = 0; i < amount; i++) {
+            Book book = generator.generate().objectFormat();
+            generatedBooks.add(book);
+            booksClassUnderTest.addBook(book);
+        }
+
+        return new RandomTestData<>(generatedBooks, booksClassUnderTest);
+    }
+
     @Before
     public void setUp() throws Exception {
         generator = new BookGenerator();
@@ -50,20 +62,6 @@ public class BooksTest {
         assertEquals("Books list could not be emptied", 0, books.size());
 
     }
-
-    public RandomTestData<List<Book>, Books> generateBooks(int amount) {
-        List<Book> generatedBooks = new ArrayList<>();
-        Books booksClassUnderTest = new Books();
-        for (int i = 0; i < amount; i++) {
-            Book book = generator.generate().objectFormat();
-            generatedBooks.add(book);
-            booksClassUnderTest.addBook(book);
-        }
-
-
-        return new RandomTestData<>(generatedBooks, booksClassUnderTest);
-    }
-
 
     @Test
     public void testEquals() {

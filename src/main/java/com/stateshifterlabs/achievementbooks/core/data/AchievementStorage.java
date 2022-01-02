@@ -16,20 +16,8 @@ public class AchievementStorage {
         storage.put(data.username(), data);
     }
 
-    public boolean hasPlayerData(String name) {
-        return storage.containsKey(name);
-    }
-
-    public AchievementData forPlayer(Player player) {
-        final String name = player.getDisplayName();
-        return forPlayer(name);
-    }
-
-    public List<String> players() {
-        if (storage.size() == 0) {
-            return new ArrayList<String>();
-        }
-        return new ArrayList<String>(storage.keySet());
+    public void clear() {
+        storage.clear();
     }
 
     public AchievementData forPlayer(String name) {
@@ -43,8 +31,18 @@ public class AchievementStorage {
         return achievementData;
     }
 
-    public void clear() {
-        storage.clear();
+    public AchievementData forPlayer(Player player) {
+        final String name = player.getDisplayName();
+        return forPlayer(name);
+    }
+
+    public boolean hasPlayerData(String name) {
+        return storage.containsKey(name);
+    }
+
+    @Override
+    public final int hashCode() {
+        return storage != null ? storage.hashCode() : 0;
     }
 
     @Override
@@ -62,9 +60,11 @@ public class AchievementStorage {
         return storage != null ? storage.equals(that.storage) : that.storage == null;
     }
 
-    @Override
-    public final int hashCode() {
-        return storage != null ? storage.hashCode() : 0;
+    public List<String> players() {
+        if (storage.size() == 0) {
+            return new ArrayList<String>();
+        }
+        return new ArrayList<String>(storage.keySet());
     }
 
     public int size() {

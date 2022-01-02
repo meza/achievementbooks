@@ -6,8 +6,8 @@ import java.io.File;
 
 public class JsonParseError extends java.lang.RuntimeException {
 
-    private final String message;
     private final File file;
+    private final String message;
 
     public JsonParseError(String message, File file) {
         super(String.format(

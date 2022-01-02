@@ -17,26 +17,6 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
     }
 
     @Override
-    public JsonElement serialize(
-            AchievementStorage src, Type typeOfSrc, JsonSerializationContext context
-    ) {
-
-        JsonArray storage = new JsonArray();
-
-
-        for (String player : src.players()) {
-            AchievementData data = src.forPlayer(player);
-
-            AchievementDataSerializer dataSer = new AchievementDataSerializer(player);
-            JsonElement playerJson = dataSer.serialize(data, AchievementData.class, context);
-
-            storage.add(playerJson);
-        }
-
-        return storage;
-    }
-
-    @Override
     public AchievementStorage deserialize(
             JsonElement json, Type typeOfT, JsonDeserializationContext context
     ) throws JsonParseException {
@@ -49,12 +29,29 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
             AchievementDataSerializer ser = new AchievementDataSerializer(thePlayer);
             AchievementData data = ser.deserialize(userSave, AchievementData.class, context);
 
-
             storage.append(data);
         }
 
-
         return storage;
 
+    }
+
+    @Override
+    public JsonElement serialize(
+            AchievementStorage src, Type typeOfSrc, JsonSerializationContext context
+    ) {
+
+        JsonArray storage = new JsonArray();
+
+        for (String player : src.players()) {
+            AchievementData data = src.forPlayer(player);
+
+            AchievementDataSerializer dataSer = new AchievementDataSerializer(player);
+            JsonElement playerJson = dataSer.serialize(data, AchievementData.class, context);
+
+            storage.add(playerJson);
+        }
+
+        return storage;
     }
 }

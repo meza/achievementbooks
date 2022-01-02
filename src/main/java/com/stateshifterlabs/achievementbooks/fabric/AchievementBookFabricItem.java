@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 public class AchievementBookFabricItem extends Item {
     private static final Logger LOGGER = LogManager.getLogger(AchievementBookFabricItem.class);
-    private Book book;
+    private final Book book;
 
     public AchievementBookFabricItem(Book book) {
         super(new FabricItemSettings()
@@ -33,15 +33,18 @@ public class AchievementBookFabricItem extends Item {
         this.book = book;
     }
 
-    @Override
-    public Text getName(ItemStack item) {
-        return new LiteralText(this.book.name());
+    public String colour() {
+        return this.book.colour();
+    }
+
+    public void updateBook(AchievementData newAchievementData) {
+        this.book.loadDone(newAchievementData.completed(this.book.itemName()));
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-        LOGGER.info("Opening the book: "+book.itemName());
+        LOGGER.info("Opening the book: " + book.itemName());
         ItemStack stackInHand = playerEntity.getStackInHand(hand);
         if (world.isClient) {
             MinecraftClient.getInstance().setScreen(new BookScreen(
@@ -53,10 +56,8 @@ public class AchievementBookFabricItem extends Item {
         return TypedActionResult.success(stackInHand);
     }
 
-    public String colour() {
-        return this.book.colour();
-    }
-    public void updateBook(AchievementData newAchievementData) {
-        this.book.loadDone(newAchievementData.completed(this.book.itemName()));
+    @Override
+    public Text getName(ItemStack item) {
+        return new LiteralText(this.book.name());
     }
 }

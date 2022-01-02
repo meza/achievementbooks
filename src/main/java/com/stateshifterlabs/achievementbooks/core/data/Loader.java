@@ -18,6 +18,12 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class Loader {
+    private static void ensureConfigfolder(File configDir) {
+        if (!configDir.exists()) {
+            configDir.mkdirs();
+        }
+    }
+
     public static Books init(File configDir, URL demoFile) {
         Books books = new Books();
         books.empty();
@@ -72,11 +78,5 @@ public class Loader {
             }
         }
         return books;
-    }
-
-    private static void ensureConfigfolder(File configDir) {
-        if (!configDir.exists()) {
-            configDir.mkdirs();
-        }
     }
 }

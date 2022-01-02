@@ -16,6 +16,18 @@ public class AchievementDataTest {
 
     private final Fairy fairy = Fairy.create();
 
+    @Test
+    public void testEmptyBooks() {
+        String randomName = fairy.textProducer().word();
+        AchievementData achievementData = new AchievementData(randomName);
+
+        assertTrue("Achievement Data doesn't start out empty", achievementData.books().isEmpty());
+    }
+
+    @Test
+    public void testEquals() {
+        EqualsVerifier.forClass(AchievementData.class).verify();
+    }
 
     @Test
     public void testNames() {
@@ -24,14 +36,6 @@ public class AchievementDataTest {
 
         assertEquals("Achievement Data didn't return the correct player name", randomName, achievementData.username());
 
-    }
-
-    @Test
-    public void testEmptyBooks() {
-        String randomName = fairy.textProducer().word();
-        AchievementData achievementData = new AchievementData(randomName);
-
-        assertTrue("Achievement Data doesn't start out empty", achievementData.books().isEmpty());
     }
 
     @Test
@@ -107,10 +111,5 @@ public class AchievementDataTest {
         assertEquals("Toggling an existing book's achievement didn't toggle the right achievement",
                 randomAchievementId2, completed.get(1).intValue());
 
-    }
-
-    @Test
-    public void testEquals() {
-        EqualsVerifier.forClass(AchievementData.class).verify();
     }
 }

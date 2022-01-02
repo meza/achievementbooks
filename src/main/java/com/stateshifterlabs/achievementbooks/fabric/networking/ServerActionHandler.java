@@ -18,7 +18,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooks.ACHIEVEMENT_LOAD_PACKET_ID;
 
-
 public class ServerActionHandler {
     private final AchievementStorage achievementStorage;
     private final GameSave saveHandler;

@@ -11,53 +11,14 @@ import java.util.Map;
 
 public class Book {
 
-    private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
     private final List<Integer> elementIds = new ArrayList<Integer>();
+    private final Map<Integer, Page> pages = new HashMap<Integer, Page>();
     private int addedPages = 0;
-    private String name = "";
-    private String craftingMaterial = "";
-    private boolean craftable = false;
-    private String itemName = "";
     private Colour colour = Colour.defaultColour();
-
-    public void withName(String name) {
-        this.name = name;
-    }
-
-    public String name() {
-        return this.name;
-    }
-
-    public void withItemName(String name) {
-        this.itemName = name;
-    }
-
-    public String itemName() {
-        return itemName;
-
-    }
-
-    public void withMaterial(String material) {
-        this.craftingMaterial = material;
-        this.craftable = true;
-    }
-
-    public String material() {
-        return this.craftingMaterial;
-    }
-
-    public Book withColour(String colour) {
-        this.colour = Colour.fromString(colour);
-        return this;
-    }
-
-    public String colour() {
-        return colour.getText();
-    }
-
-    public boolean isCraftable() {
-        return craftable;
-    }
+    private boolean craftable = false;
+    private String craftingMaterial = "";
+    private String itemName = "";
+    private String name = "";
 
     public void addPage(Page page) {
         pages.put(addedPages++, page);
@@ -69,28 +30,8 @@ public class Book {
         }
     }
 
-    public int pageCount() {
-        return pages.size();
-    }
-
-    public Page openPage(int pageNumber) {
-        if (!pages.containsKey(pageNumber)) {
-            return new Page();
-        }
-        return pages.get(pageNumber);
-
-    }
-
-    public void loadDone(List<Integer> ids) {
-
-        for (Page page : pages.values()) {
-            for (PageElement element : page.elements()) {
-                if (ids.contains(element.id())) {
-                    element.toggleState(true);
-                }
-            }
-        }
-
+    public String colour() {
+        return colour.getText();
     }
 
     public int findIdByAchievementText(String text) throws NoSuchAchievementException {
@@ -104,6 +45,21 @@ public class Book {
             }
         }
         throw new NoSuchAchievementException();
+    }
+
+    @Override
+    public final int hashCode() {
+        int result = pages != null ? pages.hashCode() : 0;
+        result = 31 * result + addedPages;
+        if (elementIds != null) {
+            result = 31 * result + elementIds.hashCode();
+        }
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
+        result = 31 * result + (craftable ? 1 : 0);
+        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
+        result = 31 * result + (colour != null ? colour.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -141,29 +97,73 @@ public class Book {
         if (itemName != null ? !itemName.equals(book.itemName) : book.itemName != null) {
             return false;
         }
-		return colour == book.colour;
-	}
+        return colour == book.colour;
+    }
 
-    @Override
-    public final int hashCode() {
-        int result = pages != null ? pages.hashCode() : 0;
-        result = 31 * result + addedPages;
-        if (elementIds != null) {
-            result = 31 * result + elementIds.hashCode();
+    public boolean idExists(int existingId) {
+        return elementIds.contains(existingId);
+    }
+
+    public boolean isCraftable() {
+        return craftable;
+    }
+
+    public String itemName() {
+        return itemName;
+
+    }
+
+    public void loadDone(List<Integer> ids) {
+
+        for (Page page : pages.values()) {
+            for (PageElement element : page.elements()) {
+                if (ids.contains(element.id())) {
+                    element.toggleState(true);
+                }
+            }
         }
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (craftingMaterial != null ? craftingMaterial.hashCode() : 0);
-        result = 31 * result + (craftable ? 1 : 0);
-        result = 31 * result + (itemName != null ? itemName.hashCode() : 0);
-        result = 31 * result + (colour != null ? colour.hashCode() : 0);
-        return result;
+
+    }
+
+    public String material() {
+        return this.craftingMaterial;
+    }
+
+    public String name() {
+        return this.name;
     }
 
     public int numberOfElements() {
         return elementIds.size();
     }
 
-    public boolean idExists(int existingId) {
-        return elementIds.contains(existingId);
+    public Page openPage(int pageNumber) {
+        if (!pages.containsKey(pageNumber)) {
+            return new Page();
+        }
+        return pages.get(pageNumber);
+
+    }
+
+    public int pageCount() {
+        return pages.size();
+    }
+
+    public Book withColour(String colour) {
+        this.colour = Colour.fromString(colour);
+        return this;
+    }
+
+    public void withItemName(String name) {
+        this.itemName = name;
+    }
+
+    public void withMaterial(String material) {
+        this.craftingMaterial = material;
+        this.craftable = true;
+    }
+
+    public void withName(String name) {
+        this.name = name;
     }
 }

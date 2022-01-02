@@ -4,10 +4,6 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.PacketByteBuf;
 
 public class BufferUtilities {
-    public static String toString(PacketByteBuf buf) {
-        return buf.readString();
-    }
-
     public static PacketByteBuf toBuf(String string) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeString(string);
@@ -17,5 +13,9 @@ public class BufferUtilities {
     public static PacketByteBuf toBuf(PacketByteBuf buf, String string) {
         buf.writeString(string);
         return buf;
+    }
+
+    public static String toString(PacketByteBuf buf) {
+        return buf.readString();
     }
 }

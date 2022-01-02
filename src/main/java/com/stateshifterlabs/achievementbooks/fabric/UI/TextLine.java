@@ -16,12 +16,12 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class TextLine extends DrawableHelper implements Drawable, Element, Selectable, BookScreenElement {
-    private final int top;
-    private final int left;
-    private final int width;
-    private final int pageCenter;
     private final String description;
+    private final int left;
+    private final int pageCenter;
     private final TextRenderer textRenderer;
+    private final int top;
+    private final int width;
 
     public TextLine(int top, int left, int width, String description, TextRenderer textRenderer) {
         this.top = top;
@@ -30,6 +30,21 @@ public class TextLine extends DrawableHelper implements Drawable, Element, Selec
         this.description = description;
         this.textRenderer = textRenderer;
         this.pageCenter = left + (width / 2);
+    }
+
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
+
+    }
+
+    @Override
+    public SelectionType getType() {
+        return SelectionType.NONE;
+    }
+
+    @Override
+    public int height() {
+        return textRenderer.getWrappedLinesHeight(description, width);
     }
 
     @Override
@@ -42,21 +57,5 @@ public class TextLine extends DrawableHelper implements Drawable, Element, Selec
             textRenderer.draw(matrices, text, left, top + (textRenderer.fontHeight * i++), 0);
         }
 
-
-    }
-
-    @Override
-    public SelectionType getType() {
-        return SelectionType.NONE;
-    }
-
-    @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
-
-    }
-
-    @Override
-    public int height() {
-        return textRenderer.getWrappedLinesHeight(description, width);
     }
 }

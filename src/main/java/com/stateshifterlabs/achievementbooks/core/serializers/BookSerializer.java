@@ -17,63 +17,6 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
     }
 
     @Override
-    public JsonElement serialize(
-            Book src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context
-    ) {
-
-        JsonObject book = new JsonObject();
-        book.addProperty("itemName", src.itemName());
-        book.addProperty("bookName", src.name());
-        if (src.isCraftable()) {
-            book.addProperty("craftingMaterial", src.material());
-        }
-        book.addProperty("color", src.colour());
-
-
-        JsonArray pages = new JsonArray();
-
-        for (int i = 0; i < src.pageCount(); i++) {
-
-            JsonArray pageArray = new JsonArray();
-            Page page = src.openPage(i);
-
-            for (PageElement pageElement : page.elements()) {
-                JsonObject element = new JsonObject();
-                element.addProperty("id", pageElement.id());
-
-                switch (pageElement.type()) {
-                    case ACHIEVEMENT:
-                        element.addProperty("achievement", pageElement.achievement());
-                        if (pageElement.mod() != null) {
-                            element.addProperty("mod", pageElement.mod());
-                        }
-                        if (pageElement.hasDescription()) {
-                            element.addProperty("description", pageElement.description());
-                        }
-                        break;
-                    case HEADER:
-                        element.addProperty("header", pageElement.header());
-                        if (pageElement.hasDescription()) {
-                            element.addProperty("description", pageElement.description());
-                        }
-                        break;
-                    default:
-                        element.addProperty("description", pageElement.description());
-                }
-                pageArray.add(element);
-
-            }
-
-            pages.add(pageArray);
-
-        }
-
-        book.add("pages", pages);
-
-        return book;
-    }
-
-    @Override
     public Book deserialize(
             JsonElement json, Type typeOfT, JsonDeserializationContext context
     ) throws RuntimeException {
@@ -144,5 +87,61 @@ public class BookSerializer implements JsonSerializer<Book>, JsonDeserializer<Bo
 
         return book;
 
+    }
+
+    @Override
+    public JsonElement serialize(
+            Book src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context
+    ) {
+
+        JsonObject book = new JsonObject();
+        book.addProperty("itemName", src.itemName());
+        book.addProperty("bookName", src.name());
+        if (src.isCraftable()) {
+            book.addProperty("craftingMaterial", src.material());
+        }
+        book.addProperty("color", src.colour());
+
+        JsonArray pages = new JsonArray();
+
+        for (int i = 0; i < src.pageCount(); i++) {
+
+            JsonArray pageArray = new JsonArray();
+            Page page = src.openPage(i);
+
+            for (PageElement pageElement : page.elements()) {
+                JsonObject element = new JsonObject();
+                element.addProperty("id", pageElement.id());
+
+                switch (pageElement.type()) {
+                    case ACHIEVEMENT:
+                        element.addProperty("achievement", pageElement.achievement());
+                        if (pageElement.mod() != null) {
+                            element.addProperty("mod", pageElement.mod());
+                        }
+                        if (pageElement.hasDescription()) {
+                            element.addProperty("description", pageElement.description());
+                        }
+                        break;
+                    case HEADER:
+                        element.addProperty("header", pageElement.header());
+                        if (pageElement.hasDescription()) {
+                            element.addProperty("description", pageElement.description());
+                        }
+                        break;
+                    default:
+                        element.addProperty("description", pageElement.description());
+                }
+                pageArray.add(element);
+
+            }
+
+            pages.add(pageArray);
+
+        }
+
+        book.add("pages", pages);
+
+        return book;
     }
 }

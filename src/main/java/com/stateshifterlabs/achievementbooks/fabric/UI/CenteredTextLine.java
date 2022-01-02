@@ -17,12 +17,12 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class CenteredTextLine extends DrawableHelper implements Drawable, Element, Selectable, BookScreenElement {
 
-    private final int top;
-    private final int left;
-    private final int width;
-    private final int pageCenter;
     private final String header;
+    private final int left;
+    private final int pageCenter;
     private final TextRenderer textRenderer;
+    private final int top;
+    private final int width;
 
     public CenteredTextLine(int top, int left, int width, String header, TextRenderer textRenderer) {
         this.top = top;
@@ -31,6 +31,21 @@ public class CenteredTextLine extends DrawableHelper implements Drawable, Elemen
         this.header = header;
         this.textRenderer = textRenderer;
         this.pageCenter = left + (width / 2);
+    }
+
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
+
+    }
+
+    @Override
+    public SelectionType getType() {
+        return SelectionType.NONE;
+    }
+
+    @Override
+    public int height() {
+        return textRenderer.getWrappedLinesHeight(header, width);
     }
 
     @Override
@@ -44,21 +59,5 @@ public class CenteredTextLine extends DrawableHelper implements Drawable, Elemen
             textRenderer.draw(matrices, text, pageCenter - (lineWidth / 2), top + (textRenderer.fontHeight * i++), 0);
         }
 
-
-    }
-
-    @Override
-    public SelectionType getType() {
-        return SelectionType.NONE;
-    }
-
-    @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
-
-    }
-
-    @Override
-    public int height() {
-        return textRenderer.getWrappedLinesHeight(header, width);
     }
 }

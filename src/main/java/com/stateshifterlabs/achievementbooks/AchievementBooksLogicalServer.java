@@ -31,8 +31,8 @@ public class AchievementBooksLogicalServer {
     private final AchievementStorage achievementStorage;
     private final Books books;
     private final GameSave saveHandler;
-    private File saveFile;
     private final MinecraftServer server;
+    private File saveFile;
 
     public AchievementBooksLogicalServer(MinecraftServer server, AchievementStorage achievementStorage, Books books) {
         this.server = server;
@@ -58,16 +58,16 @@ public class AchievementBooksLogicalServer {
         minecraftServer.execute(() -> {
             LOGGER.info("Achievements requested for " + playerUUID);
             if (!achievementStorage.hasPlayerData(playerUUID)) {
-                LOGGER.info("No achievements found for "+playerUUID);
+                LOGGER.info("No achievements found for " + playerUUID);
                 return;
             }
             AchievementData data = achievementStorage.forPlayer(playerUUID);
-            LOGGER.info("Achievements loaded for "+playerUUID);
+            LOGGER.info("Achievements loaded for " + playerUUID);
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(playerUUID));
             Gson gson = builder.create();
             String json = gson.toJson(data);
-            LOGGER.info("Sending "+json+" to "+ACHIEVEMENT_LOAD_PACKET_ID);
+            LOGGER.info("Sending " + json + " to " + ACHIEVEMENT_LOAD_PACKET_ID);
             packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(json));
         });
 

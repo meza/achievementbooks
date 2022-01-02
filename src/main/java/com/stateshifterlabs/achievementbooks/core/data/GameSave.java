@@ -8,10 +8,10 @@ import java.io.*;
 
 public class GameSave {
 
+    private final Books books;
     private final Gson gson;
     private final File saveFile;
     private AchievementStorage storage;
-    private final Books books;
 
     public GameSave(File saveFile, AchievementStorage storage, Books books) {
         this.saveFile = saveFile;

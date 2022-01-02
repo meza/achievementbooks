@@ -23,16 +23,16 @@ public class ClientActionDispatcher {
     }
 
     private void onAchievementToggled(int id, Book book) {
-        LOGGER.info("Achievement "+id+" toggled for "+book.itemName());
+        LOGGER.info("Achievement " + id + " toggled for " + book.itemName());
         PacketByteBuf message = AchievementToggledMessage.encode(id, book.itemName());
-        LOGGER.info("Sending "+message+" to the channel: "+ ACHIEVEMENT_TOGGLE_PACKET_ID);
+        LOGGER.info("Sending " + message + " to the channel: " + ACHIEVEMENT_TOGGLE_PACKET_ID);
         ClientPlayNetworking.send(ACHIEVEMENT_TOGGLE_PACKET_ID, message);
     }
 
     private void onPageTurn(int newPage, Book book) {
         LOGGER.info("Page turned to: " + newPage + " in book: " + book.itemName());
         PacketByteBuf message = PageTurnMessage.encode(newPage, book.itemName());
-        LOGGER.info("Sending "+message+" to the channel: "+ PAGE_TURN_PACKET_ID);
+        LOGGER.info("Sending " + message + " to the channel: " + PAGE_TURN_PACKET_ID);
         ClientPlayNetworking.send(PAGE_TURN_PACKET_ID, message);
     }
 }

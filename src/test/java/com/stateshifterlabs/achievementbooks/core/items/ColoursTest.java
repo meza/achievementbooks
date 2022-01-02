@@ -9,7 +9,6 @@ public class ColoursTest {
 
     private final Fairy fairy = Fairy.create();
 
-
     @Test
     public void testDefaultColour() {
         String nonExistingColour = fairy.textProducer().latinWord();

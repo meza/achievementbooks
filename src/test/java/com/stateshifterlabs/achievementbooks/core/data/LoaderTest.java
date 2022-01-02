@@ -18,11 +18,26 @@ import static org.junit.Assert.assertEquals;
 
 public class LoaderTest {
 
+    private final Path resourceDirectory = Paths.get("src", "test", "resources");
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
-
-    private final Path resourceDirectory = Paths.get("src", "test", "resources");
     Path demoFixture = resourceDirectory.resolve("demo.json");
+
+    @Test(expected = CouldNotWriteConfigFile.class)
+    public void testConfigFolderNotWriteable() throws MalformedURLException {
+        // Temp folder permissions don't work on windows so ignoring the test on win...
+        Assume.assumeFalse(System.getProperty("os.name").toLowerCase().startsWith("win"));
+
+        Path fakeFile = resourceDirectory.resolve("demo.json");
+
+        File tempConfig = new File(tempFolder.getRoot().getAbsolutePath() + "/achievementbooks");
+        tempConfig.mkdirs();
+        tempConfig.setWritable(false);
+        tempConfig.setReadOnly();
+        Loader.init(tempConfig, fakeFile.toUri().toURL());
+
+        assertEquals(0, tempConfig.listFiles().length);
+    }
 
     @Test
     public void testInit() throws MalformedURLException {
@@ -41,22 +56,5 @@ public class LoaderTest {
         tempConfig.mkdirs();
         FileUtils.copyFile(malformedFile.toFile(), new File(tempConfig.getAbsolutePath() + "/malformed.json"));
         Loader.init(tempConfig, demoFixture.toUri().toURL());
-    }
-
-
-    @Test(expected = CouldNotWriteConfigFile.class)
-    public void testConfigFolderNotWriteable() throws MalformedURLException {
-        // Temp folder permissions don't work on windows so ignoring the test on win...
-        Assume.assumeFalse(System.getProperty("os.name").toLowerCase().startsWith("win"));
-
-        Path fakeFile = resourceDirectory.resolve("demo.json");
-
-        File tempConfig = new File(tempFolder.getRoot().getAbsolutePath() + "/achievementbooks");
-        tempConfig.mkdirs();
-        tempConfig.setWritable(false);
-        tempConfig.setReadOnly();
-        Loader.init(tempConfig, fakeFile.toUri().toURL());
-
-        assertEquals(0, tempConfig.listFiles().length);
     }
 }

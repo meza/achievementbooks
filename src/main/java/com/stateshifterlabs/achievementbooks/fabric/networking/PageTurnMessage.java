@@ -6,13 +6,21 @@ import net.minecraft.network.PacketByteBuf;
 
 public class PageTurnMessage {
 
-    private final int pageNumber;
     private final String bookItemName;
+    private final int pageNumber;
 
     PageTurnMessage(int pageNumber, String bookItemName) {
 
         this.pageNumber = pageNumber;
         this.bookItemName = bookItemName;
+    }
+
+    public static PageTurnMessage decode(PacketByteBuf buf) {
+        String json = buf.readString();
+        JsonObject data = JsonParser.parseString(json).getAsJsonObject();
+
+        return new PageTurnMessage(data.get("pageNumber").getAsInt(), data.get("bookItemName").getAsString());
+
     }
 
     public static PacketByteBuf encode(int pageNumber, String bookItemName) {
@@ -24,19 +32,11 @@ public class PageTurnMessage {
         return BufferUtilities.toBuf(json);
     }
 
-    public static PageTurnMessage decode(PacketByteBuf buf) {
-        String json = buf.readString();
-        JsonObject data = JsonParser.parseString(json).getAsJsonObject();
-
-        return new PageTurnMessage(data.get("pageNumber").getAsInt(), data.get("bookItemName").getAsString());
-
+    public String bookItemName() {
+        return bookItemName;
     }
 
     public int pageNumber() {
         return pageNumber;
-    }
-
-    public String bookItemName() {
-        return bookItemName;
     }
 }

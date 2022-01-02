@@ -29,11 +29,11 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
 
     private static final Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
     private final PageElement achievement;
-    private final int top;
-    private final int left;
-    private final int width;
-    private final TextRenderer textRenderer;
     private final TextLine descriptionLine;
+    private final int left;
+    private final TextRenderer textRenderer;
+    private final int top;
+    private final int width;
     private int checkboxOffset = 0;
     private Consumer<PageElement> toggleCallback;
 
@@ -60,26 +60,9 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
 
     }
 
-    public void onToggle(Consumer<PageElement> callback) {
-        toggleCallback = callback;
-    }
-
     @Override
-    public int height() {
-        return descriptionLine.height() > 20 ? descriptionLine.height() : 20;
-    }
+    public void appendNarrations(NarrationMessageBuilder builder) {
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        if (!achievement.checked()) {
-            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
-        } else {
-            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
-        }
-        descriptionLine.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -88,8 +71,8 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     }
 
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
-
+    public int height() {
+        return descriptionLine.height() > 20 ? descriptionLine.height() : 20;
     }
 
     @Override
@@ -107,6 +90,23 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
             return true;
         }
         return false;
+    }
+
+    public void onToggle(Consumer<PageElement> callback) {
+        toggleCallback = callback;
+    }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        if (!achievement.checked()) {
+            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+        } else {
+            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
+        }
+        descriptionLine.render(matrices, mouseX, mouseY, delta);
     }
 
     protected boolean clicked(double mouseX, double mouseY) {

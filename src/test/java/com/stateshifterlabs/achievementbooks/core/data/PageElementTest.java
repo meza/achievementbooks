@@ -15,6 +15,143 @@ public class PageElementTest {
     private final Fairy fairy = Fairy.create();
 
     @Test
+    public void achievementFormatting() {
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        String achievement = fairy.textProducer().latinSentence();
+        PageElement element = new PageElement(id);
+
+        element.withAchievement(achievement);
+
+        assertEquals(achievement, element.formattedAchievement());
+    }
+
+    @Test
+    public void defaultStates() {
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        PageElement element = new PageElement(id);
+
+        assertEquals("", element.formattedAchievement());
+        assertEquals("", element.formattedDescription());
+        assertEquals("", element.formattedHeader());
+        assertEquals("", element.formattedMod());
+
+    }
+
+    @Test
+    public void testAchievementType() {
+
+        for (int i = 0; i < Settings.DEFAULT_TEST_ITERATION_COUNT; i++) {
+
+            int id = fairy.baseProducer().randomBetween(0, 1000);
+            PageElement element = new PageElement(id);
+
+            element.withAchievement(fairy.textProducer().latinSentence());
+            assertEquals("Element type is not marked achievement when there's an achievement text", ACHIEVEMENT,
+                    element.type());
+
+            if (fairy.baseProducer().trueOrFalse()) {
+                element.withHeader(fairy.textProducer().latinSentence());
+                assertEquals("Element type is not marked achievement when there's a header in the same config as an " +
+                                "achievement",
+
+                        ACHIEVEMENT, element.type());
+            }
+
+            if (fairy.baseProducer().trueOrFalse()) {
+                element.withDescription(fairy.textProducer().latinSentence());
+                assertEquals("Element type is not marked achievement when there's a description text in the config",
+                        ACHIEVEMENT, element.type());
+            }
+
+            if (fairy.baseProducer().trueOrFalse()) {
+                element.withMod(fairy.textProducer().latinSentence());
+                assertEquals("Element type is not marked achievement when there's mod info with the achievement",
+                        ACHIEVEMENT, element.type());
+            }
+        }
+
+    }
+
+    @Test
+    public void testEmptyType() {
+
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        PageElement element = new PageElement(id);
+
+        assertEquals("Default element type is NOT TEXT", TEXT, element.type());
+
+    }
+
+    @Test
+    public void testEquals() {
+        EqualsVerifier.forClass(PageElement.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
+
+    @Test
+    public void testExplicitToggle() {
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        PageElement element = new PageElement(id);
+
+        assertFalse("Element is not unchecked by default", element.checked());
+        element.toggleState(true);
+        assertTrue("Explicit element toggle does not change checked state", element.checked());
+        element.toggleState(false);
+        assertFalse("Explicit element toggle doesn't change flag to false", element.checked());
+    }
+
+    @Test
+    public void testFormattedStrings() {
+
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        String achievement = fairy.textProducer().latinSentence();
+        String header = fairy.textProducer().latinSentence();
+        String description = fairy.textProducer().latinSentence();
+        String mod = fairy.textProducer().latinSentence();
+
+        PageElement element = new PageElement(id);
+
+        element.withAchievement(achievement);
+        element.withHeader(header);
+        element.withDescription(description);
+        element.withMod(mod);
+
+        assertEquals(UTF8Utils.utf8String(achievement, " §1§o[", mod, "]§r"), element.formattedAchievement());
+        assertEquals(UTF8Utils.utf8String("§l", header), element.formattedHeader());
+        assertEquals(UTF8Utils.utf8String("§o", description), element.formattedDescription());
+        assertEquals(UTF8Utils.utf8String("§1§o[", mod, "]§r"), element.formattedMod());
+
+    }
+
+    @Test
+    public void testHeaderType() {
+
+        for (int i = 0; i < Settings.DEFAULT_TEST_ITERATION_COUNT; i++) {
+
+            int id = fairy.baseProducer().randomBetween(0, 1000);
+            PageElement element = new PageElement(id);
+
+            element.withHeader(fairy.textProducer().latinSentence());
+            assertEquals("Element type is not marked achievement when there's a header in the same config as an " +
+                            "achievement",
+
+                    HEADER, element.type());
+
+            if (fairy.baseProducer().trueOrFalse()) {
+                element.withDescription(fairy.textProducer().latinSentence());
+                assertEquals("Element type is not marked achievement when there's a description text in the config",
+                        HEADER, element.type());
+            }
+
+            if (fairy.baseProducer().trueOrFalse()) {
+                element.withMod(fairy.textProducer().latinSentence());
+                assertEquals("Element type is not marked achievement when there's mod info with the achievement",
+                        HEADER, element.type());
+            }
+        }
+
+    }
+
+    @Test
     public void testImmutability() {
 
         int id = fairy.baseProducer().randomBetween(0, 1000);
@@ -62,151 +199,6 @@ public class PageElementTest {
     }
 
     @Test
-    public void testFormattedStrings() {
-
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        String achievement = fairy.textProducer().latinSentence();
-        String header = fairy.textProducer().latinSentence();
-        String description = fairy.textProducer().latinSentence();
-        String mod = fairy.textProducer().latinSentence();
-
-        PageElement element = new PageElement(id);
-
-        element.withAchievement(achievement);
-        element.withHeader(header);
-        element.withDescription(description);
-        element.withMod(mod);
-
-        assertEquals(UTF8Utils.utf8String(achievement, " §1§o[", mod, "]§r"), element.formattedAchievement());
-        assertEquals(UTF8Utils.utf8String("§l", header), element.formattedHeader());
-        assertEquals(UTF8Utils.utf8String("§o", description), element.formattedDescription());
-        assertEquals(UTF8Utils.utf8String("§1§o[", mod, "]§r"), element.formattedMod());
-
-    }
-
-    @Test
-    public void defaultStates() {
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        PageElement element = new PageElement(id);
-
-        assertEquals("", element.formattedAchievement());
-        assertEquals("", element.formattedDescription());
-        assertEquals("", element.formattedHeader());
-        assertEquals("", element.formattedMod());
-
-    }
-
-    @Test
-    public void achievementFormatting() {
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        String achievement = fairy.textProducer().latinSentence();
-        PageElement element = new PageElement(id);
-
-        element.withAchievement(achievement);
-
-        assertEquals(achievement, element.formattedAchievement());
-    }
-
-    @Test
-    public void testToggle() {
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        PageElement element = new PageElement(id);
-
-        assertFalse("Element is not unchecked by default", element.checked());
-        element.toggleState();
-        assertTrue("Element toggle does not change checked state", element.checked());
-        element.toggleState();
-        assertFalse("Element toggle doesn't change flag to false", element.checked());
-
-    }
-
-    @Test
-    public void testExplicitToggle() {
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        PageElement element = new PageElement(id);
-
-        assertFalse("Element is not unchecked by default", element.checked());
-        element.toggleState(true);
-        assertTrue("Explicit element toggle does not change checked state", element.checked());
-        element.toggleState(false);
-        assertFalse("Explicit element toggle doesn't change flag to false", element.checked());
-    }
-
-    @Test
-    public void testEmptyType() {
-
-        int id = fairy.baseProducer().randomBetween(0, 1000);
-        PageElement element = new PageElement(id);
-
-        assertEquals("Default element type is NOT TEXT", TEXT, element.type());
-
-    }
-
-    @Test
-    public void testAchievementType() {
-
-        for (int i = 0; i < Settings.DEFAULT_TEST_ITERATION_COUNT; i++) {
-
-            int id = fairy.baseProducer().randomBetween(0, 1000);
-            PageElement element = new PageElement(id);
-
-            element.withAchievement(fairy.textProducer().latinSentence());
-            assertEquals("Element type is not marked achievement when there's an achievement text", ACHIEVEMENT,
-                    element.type());
-
-            if (fairy.baseProducer().trueOrFalse()) {
-                element.withHeader(fairy.textProducer().latinSentence());
-                assertEquals("Element type is not marked achievement when there's a header in the same config as an " +
-                                "achievement",
-
-                        ACHIEVEMENT, element.type());
-            }
-
-            if (fairy.baseProducer().trueOrFalse()) {
-                element.withDescription(fairy.textProducer().latinSentence());
-                assertEquals("Element type is not marked achievement when there's a description text in the config",
-                        ACHIEVEMENT, element.type());
-            }
-
-            if (fairy.baseProducer().trueOrFalse()) {
-                element.withMod(fairy.textProducer().latinSentence());
-                assertEquals("Element type is not marked achievement when there's mod info with the achievement",
-                        ACHIEVEMENT, element.type());
-            }
-        }
-
-    }
-
-    @Test
-    public void testHeaderType() {
-
-        for (int i = 0; i < Settings.DEFAULT_TEST_ITERATION_COUNT; i++) {
-
-            int id = fairy.baseProducer().randomBetween(0, 1000);
-            PageElement element = new PageElement(id);
-
-            element.withHeader(fairy.textProducer().latinSentence());
-            assertEquals("Element type is not marked achievement when there's a header in the same config as an " +
-                            "achievement",
-
-                    HEADER, element.type());
-
-            if (fairy.baseProducer().trueOrFalse()) {
-                element.withDescription(fairy.textProducer().latinSentence());
-                assertEquals("Element type is not marked achievement when there's a description text in the config",
-                        HEADER, element.type());
-            }
-
-            if (fairy.baseProducer().trueOrFalse()) {
-                element.withMod(fairy.textProducer().latinSentence());
-                assertEquals("Element type is not marked achievement when there's mod info with the achievement",
-                        HEADER, element.type());
-            }
-        }
-
-    }
-
-    @Test
     public void testTextType() {
 
         for (int i = 0; i < Settings.DEFAULT_TEST_ITERATION_COUNT; i++) {
@@ -228,7 +220,15 @@ public class PageElementTest {
     }
 
     @Test
-    public void testEquals() {
-        EqualsVerifier.forClass(PageElement.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    public void testToggle() {
+        int id = fairy.baseProducer().randomBetween(0, 1000);
+        PageElement element = new PageElement(id);
+
+        assertFalse("Element is not unchecked by default", element.checked());
+        element.toggleState();
+        assertTrue("Element toggle does not change checked state", element.checked());
+        element.toggleState();
+        assertFalse("Element toggle doesn't change flag to false", element.checked());
+
     }
 }

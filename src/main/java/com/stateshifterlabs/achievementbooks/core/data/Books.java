@@ -12,17 +12,13 @@ public class Books implements Iterable<Book> {
         books.add(book);
     }
 
-    public int size() {
-        return books.size();
+    public void empty() {
+        books.clear();
     }
 
     @Override
-    public Iterator<Book> iterator() {
-        return books.iterator();
-    }
-
-    public void empty() {
-        books.clear();
+    public final int hashCode() {
+        return books != null ? books.hashCode() : 0;
     }
 
     @Override
@@ -40,7 +36,11 @@ public class Books implements Iterable<Book> {
     }
 
     @Override
-    public final int hashCode() {
-        return books != null ? books.hashCode() : 0;
+    public Iterator<Book> iterator() {
+        return books.iterator();
+    }
+
+    public int size() {
+        return books.size();
     }
 }

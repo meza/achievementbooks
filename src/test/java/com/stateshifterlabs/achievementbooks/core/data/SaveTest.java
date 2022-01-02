@@ -18,6 +18,11 @@ public class SaveTest {
     }
 
     @Test
+    public void testEquals() {
+        EqualsVerifier.forClass(Save.class).verify();
+    }
+
+    @Test
     public void testSaveToggle() {
 
         Save save = new Save();
@@ -32,10 +37,5 @@ public class SaveTest {
             idToToggle++;
         }
 
-    }
-
-    @Test
-    public void testEquals() {
-        EqualsVerifier.forClass(Save.class).verify();
     }
 }

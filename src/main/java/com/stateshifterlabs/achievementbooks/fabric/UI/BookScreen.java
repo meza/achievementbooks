@@ -2,7 +2,10 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
-import com.stateshifterlabs.achievementbooks.core.data.*;
+import com.stateshifterlabs.achievementbooks.core.data.Book;
+import com.stateshifterlabs.achievementbooks.core.data.Page;
+import com.stateshifterlabs.achievementbooks.core.data.PageElement;
+import com.stateshifterlabs.achievementbooks.core.data.Type;
 import com.stateshifterlabs.achievementbooks.core.events.BookEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,24 +27,22 @@ import org.apache.logging.log4j.Logger;
 @Environment(value = EnvType.CLIENT)
 public class BookScreen extends Screen {
     private static final Logger LOGGER = LogManager.getLogger(BookScreen.class);
-    private final Book book;
-    private final World world;
-    private final PlayerEntity player;
-    private final ItemStack itemStack;
-    public static int bookWidth = 417;
     public static int bookHeight = 245;
+    public static int bookWidth = 417;
     public static int pageWidth = bookWidth / 2 - 35;
+    private final Book book;
+    private final ItemStack itemStack;
     private final float lineSeparatorHeight = 10;
     private final float paragraphSeparatorHeight = 20;
-    private int contentLeft = 0;
-    private int rightPageLeft = 0;
-    private int contentTop = 0;
+    private final PlayerEntity player;
+    private final World world;
     public int bookLeft = 0;
     public int bookTop = 0;
-    private boolean isOpen = false;
-    private int currentPage = 0;
-    private int cachedPage = 0;
     private NbtCompound bookData;
+    private int cachedPage = 0;
+    private int contentLeft = 0;
+    private int contentTop = 0;
+    private int currentPage = 0;
     private final ButtonWidget.PressAction turnForward = new ButtonWidget.PressAction() {
         @Override
         public void onPress(ButtonWidget button) {
@@ -58,7 +59,8 @@ public class BookScreen extends Screen {
             onPageTurn();
         }
     };
-
+    private boolean isOpen = false;
+    private int rightPageLeft = 0;
 
     public BookScreen(Book book, World world, PlayerEntity player) {
         super(new LiteralText(book.name()));
@@ -70,43 +72,29 @@ public class BookScreen extends Screen {
 
     }
 
-    protected void drawBackground(MatrixStack matrices) {
-        this.bookLeft = (this.width - bookWidth) / 2;
-        this.bookTop = (int) ((this.height - bookHeight) / 2.5);
-        this.contentLeft = bookLeft + 20;
-        this.contentTop = bookTop + 20;
-        this.rightPageLeft = (this.width / 2) + 15;
-
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_left-" + book.colour() + ".png"));
-        drawTexture(matrices, bookLeft, bookTop, 0, 0, bookWidth / 2, bookHeight);
-
-        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_right-" + book.colour() + ".png"));
-        drawTexture(matrices, bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
+    public void onPageTurn() {
+        BookEvents.PAGE_TURN.invoker().onPageTurn(currentPage, book);
     }
 
-    private void drawPaginators() {
-        if (currentPage >= 2) {
-            this.addDrawableChild(new PageTurnWidget(contentLeft, bookTop + bookHeight - 30, false, turnBackward, true));
-        }
-        if (currentPage + 1 < book.pageCount()) {
-            this.addDrawableChild(new PageTurnWidget(bookLeft + bookWidth - 50, bookTop + bookHeight - 30, true, turnForward, true));
-        }
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        drawBackground(matrices);
+        drawPaginators();
+        drawPages();
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
-    private void drawPages() {
-        if (cachedPage != currentPage) {
-            this.clearChildren();
-            cachedPage = currentPage;
-        }
-        Page leftPage = book.openPage(currentPage);
-        drawPage(leftPage, contentLeft);
+    @Override
+    public void onClose() {
+        world.playSound(player, player.getBlockPos(), AchievementBooks.CLOSE_BOOK_SOUND_EVENT, SoundCategory.BLOCKS, 0.2f, 1.0f);
+        this.client.setScreen(null);
+    }
 
-        if (currentPage + 1 < book.pageCount()) {
-            Page rightPage = book.openPage(currentPage + 1);
-            drawPage(rightPage, rightPageLeft);
+    @Override
+    public void init() {
+        if (!isOpen) {
+            world.playSound(player, player.getBlockPos(), AchievementBooks.OPEN_BOOK_SOUND_EVENT, SoundCategory.PLAYERS, 0.2f, 1.0f);
+            this.isOpen = true;
         }
     }
 
@@ -171,30 +159,44 @@ public class BookScreen extends Screen {
         }
     }
 
-    public void onPageTurn() {
-        BookEvents.PAGE_TURN.invoker().onPageTurn(currentPage, book);
-    }
-
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        drawBackground(matrices);
-        drawPaginators();
-        drawPages();
-        super.render(matrices, mouseX, mouseY, delta);
-    }
-
-    @Override
-    public void onClose() {
-        world.playSound(player, player.getBlockPos(), AchievementBooks.CLOSE_BOOK_SOUND_EVENT, SoundCategory.BLOCKS, 0.2f, 1.0f);
-        this.client.setScreen(null);
-    }
-
-    @Override
-    public void init() {
-        if (!isOpen) {
-            world.playSound(player, player.getBlockPos(), AchievementBooks.OPEN_BOOK_SOUND_EVENT, SoundCategory.PLAYERS, 0.2f, 1.0f);
-            this.isOpen = true;
+    private void drawPages() {
+        if (cachedPage != currentPage) {
+            this.clearChildren();
+            cachedPage = currentPage;
         }
+        Page leftPage = book.openPage(currentPage);
+        drawPage(leftPage, contentLeft);
+
+        if (currentPage + 1 < book.pageCount()) {
+            Page rightPage = book.openPage(currentPage + 1);
+            drawPage(rightPage, rightPageLeft);
+        }
+    }
+
+    private void drawPaginators() {
+        if (currentPage >= 2) {
+            this.addDrawableChild(new PageTurnWidget(contentLeft, bookTop + bookHeight - 30, false, turnBackward, true));
+        }
+        if (currentPage + 1 < book.pageCount()) {
+            this.addDrawableChild(new PageTurnWidget(bookLeft + bookWidth - 50, bookTop + bookHeight - 30, true, turnForward, true));
+        }
+    }
+
+    protected void drawBackground(MatrixStack matrices) {
+        this.bookLeft = (this.width - bookWidth) / 2;
+        this.bookTop = (int) ((this.height - bookHeight) / 2.5);
+        this.contentLeft = bookLeft + 20;
+        this.contentTop = bookTop + 20;
+        this.rightPageLeft = (this.width / 2) + 15;
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_left-" + book.colour() + ".png"));
+        drawTexture(matrices, bookLeft, bookTop, 0, 0, bookWidth / 2, bookHeight);
+
+        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_right-" + book.colour() + ".png"));
+        drawTexture(matrices, bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
     }
 
 }

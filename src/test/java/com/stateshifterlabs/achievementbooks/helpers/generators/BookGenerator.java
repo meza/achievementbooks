@@ -53,7 +53,6 @@ public class BookGenerator {
         addColour(bookJson, book);
         addCraftingMaterial(bookJson, book);
 
-
         if (!excludeProperties.contains("pages")) {
             int numberOfPages = fairy.baseProducer().randomBetween(1, 15);
 
@@ -71,16 +70,17 @@ public class BookGenerator {
         return new RandomTestData<>(bookJson, book);
     }
 
-
-    private void addMigrationTarget(JsonObject bookJson, Book book) {
-        boolean shouldIncludeFalseMigrationTarget = fairy.baseProducer().trueOrFalse();
-        if (shouldIncludeFalseMigrationTarget) {
-            bookJson.addProperty("migrationTarget", false);
-        }
-    }
-
     public int getElementId() {
         return elementId++;
+    }
+
+    private void addColour(JsonObject bookJson, Book book) {
+        if (fairy.baseProducer().trueOrFalse()) {
+            Colour colour = fairy.baseProducer().randomElement(Colour.class);
+            String colourText = colour.getText().toLowerCase();
+            bookJson.addProperty("color", colourText);
+            book.withColour(colourText);
+        }
     }
 
     private void addCraftingMaterial(JsonObject bookJson, Book book) {
@@ -91,12 +91,10 @@ public class BookGenerator {
         }
     }
 
-    private void addColour(JsonObject bookJson, Book book) {
-        if (fairy.baseProducer().trueOrFalse()) {
-            Colour colour = fairy.baseProducer().randomElement(Colour.class);
-            String colourText = colour.getText().toLowerCase();
-            bookJson.addProperty("color", colourText);
-            book.withColour(colourText);
+    private void addMigrationTarget(JsonObject bookJson, Book book) {
+        boolean shouldIncludeFalseMigrationTarget = fairy.baseProducer().trueOrFalse();
+        if (shouldIncludeFalseMigrationTarget) {
+            bookJson.addProperty("migrationTarget", false);
         }
     }
 
@@ -154,7 +152,6 @@ public class BookGenerator {
                 final String headerText = fairy.textProducer().latinSentence();
                 element.withHeader(headerText);
                 elementJson.addProperty("header", headerText);
-
 
                 if (fairy.baseProducer().trueOrFalse()) {
                     final String descriptionText = fairy.textProducer().latinSentence();

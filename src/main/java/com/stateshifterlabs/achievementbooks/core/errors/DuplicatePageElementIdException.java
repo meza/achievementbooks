@@ -5,8 +5,8 @@ import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 
 public class DuplicatePageElementIdException extends RuntimeException {
 
-    private final PageElement element;
     private final String book;
+    private final PageElement element;
 
     public DuplicatePageElementIdException(PageElement element, String book) {
         super(String.format(
