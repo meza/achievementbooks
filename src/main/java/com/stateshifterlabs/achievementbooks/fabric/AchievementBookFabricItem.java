@@ -44,7 +44,7 @@ public class AchievementBookFabricItem extends Item {
     @Override
     @Environment(EnvType.CLIENT)
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-        LOGGER.info("Opening the book: " + book.itemName());
+        LOGGER.debug("Opening the book: " + book.itemName());
         ItemStack stackInHand = playerEntity.getStackInHand(hand);
         if (world.isClient) {
             MinecraftClient.getInstance().setScreen(new BookScreen(

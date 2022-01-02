@@ -60,14 +60,14 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Achievement Books main initialising");
+        LOGGER.debug("Achievement Books main initialising");
         ServerLifecycleEvents.SERVER_STARTED.register(this::onInitializeLogicalServer);
 
         this.books = Loader.init(configDir, demoFile);
 
         this.registerAssets();
         this.registerCommands();
-        LOGGER.info("Achievement Books initialised");
+        LOGGER.debug("Achievement Books initialised");
     }
 
     @Override
@@ -102,7 +102,7 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     }
 
     private void onInitializeLogicalServer(MinecraftServer minecraftServer) {
-        LOGGER.info("SERVER STARTING");
+        LOGGER.debug("SERVER STARTING");
         new AchievementBooksLogicalServer(minecraftServer, achievementStorage, books);
 
     }

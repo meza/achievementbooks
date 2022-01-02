@@ -17,22 +17,22 @@ public class ClientActionDispatcher {
     private static final Logger LOGGER = LogManager.getLogger(ClientActionDispatcher.class);
 
     public ClientActionDispatcher() {
-        LOGGER.info("Registering book listener events on the client");
+        LOGGER.debug("Registering book listener events on the client");
         BookEvents.PAGE_TURN.register(this::onPageTurn);
         BookEvents.ACHIEVEMENT_TOGGLE.register(this::onAchievementToggled);
     }
 
     private void onAchievementToggled(int id, Book book) {
-        LOGGER.info("Achievement " + id + " toggled for " + book.itemName());
+        LOGGER.debug("Achievement " + id + " toggled for " + book.itemName());
         PacketByteBuf message = AchievementToggledMessage.encode(id, book.itemName());
-        LOGGER.info("Sending " + message + " to the channel: " + ACHIEVEMENT_TOGGLE_PACKET_ID);
+        LOGGER.debug("Sending " + message + " to the channel: " + ACHIEVEMENT_TOGGLE_PACKET_ID);
         ClientPlayNetworking.send(ACHIEVEMENT_TOGGLE_PACKET_ID, message);
     }
 
     private void onPageTurn(int newPage, Book book) {
-        LOGGER.info("Page turned to: " + newPage + " in book: " + book.itemName());
+        LOGGER.debug("Page turned to: " + newPage + " in book: " + book.itemName());
         PacketByteBuf message = PageTurnMessage.encode(newPage, book.itemName());
-        LOGGER.info("Sending " + message + " to the channel: " + PAGE_TURN_PACKET_ID);
+        LOGGER.debug("Sending " + message + " to the channel: " + PAGE_TURN_PACKET_ID);
         ClientPlayNetworking.send(PAGE_TURN_PACKET_ID, message);
     }
 }

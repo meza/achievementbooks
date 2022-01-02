@@ -44,7 +44,7 @@ public class ServerActionHandler {
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(serverPlayerEntity.getUuidAsString()));
             Gson gson = builder.create();
-            AchievementBooks.LOGGER.info("About to send the achievement data");
+            AchievementBooks.LOGGER.debug("About to send the achievement data");
             packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(gson.toJson(data)));
         });
     }

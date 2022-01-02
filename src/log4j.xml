@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG" packages="com.stateshifterlabs">
+    <Appenders>
+        <Console name="SysOut" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />
+        </Console>
+        <Queue name="ServerGuiConsole">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n" />
+        </Queue>
+    </Appenders>
+    <Loggers>
+        <Root level="WARN">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="ServerGuiConsole"/>
+        </Root>
+        <Logger name="com.stateshifterlabs.achievementbooks" level="DEBUG" />
+    </Loggers>
+</Configuration>

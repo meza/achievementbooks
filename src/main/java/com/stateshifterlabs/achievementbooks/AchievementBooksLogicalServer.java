@@ -56,18 +56,18 @@ public class AchievementBooksLogicalServer {
 
         String playerUUID = BufferUtilities.toString(packetByteBuf);
         minecraftServer.execute(() -> {
-            LOGGER.info("Achievements requested for " + playerUUID);
+            LOGGER.debug("Achievements requested for " + playerUUID);
             if (!achievementStorage.hasPlayerData(playerUUID)) {
-                LOGGER.info("No achievements found for " + playerUUID);
+                LOGGER.debug("No achievements found for " + playerUUID);
                 return;
             }
             AchievementData data = achievementStorage.forPlayer(playerUUID);
-            LOGGER.info("Achievements loaded for " + playerUUID);
+            LOGGER.debug("Achievements loaded for " + playerUUID);
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(playerUUID));
             Gson gson = builder.create();
             String json = gson.toJson(data);
-            LOGGER.info("Sending " + json + " to " + ACHIEVEMENT_LOAD_PACKET_ID);
+            LOGGER.debug("Sending " + json + " to " + ACHIEVEMENT_LOAD_PACKET_ID);
             packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(json));
         });
 
@@ -90,7 +90,7 @@ public class AchievementBooksLogicalServer {
             e.printStackTrace();
         }
 //        }
-        AchievementBooks.LOGGER.info("Save location: " + saveFile.getAbsolutePath());
+        AchievementBooks.LOGGER.debug("Save location: " + saveFile.getAbsolutePath());
         return saveFile;
     }
 }

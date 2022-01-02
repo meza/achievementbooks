@@ -79,6 +79,7 @@ public class BookScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         drawBackground(matrices);
+        drawCloseButton(matrices, mouseX, mouseY, delta);
         drawPaginators();
         drawPages();
         super.render(matrices, mouseX, mouseY, delta);
@@ -150,9 +151,11 @@ public class BookScreen extends Screen {
                         pageWidth,
                         pageElement.formattedAchievement(),
                         textRenderer);
-                cb.onToggle(toggled -> {
+
+                cb.onToggle((toggled) -> {
                     BookEvents.ACHIEVEMENT_TOGGLE.invoker().onAchievementToggled(pageElement.id(), book);
                 });
+
                 this.addDrawableChild(cb);
                 heightOffset += cb.height() + paragraphSeparatorHeight;
             }
@@ -171,6 +174,9 @@ public class BookScreen extends Screen {
             Page rightPage = book.openPage(currentPage + 1);
             drawPage(rightPage, rightPageLeft);
         }
+    }
+    private void drawCloseButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.addDrawableChild(new CloseButton(bookLeft-10, bookTop+9, this::onClose));
     }
 
     private void drawPaginators() {
