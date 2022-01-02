@@ -1,5 +1,16 @@
-name: publish alpha
-on: workflow_dispatch
+name: Publish
+on:
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'What type of release will this be?'
+        default: 'alpha'
+        required: true
+        type: choice
+        options:
+          - alpha
+          - beta
+          - release
 
 jobs:
   publish_alpha:
@@ -9,7 +20,7 @@ jobs:
             17,    # Current Java LTS & minimum supported by Minecraft
         ]
         # and run on both Linux and Windows
-        os: [ubuntu-20.04]
+        os: [ ubuntu-20.04 ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -23,7 +34,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         env:
-          curseForgeReleaseType: alpha
+          curseForgeReleaseType: ${{ github.event.inputs.releaseType }}
         run: ./gradlew curseforge$curseForgeProjectId
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
