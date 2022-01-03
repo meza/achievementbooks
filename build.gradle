@@ -1,8 +1,11 @@
+import java.util.regex.Matcher
+
 plugins {
     id 'fabric-loom' version '0.10-SNAPSHOT'
     id 'maven-publish'
     id 'jvm-test-suite'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'net.researchgate.release' version '2.8.1'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -119,5 +122,38 @@ test {
                 println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
             }
         }
+    }
+}
+
+release {
+    failOnCommitNeeded = true
+    failOnPublishNeeded = true
+    failOnSnapshotDependencies = true
+    failOnUnversionedFiles = true
+    failOnUpdateNeeded = true
+    revertOnFail = true
+    preCommitText = ''
+    preTagCommitMessage = 'chore(release): [Gradle Release Plugin] - pre tag commit: '
+    tagCommitMessage = 'chore(release): [Gradle Release Plugin] - creating tag: '
+    newVersionCommitMessage = 'chore(version): [Gradle Release Plugin] - new version commit: '
+    tagTemplate = 'v${version}'
+    versionPropertyFile = 'gradle.properties'
+    versionProperties = [
+            mod_version
+    ]
+    snapshotSuffix = '-SNAPSHOT'
+    buildTasks = ['build']
+    ignoredSnapshotDependencies = []
+    versionPatterns = [
+            /(\d+)([^\d]*$)/: { Matcher m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
+    ]
+    pushReleaseVersionBranch = false
+
+    git {
+        requireBranch = 'master'
+        pushToRemote = 'origin'
+        pushToBranchPrefix = ''
+        commitVersionFileOnly = false
+        signTag = false
     }
 }
