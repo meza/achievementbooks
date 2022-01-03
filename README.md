@@ -1,6 +1,6 @@
 > @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
 
-# Achievement Books
+# Achievement Books - for FABRIC (since 1.18.1)
 
 The Achievement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
 
@@ -12,15 +12,14 @@ It is highly configurable via JSON to have headers, free flow text and achieveme
 - you don't need to deal with difficult formatting files
 - you can describe your books in an easy-to-read format
 - you can add/remove/edit entries without players losing their achievement progress
-- you can reload the books from the config without restarting the game
+- you can reload the books from the config without restarting the game (not since 1.18.1)
 
 ## User Manual
 
 ### Installing the Mod
+Make sure you're using [Fabric](http://fabricmc.net/)
 
-Currently, Achievement Books only supports 1.7.10-1.12, but is under active development for all other versions too.
-
-To install it, head over to the project's page on [CurseForge https://minecraft.curseforge.com/projects/achievement-books](https://minecraft.curseforge.com/projects/achievement-books)
+To install the mod, head over to the project's page on [CurseForge https://minecraft.curseforge.com/projects/achievement-books](https://minecraft.curseforge.com/projects/achievement-books)
  and download it into your minecraft installation's `mods` folder.
 
 Note, that this is the same process for servers or clients.
@@ -33,7 +32,7 @@ As the mod starts the first time, you will have an example config created for yo
 
 You can access the achievement book by:
 ```
-/achievementbooks give
+/ab give
 ```
 
 This will give you a mini achievement list on how to get to know the mod better.
@@ -45,20 +44,22 @@ I recommend you go through the book in the game and do all the exercises there t
 
 The mod listens to
 ```
-/achievementbooks <command>
-```
-or in short:
-```
 /ab <command>
 ```
 
 #### Give
 ```
-/achievementbooks give
+/ab give
 ```
 Gives the player _every_ book registered in the system
 
-#### Import
+#### List
+```
+/achievementbooks list
+```
+Lists all registered books and their IDs
+
+#### Import (DEPRECATED - won't work in 1.18.1+)
 ```
 /achievementbooks import
 ```
@@ -70,19 +71,13 @@ pain to migrate.
 > Import only works in single player mode to enable you to fiddle around with the settings easily. Once done, you can
 copy the new file over and use it on a server.
 
-#### Init
+#### Init (DEPRECATED - won't work in 1.18.1+)
 ```
 /achievementbooks init
 ```
 Re-creates the demo config file
 
-#### List
-```
-/achievementbooks list
-```
-Lists all registered books and their IDs
-
-#### Reload
+#### Reload (DEPRECATED - won't work in 1.18.1+)
 ```
 /achievementbooks reload
 ```
@@ -150,13 +145,11 @@ yellow | ![yellow](https://github.com/meza/achievementbooks/raw/master/core/src/
 ```JSON
  {
  	"itemName": "coloured_book_smallest",
- 	"colour": "orange",
+ 	"color": "orange",
  	"bookName": "The smallest book",
  	"pages": []
  }
  ```
-
->Yes, you can use both `color` and `colour`. They work the same way. 
 
 #### `pages` - required
 The second most important part of the book is the list of pages it has.
@@ -305,7 +298,7 @@ An extra information for the player, if the achievement is targeting a specific 
 
 ```
 
-## Migrating an existing server from SA (1.7.10, 1.9.4, 1.10.2)
+## Migrating an existing server from SA (1.7.10, 1.9.4, 1.10.2) - (DEPRECATED - won't work in 1.18.1+)
 
 Should you wish to migrate an already existing server to Achievement Books, there are tools for you.
 The main problems are that you need to get rid of the old book, and give your players the new one with their
