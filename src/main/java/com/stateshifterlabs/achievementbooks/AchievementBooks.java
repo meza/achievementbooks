@@ -46,7 +46,6 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     public static final SoundEvent RUB_SOUND_EVENT = new SoundEvent(RUB_SOUND_EVENT_ID);
     public static final Identifier TICK_SOUND_EVENT_ID = new Identifier(MODID, "tick");
     public static final SoundEvent TICK_SOUND_EVENT = new SoundEvent(TICK_SOUND_EVENT_ID);
-
     private static final Map<Identifier, JsonObject> Recipes = new HashMap<>();
 
     private final AchievementStorage achievementStorage = new AchievementStorage();
@@ -111,9 +110,12 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
         Registry.register(Registry.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
         Registry.register(Registry.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
 
+
+
         for (Book book : books) {
             Identifier identifier = new Identifier(MODID, book.itemName());
             AchievementBookFabricItem item = new AchievementBookFabricItem(book);
+
             Registry.register(Registry.ITEM, identifier, item);
 
             if (book.isCraftable()) {
