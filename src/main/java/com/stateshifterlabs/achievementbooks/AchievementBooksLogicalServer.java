@@ -2,10 +2,7 @@ package com.stateshifterlabs.achievementbooks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
-import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
-import com.stateshifterlabs.achievementbooks.core.data.Books;
-import com.stateshifterlabs.achievementbooks.core.data.GameSave;
+import com.stateshifterlabs.achievementbooks.core.data.*;
 import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
 import com.stateshifterlabs.achievementbooks.fabric.networking.BufferUtilities;
 import com.stateshifterlabs.achievementbooks.fabric.networking.ServerActionHandler;
@@ -16,6 +13,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,8 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static com.stateshifterlabs.achievementbooks.AchievementBooks.ACHIEVEMENT_LOAD_PACKET_ID;
-import static com.stateshifterlabs.achievementbooks.AchievementBooks.CLIENT_LOGIN_PACKET_ID;
+import static com.stateshifterlabs.achievementbooks.AchievementBooks.*;
 
 public class AchievementBooksLogicalServer {
     private static final Logger LOGGER = LogManager.getLogger(AchievementBooksLogicalServer.class);
@@ -69,8 +66,21 @@ public class AchievementBooksLogicalServer {
             String json = gson.toJson(data);
             LOGGER.debug("Sending " + json + " to " + ACHIEVEMENT_LOAD_PACKET_ID);
             packetSender.sendPacket(ACHIEVEMENT_LOAD_PACKET_ID, BufferUtilities.toBuf(json));
+
+            unlockRecipesFor(serverPlayerEntity);
+
         });
 
+    }
+
+    private void unlockRecipesFor(ServerPlayerEntity serverPlayerEntity) {
+        Identifier[] ids = new Identifier[books.size()];
+        int i=0;
+        for(Book book: books) {
+            ids[i++] = new Identifier(MODID, book.itemName());
+        }
+
+        serverPlayerEntity.unlockRecipes(ids);
     }
 
     private File setUpSaveFile(MinecraftServer server) {
