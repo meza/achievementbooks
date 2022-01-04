@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.fabric.commands;
+package com.stateshifterlabs.achievementbooks.minecraftdependent.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;

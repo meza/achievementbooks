@@ -1,6 +1,8 @@
 package com.stateshifterlabs.achievementbooks.core.data;
 
 import com.stateshifterlabs.achievementbooks.core.facade.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AchievementStorage {
+    private static final Logger LOGGER = LogManager.getLogger(AchievementStorage.class);
 
     private final Map<String, AchievementData> storage = new HashMap<String, AchievementData>();
 
@@ -69,5 +72,15 @@ public class AchievementStorage {
 
     public int size() {
         return storage.size();
+    }
+
+    public String jsonForPlayer(String playerUUID) {
+        LOGGER.debug("Achievements requested for " + playerUUID);
+        if (!this.hasPlayerData(playerUUID)) {
+            this.append(new AchievementData(playerUUID));
+        }
+        AchievementData data = this.forPlayer(playerUUID);
+        LOGGER.debug("Achievements loaded for " + playerUUID);
+        return data.toJson();
     }
 }

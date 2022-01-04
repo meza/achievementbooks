@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.fabric.networking;
+package com.stateshifterlabs.achievementbooks.minecraftdependent.networking;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

@@ -8,11 +8,8 @@ import java.lang.reflect.Type;
 
 public class AchievementDataSerializer implements JsonSerializer<AchievementData>, JsonDeserializer<AchievementData> {
 
-    private final String player;
 
-    public AchievementDataSerializer(String player) {
-
-        this.player = player;
+    public AchievementDataSerializer() {
     }
 
     @Override
@@ -49,7 +46,7 @@ public class AchievementDataSerializer implements JsonSerializer<AchievementData
     ) {
 
         JsonObject playerJson = new JsonObject();
-        playerJson.addProperty("name", player);
+        playerJson.addProperty("name", data.username());
 
         JsonArray books = new JsonArray();
 

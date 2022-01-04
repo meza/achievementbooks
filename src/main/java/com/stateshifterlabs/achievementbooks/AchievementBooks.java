@@ -7,9 +7,11 @@ import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.data.Loader;
-import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
-import com.stateshifterlabs.achievementbooks.fabric.commands.GiveCommand;
-import com.stateshifterlabs.achievementbooks.fabric.commands.ListCommand;
+import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.AchievementBooksClient;
+import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.AchievementBooksLogicalServer;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.AchievementBookItem;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.commands.ListCommand;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -26,7 +28,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AchievementBooks implements ModInitializer, ClientModInitializer {
@@ -54,6 +58,7 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     private final URL demoFile = getClass().getClassLoader().getResource("config/demo.json");
     private Books books;
 
+    private static final List<Identifier> bookIdentifiers = new ArrayList<>();
     public static Map<Identifier, JsonObject> bookRecipes() {
         return Recipes;
     }
@@ -107,15 +112,19 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
 
     }
 
+    public static Identifier[] BookIdentifiers() {
+        return bookIdentifiers.toArray(new Identifier[0]);
+    }
+
     private void registerAssets() {
         Registry.register(Registry.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
         Registry.register(Registry.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
 
         for (Book book : books) {
             Identifier identifier = new Identifier(MODID, book.itemName());
-            AchievementBookFabricItem item = new AchievementBookFabricItem(book);
+            AchievementBookItem item = new AchievementBookItem(book);
             Registry.register(Registry.ITEM, identifier, item);
-
+            bookIdentifiers.add(identifier);
             if (book.isCraftable()) {
                 AchievementBooks.Recipes.put(identifier, getRecipeFor(book));
             }

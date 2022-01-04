@@ -1,11 +1,8 @@
-package com.stateshifterlabs.achievementbooks.fabric;
+package com.stateshifterlabs.achievementbooks.minecraftdependent;
 
 import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.fabric.UI.BookScreen;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.UI.BookScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,12 +16,13 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AchievementBookFabricItem extends Item {
-    private static final Logger LOGGER = LogManager.getLogger(AchievementBookFabricItem.class);
+public class AchievementBookItem extends Item {
+    private static final Logger LOGGER = LogManager.getLogger(AchievementBookItem.class);
     private final Book book;
 
-    public AchievementBookFabricItem(Book book) {
-        super(new FabricItemSettings()
+    public AchievementBookItem(Book book) {
+
+        super(new Settings()
                 .group(ItemGroup.MISC)
                 .maxCount(1)
                 .maxDamage(0)
@@ -42,7 +40,6 @@ public class AchievementBookFabricItem extends Item {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         LOGGER.debug("Opening the book: " + book.itemName());
         ItemStack stackInHand = playerEntity.getStackInHand(hand);

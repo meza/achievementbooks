@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.fabric.UI;
+package com.stateshifterlabs.achievementbooks.minecraftdependent.UI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
@@ -6,9 +6,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 import com.stateshifterlabs.achievementbooks.core.data.Type;
-import com.stateshifterlabs.achievementbooks.core.events.BookEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.events.BookEvents;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
@@ -24,7 +22,6 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Environment(value = EnvType.CLIENT)
 public class BookScreen extends Screen {
     private static final Logger LOGGER = LogManager.getLogger(BookScreen.class);
     public static int bookHeight = 245;

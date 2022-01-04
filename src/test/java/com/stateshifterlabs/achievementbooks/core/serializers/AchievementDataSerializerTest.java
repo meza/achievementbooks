@@ -31,7 +31,7 @@ public class AchievementDataSerializerTest {
         typeOfT = Mockito.mock(Type.class);
         deserializationContext = Mockito.mock(JsonDeserializationContext.class);
         serializationContext = Mockito.mock(JsonSerializationContext.class);
-        serializer = new AchievementDataSerializer(player);
+        serializer = new AchievementDataSerializer();
     }
 
     @Test

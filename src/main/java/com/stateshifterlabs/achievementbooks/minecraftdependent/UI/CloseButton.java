@@ -1,8 +1,6 @@
-package com.stateshifterlabs.achievementbooks.fabric.UI;
+package com.stateshifterlabs.achievementbooks.minecraftdependent.UI;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
@@ -15,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import static com.stateshifterlabs.achievementbooks.AchievementBooks.MODID;
 
-@Environment(EnvType.CLIENT)
 public class CloseButton extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
     private static final Logger LOGGER = LogManager.getLogger(CloseButton.class);
     private final int height = 11;

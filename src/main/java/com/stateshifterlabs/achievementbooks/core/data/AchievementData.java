@@ -1,5 +1,9 @@
 package com.stateshifterlabs.achievementbooks.core.data;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +56,13 @@ public class AchievementData {
             return false;
         }
         return bookData != null ? bookData.equals(that.bookData) : that.bookData == null;
+    }
+
+    public String toJson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer());
+        Gson gson = builder.create();
+        return gson.toJson(this);
     }
 
     public void toggle(String bookName, int id) {

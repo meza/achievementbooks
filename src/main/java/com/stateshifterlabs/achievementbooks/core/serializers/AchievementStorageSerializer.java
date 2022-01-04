@@ -26,7 +26,7 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
         for (JsonElement userSave : storageJson) {
 
             String thePlayer = userSave.getAsJsonObject().get("name").getAsString();
-            AchievementDataSerializer ser = new AchievementDataSerializer(thePlayer);
+            AchievementDataSerializer ser = new AchievementDataSerializer();
             AchievementData data = ser.deserialize(userSave, AchievementData.class, context);
 
             storage.append(data);
@@ -46,7 +46,7 @@ public class AchievementStorageSerializer implements JsonSerializer<AchievementS
         for (String player : src.players()) {
             AchievementData data = src.forPlayer(player);
 
-            AchievementDataSerializer dataSer = new AchievementDataSerializer(player);
+            AchievementDataSerializer dataSer = new AchievementDataSerializer();
             JsonElement playerJson = dataSer.serialize(data, AchievementData.class, context);
 
             storage.add(playerJson);

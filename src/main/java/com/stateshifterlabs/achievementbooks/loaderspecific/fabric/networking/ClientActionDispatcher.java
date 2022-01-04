@@ -1,9 +1,9 @@
-package com.stateshifterlabs.achievementbooks.fabric.networking;
+package com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking;
 
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.core.events.BookEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.events.BookEvents;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.AchievementToggledMessage;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.PageTurnMessage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import static com.stateshifterlabs.achievementbooks.AchievementBooks.ACHIEVEMENT_TOGGLE_PACKET_ID;
 import static com.stateshifterlabs.achievementbooks.AchievementBooks.PAGE_TURN_PACKET_ID;
 
-@Environment(EnvType.CLIENT)
 public class ClientActionDispatcher {
     private static final Logger LOGGER = LogManager.getLogger(ClientActionDispatcher.class);
 

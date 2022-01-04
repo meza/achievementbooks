@@ -1,11 +1,11 @@
-package com.stateshifterlabs.achievementbooks.fabric.networking;
+package com.stateshifterlabs.achievementbooks.minecraftdependent.networking;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketByteBuf;
 
 public class BufferUtilities {
     public static PacketByteBuf toBuf(String string) {
-        PacketByteBuf buf = PacketByteBufs.create();
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeString(string);
         return buf;
     }

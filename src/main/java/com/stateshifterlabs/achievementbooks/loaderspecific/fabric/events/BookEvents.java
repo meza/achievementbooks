@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.core.events;
+package com.stateshifterlabs.achievementbooks.loaderspecific.fabric.events;
 
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import net.fabricmc.fabric.api.event.Event;

@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks;
+package com.stateshifterlabs.achievementbooks.loaderspecific.fabric;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,9 +6,9 @@ import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
-import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
-import com.stateshifterlabs.achievementbooks.fabric.networking.BufferUtilities;
-import com.stateshifterlabs.achievementbooks.fabric.networking.ClientActionDispatcher;
+import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking.ClientActionDispatcher;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.AchievementBookItem;
+import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.BufferUtilities;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -73,14 +73,14 @@ public class AchievementBooksClient {
             LOGGER.debug("Got the UUID for player: " + minecraftClient.player.getName().asString() + " to be: " + player);
 
             GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(player));
+            builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer());
             Gson gson = builder.create();
             AchievementData data = gson.fromJson(json, AchievementData.class);
             achievementStorage.append(data);
             LOGGER.debug("Appended the new data to the achievement storage");
 
             for (String bookItemName : achievementStorage.forPlayer(player).books()) {
-                AchievementBookFabricItem bookItem = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(MODID, bookItemName));
+                AchievementBookItem bookItem = (AchievementBookItem) Registry.ITEM.get(new Identifier(MODID, bookItemName));
                 bookItem.updateBook(data);
             }
 

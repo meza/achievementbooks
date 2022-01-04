@@ -1,7 +1,7 @@
 package com.stateshifterlabs.achievementbooks.core.data;
 
-import com.stateshifterlabs.achievementbooks.core.ChatFormatting;
 import com.stateshifterlabs.achievementbooks.core.UTF8Utils;
+import net.minecraft.util.Formatting;
 
 public class PageElement {
     private final int id;
@@ -41,21 +41,21 @@ public class PageElement {
         if (!hasDescription()) {
             return "";
         }
-        return UTF8Utils.utf8String(ChatFormatting.ITALIC.toString(), String.format("%s", description));
+        return UTF8Utils.utf8String(Formatting.ITALIC.toString(), String.format("%s", description));
     }
 
     public String formattedHeader() {
         if (!hasHeader()) {
             return "";
         }
-        return UTF8Utils.utf8String(ChatFormatting.BOLD.toString(), header);
+        return UTF8Utils.utf8String(Formatting.BOLD.toString(), header);
     }
 
     public String formattedMod() {
         if (!hasMod()) {
             return "";
         }
-        return UTF8Utils.utf8String(ChatFormatting.DARK_BLUE.toString(), ChatFormatting.ITALIC.toString(), String.format("[%s]", mod), ChatFormatting.RESET.toString());
+        return UTF8Utils.utf8String(Formatting.DARK_BLUE.toString(), Formatting.ITALIC.toString(), String.format("[%s]", mod), Formatting.RESET.toString());
     }
 
     public boolean hasAchievement() {
