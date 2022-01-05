@@ -1,10 +1,10 @@
-package com.stateshifterlabs.achievementbooks.loaderspecific.fabric;
+package com.stateshifterlabs.achievementbooks.fabric;
 
 import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.data.GameSave;
-import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking.ServerActionHandler;
+import com.stateshifterlabs.achievementbooks.fabric.networking.ServerActionHandler;
 import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.BufferUtilities;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

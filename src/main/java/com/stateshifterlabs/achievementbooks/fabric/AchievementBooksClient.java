@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.loaderspecific.fabric;
+package com.stateshifterlabs.achievementbooks.fabric;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,7 +6,7 @@ import com.stateshifterlabs.achievementbooks.core.data.AchievementData;
 import com.stateshifterlabs.achievementbooks.core.data.AchievementStorage;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.serializers.AchievementDataSerializer;
-import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking.ClientActionDispatcher;
+import com.stateshifterlabs.achievementbooks.fabric.networking.ClientActionDispatcher;
 import com.stateshifterlabs.achievementbooks.minecraftdependent.AchievementBookItem;
 import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.BufferUtilities;
 import net.fabricmc.api.EnvType;

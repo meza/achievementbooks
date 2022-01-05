@@ -1,4 +1,4 @@
-package com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking;
+package com.stateshifterlabs.achievementbooks.fabric.networking;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

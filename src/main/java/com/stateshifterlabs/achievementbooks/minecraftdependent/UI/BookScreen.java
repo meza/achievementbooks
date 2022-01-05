@@ -6,7 +6,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Page;
 import com.stateshifterlabs.achievementbooks.core.data.PageElement;
 import com.stateshifterlabs.achievementbooks.core.data.Type;
-import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.events.BookEvents;
+import com.stateshifterlabs.achievementbooks.fabric.events.BookEvents;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;

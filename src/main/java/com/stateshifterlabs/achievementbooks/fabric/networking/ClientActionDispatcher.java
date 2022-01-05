@@ -1,7 +1,7 @@
-package com.stateshifterlabs.achievementbooks.loaderspecific.fabric.networking;
+package com.stateshifterlabs.achievementbooks.fabric.networking;
 
 import com.stateshifterlabs.achievementbooks.core.data.Book;
-import com.stateshifterlabs.achievementbooks.loaderspecific.fabric.events.BookEvents;
+import com.stateshifterlabs.achievementbooks.fabric.events.BookEvents;
 import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.AchievementToggledMessage;
 import com.stateshifterlabs.achievementbooks.minecraftdependent.networking.PageTurnMessage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
