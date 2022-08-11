@@ -8,9 +8,7 @@ import com.stateshifterlabs.achievementbooks.core.UTF8Utils;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 
 import static net.minecraft.server.command.CommandManager.literal;
@@ -23,14 +21,14 @@ public class ListCommand {
         source.sendFeedback(Text.of("Currently loaded Achivement Books:\n"), false);
         for (Book book : books) {
             String bookIdRaw = AchievementBooks.MODID + ":" + book.itemName();
-            Text bookId = Text.of("( " + bookIdRaw + " )");
+            MutableText bookId = MutableText.of(new LiteralTextContent("( " + bookIdRaw + " )"));
             Style b = bookId.getStyle()
                     .withUnderline(true)
                     .withColor(Formatting.BLUE)
                     .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/give " + player + " " + bookIdRaw));
-
+            bookId.setStyle(b);
             String txt = UTF8Utils.utf8String(" - ", book.name(), " ");
-            Text toSend = Text.of(txt + bookId.getWithStyle(b));
+            Text toSend = MutableText.of(new LiteralTextContent(txt)).append(bookId);
             source.sendFeedback(toSend, false);
         }
         return 1;
