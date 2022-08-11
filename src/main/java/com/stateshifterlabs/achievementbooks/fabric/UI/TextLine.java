@@ -9,7 +9,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.OrderedText;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class TextLine extends DrawableHelper implements Drawable, Element, Selec
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         int i = 0;
-        List<OrderedText> lines = textRenderer.wrapLines(new LiteralText(description), width);
+        List<OrderedText> lines = textRenderer.wrapLines(new LiteralTextContent(description), width);
 
         for (OrderedText text : lines) {
             float lineWidth = textRenderer.getWidth(text);

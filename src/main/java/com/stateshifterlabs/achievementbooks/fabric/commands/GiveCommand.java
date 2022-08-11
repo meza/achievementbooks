@@ -9,7 +9,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Books;
 import net.minecraft.item.Item;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -19,13 +19,13 @@ public class GiveCommand {
     public static int give(CommandContext<ServerCommandSource> c, Books books) throws CommandSyntaxException {
         ServerCommandSource source = c.getSource();
 
-        ServerPlayerEntity player = source.getPlayer();
+        ServerPlayerEntity player = source.getPlayerOrThrow();
         for (Book book : books) {
             Identifier bookId = new Identifier(AchievementBooks.MODID, book.itemName());
             Item item = Registry.ITEM.get(bookId);
             player.giveItemStack(item.getDefaultStack());
         }
-        source.sendFeedback(new LiteralText("Given all achievement books to ").append(player.getName()), true);
+        source.sendFeedback(new LiteralTextContent("Given all achievement books to ").append(player.getName()), true);
         return 1;
     }
 
