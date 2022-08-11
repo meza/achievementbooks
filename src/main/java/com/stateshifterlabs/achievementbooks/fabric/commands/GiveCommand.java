@@ -9,7 +9,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Books;
 import net.minecraft.item.Item;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -25,7 +25,7 @@ public class GiveCommand {
             Item item = Registry.ITEM.get(bookId);
             player.giveItemStack(item.getDefaultStack());
         }
-        source.sendFeedback(new LiteralTextContent("Given all achievement books to ").append(player.getName()), true);
+        source.sendFeedback(Text.of("Given all achievement books to " + player.getName()), true);
         return 1;
     }
 

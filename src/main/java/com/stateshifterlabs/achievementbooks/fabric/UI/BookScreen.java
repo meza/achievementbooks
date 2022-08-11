@@ -18,7 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
@@ -63,7 +63,7 @@ public class BookScreen extends Screen {
     private int rightPageLeft = 0;
 
     public BookScreen(Book book, World world, PlayerEntity player) {
-        super(new LiteralTextContent(book.name()));
+        super(Text.of(book.name()));
         this.book = book;
         this.world = world;
         this.player = player;

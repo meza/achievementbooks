@@ -9,8 +9,8 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.OrderedText;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class CenteredTextLine extends DrawableHelper implements Drawable, Elemen
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         int i = 0;
-        List<OrderedText> lines = textRenderer.wrapLines(new LiteralTextContent(header), width);
+        List<OrderedText> lines = textRenderer.wrapLines(Text.of(header), width);
 
         for (OrderedText text : lines) {
             float lineWidth = textRenderer.getWidth(text);
