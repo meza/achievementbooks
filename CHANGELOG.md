@@ -1,5 +1,12 @@
 # Achievementbooks Changelog
 
+## [1.2.2](https://github.com/meza/achievementbooks/compare/v1.2.1...v1.2.2) (2022-08-12)
+
+
+### Bug Fixes
+
+* fixed dependency in the release phase ([1d7ef8c](https://github.com/meza/achievementbooks/commit/1d7ef8c69f2a245e7560cdedcc80c99d2a376e49))
+
 ## [1.2.1](https://github.com/meza/achievementbooks/compare/v1.2.0...v1.2.1) (2022-08-12)
 
 
