@@ -1,4 +1,5 @@
 run
+run-server
 out
 logs
 **/eclipse
