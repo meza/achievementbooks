@@ -68,9 +68,10 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
+          name: ""
           changelog-file: CHANGELOG.md
-          curseforge-id: 258980
-          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
           version-type: release
           loaders: fabric
           dependencies: |
@@ -81,9 +82,10 @@ jobs:
         if: github.ref == 'refs/heads/next'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
+          name: ""
           changelog-file: CHANGELOG.md
-          curseforge-id: 258980
-          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
           version-type: beta
           loaders: fabric
           dependencies: |
@@ -95,9 +97,10 @@ jobs:
         if: github.ref == 'refs/heads/alpha'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
+          name: ""
           changelog-file: CHANGELOG.md
-          curseforge-id: 258980
-          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
           version-type: alpha
           loaders: fabric
           dependencies: |
