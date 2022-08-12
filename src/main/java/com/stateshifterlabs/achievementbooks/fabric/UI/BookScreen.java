@@ -18,7 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
@@ -63,7 +63,7 @@ public class BookScreen extends Screen {
     private int rightPageLeft = 0;
 
     public BookScreen(Book book, World world, PlayerEntity player) {
-        super(new LiteralText(book.name()));
+        super(Text.of(book.name()));
         this.book = book;
         this.world = world;
         this.player = player;
@@ -86,7 +86,7 @@ public class BookScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         world.playSound(player, player.getBlockPos(), AchievementBooks.CLOSE_BOOK_SOUND_EVENT, SoundCategory.BLOCKS, 0.2f, 1.0f);
         this.client.setScreen(null);
     }
@@ -176,7 +176,7 @@ public class BookScreen extends Screen {
         }
     }
     private void drawCloseButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.addDrawableChild(new CloseButton(bookLeft-10, bookTop+9, this::onClose));
+        this.addDrawableChild(new CloseButton(bookLeft-10, bookTop+9, this::close));
     }
 
     private void drawPaginators() {

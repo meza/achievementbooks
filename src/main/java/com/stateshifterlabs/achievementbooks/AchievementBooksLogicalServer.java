@@ -38,8 +38,8 @@ public class AchievementBooksLogicalServer {
         this.books = books;
         this.saveFile = setUpSaveFile(server);
         this.saveHandler = new GameSave(this.saveFile, this.achievementStorage, this.books);
-        this.saveHandler.load();
         new ServerActionHandler(this.achievementStorage, this.saveHandler);
+        this.saveHandler.load();
 
         ServerPlayNetworking.registerGlobalReceiver(CLIENT_LOGIN_PACKET_ID, this::achievementLoadRequested);
     }
@@ -75,8 +75,8 @@ public class AchievementBooksLogicalServer {
 
     private void unlockRecipesFor(ServerPlayerEntity serverPlayerEntity) {
         Identifier[] ids = new Identifier[books.size()];
-        int i=0;
-        for(Book book: books) {
+        int i = 0;
+        for (Book book : books) {
             ids[i++] = new Identifier(MODID, book.itemName());
         }
 
@@ -91,15 +91,18 @@ public class AchievementBooksLogicalServer {
             gameDir = gameDir.resolve("saves");
         }
 
-        saveFile = gameDir.resolve(levelName).resolve(AchievementBooks.MODID).resolve("achievementbooks.save.json").toFile();
-//        if (!saveFile.exists()) {
-//            saveFile.mkdirs();
+        Path saveDirectory = gameDir.resolve(levelName).resolve(MODID);
+        saveFile = saveDirectory.resolve("achievementbooks.save.json").toFile();
+
         try {
-            this.saveFile.createNewFile();
+            if (!saveFile.exists()) {
+                saveDirectory.toFile().mkdirs();
+                this.saveFile.createNewFile();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        }
+
         AchievementBooks.LOGGER.debug("Save location: " + saveFile.getAbsolutePath());
         return saveFile;
     }

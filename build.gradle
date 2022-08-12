@@ -1,8 +1,7 @@
 plugins {
-    id 'fabric-loom' version '0.10-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
     id 'jvm-test-suite'
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -81,29 +80,6 @@ publishing {
         // Notice: This block does NOT have the same function as the block in the top level.
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
-    }
-}
-
-curseforge {
-    apiKey = project.hasProperty("curseForgeApiKey") ? project.curseForgeApiKey : System.getenv("curseForgeApiKey")
-    project {
-        id = project.project_id
-        changelogType = "markdown"
-        changelog = file("CHANGELOG.md")
-        releaseType = project.hasProperty("curseForgeReleaseType") ? project.curseForgeReleaseType : System.getenv("curseForgeReleaseType")
-        addGameVersion project.minecraft_version
-        addGameVersion "Java 17"
-
-        relations {
-            requiredLibrary "fabric-api"
-        }
-        afterEvaluate {
-            mainArtifact(remapJar)
-            uploadTask.dependsOn(remapJar)
-        }
-    }
-    options {
-        forgeGradleIntegration = false
     }
 }
 

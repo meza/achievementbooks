@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ModelLoader.class)
 public class ModelLoaderMixin {
-    @Inject(method = "loadModelFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourceManager;getResource(Lnet/minecraft/util/Identifier;)Lnet/minecraft/resource/Resource;"), cancellable = true)
+    @Inject(method = "loadModelFromJson", at = @At(value = "HEAD"), cancellable = true)
     public void loadModelFromJson(Identifier id, CallbackInfoReturnable<JsonUnbakedModel> cir) {
         //First, we check if the current item model that is being registered is from our mod. If it isn't, we continue.
         if (!"achievementbooks".equals(id.getNamespace())) return;

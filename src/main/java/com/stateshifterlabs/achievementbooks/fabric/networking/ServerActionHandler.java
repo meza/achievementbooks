@@ -37,6 +37,7 @@ public class ServerActionHandler {
             PacketByteBuf packetByteBuf,
             PacketSender packetSender) {
         AchievementToggledMessage message = AchievementToggledMessage.decode(packetByteBuf);
+
         minecraftServer.execute(() -> {
             AchievementData data = achievementStorage.forPlayer(serverPlayerEntity.getUuidAsString());
             data.toggle(message.bookItemName(), message.achievementId());

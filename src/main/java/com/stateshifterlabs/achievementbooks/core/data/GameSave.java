@@ -33,7 +33,10 @@ public class GameSave {
 
         try {
             storage.clear();
-            storage = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+            AchievementStorage result = gson.fromJson(new FileReader(saveFile), AchievementStorage.class);
+            if (result != null) {
+                storage = result;
+            }
         } catch (FileNotFoundException e) {
 
         }
