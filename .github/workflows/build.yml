@@ -67,7 +67,8 @@ jobs:
           curseforge-token: ${{ secrets.curseForgeApiKey }}
           version-type: release
           loaders: fabric
-          dependencies: *
+          dependencies: |
+            required-dependency | depends | *
           version-resolver: latest
 
       - name: Release beta artifacts to Curseforge
