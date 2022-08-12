@@ -80,7 +80,8 @@ jobs:
           curseforge-token: ${{ secrets.curseForgeApiKey }}
           version-type: beta
           loaders: fabric
-          dependencies: *
+          dependencies: |
+            required-dependency | depends | *
           version-resolver: latest
           files-primary: build/libs/!(*-@(dev|sources)).jar
 
@@ -93,6 +94,7 @@ jobs:
           curseforge-token: ${{ secrets.curseForgeApiKey }}
           version-type: alpha
           loaders: fabric
-          dependencies: *
+          dependencies: |
+            required-dependency | depends | *
           version-resolver: latest
           files-primary: build/libs/!(*-@(dev|sources)).jar
