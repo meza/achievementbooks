@@ -75,7 +75,7 @@ jobs:
           version-type: release
           loaders: fabric
           dependencies: |
-            required-dependency | depends | *
+            fabric-api | depends
           version-resolver: latest
 
       - name: Release beta artifacts to Curseforge
@@ -89,13 +89,13 @@ jobs:
           version-type: beta
           loaders: fabric
           dependencies: |
-            required-dependency | depends | *
+            fabric-api | depends
           version-resolver: latest
           files-primary: build/libs/!(*-@(dev|sources)).jar
 
       - name: Release beta artifacts to Curseforge
         if: github.ref == 'refs/heads/alpha'
-        uses: Kir-Antipov/mc-publish@v2.0
+        uses: Kir-Antipov/mc-publish@v3.1
         with:
           name: ""
           changelog-file: CHANGELOG.md
@@ -104,6 +104,6 @@ jobs:
           version-type: alpha
           loaders: fabric
           dependencies: |
-            required-dependency | depends | *
+            fabric-api | depends
           version-resolver: latest
           files-primary: build/libs/!(*-@(dev|sources)).jar
