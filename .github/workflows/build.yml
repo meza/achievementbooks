@@ -31,19 +31,6 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
-      - name: build
-        env:
-          curseForgeApiKey: ${{ secrets.curseForgeApiKey }}
-          curseForgeReleaseType: alpha
-        run: ./gradlew build
-
-      - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
-        uses: actions/upload-artifact@v2
-        with:
-          name: Artifacts
-          path: build/libs/
-
       - name: Use Node.js 18.x
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/setup-node@v2
@@ -64,3 +51,47 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
+      - name: capture build artifacts
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: build/libs/
+
+      - name: Release latest artifacts to Curseforge
+        if: github.ref == 'refs/head/master'
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          changelog-file: CHANGELOG.md
+          curseforge-id: 258980
+          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          version-type: release
+          loaders: fabric
+          dependencies: *
+          version-resolver: latest
+
+      - name: Release beta artifacts to Curseforge
+        if: github.ref == 'refs/head/next'
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          changelog-file: CHANGELOG.md
+          curseforge-id: 258980
+          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          version-type: beta
+          loaders: fabric
+          dependencies: *
+          version-resolver: latest
+          files-primary: build/libs/!(*-@(dev|sources)).jar
+
+      - name: Release beta artifacts to Curseforge
+        if: github.ref == 'refs/head/alpha'
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          changelog-file: CHANGELOG.md
+          curseforge-id: 258980
+          curseforge-token: ${{ secrets.curseForgeApiKey }}
+          version-type: alpha
+          loaders: fabric
+          dependencies: *
+          version-resolver: latest
+          files-primary: build/libs/!(*-@(dev|sources)).jar
