@@ -65,7 +65,7 @@ jobs:
           path: build/libs/
 
       - name: Release latest artifacts to Curseforge
-        if: github.ref == 'refs/head/master'
+        if: github.ref == 'refs/heads/master'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
           changelog-file: CHANGELOG.md
@@ -78,7 +78,7 @@ jobs:
           version-resolver: latest
 
       - name: Release beta artifacts to Curseforge
-        if: github.ref == 'refs/head/next'
+        if: github.ref == 'refs/heads/next'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
           changelog-file: CHANGELOG.md
@@ -92,7 +92,7 @@ jobs:
           files-primary: build/libs/!(*-@(dev|sources)).jar
 
       - name: Release beta artifacts to Curseforge
-        if: github.ref == 'refs/head/alpha'
+        if: github.ref == 'refs/heads/alpha'
         uses: Kir-Antipov/mc-publish@v2.0
         with:
           changelog-file: CHANGELOG.md
