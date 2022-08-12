@@ -23,7 +23,7 @@
       {
         "assets": [
           {
-            "path": "build/libs/achievementbooks-${nextRelease.gitTag}.jar",
+            "path": "build/libs/!(*-@(dev|sources)).jar",
             "name": "achievementbooks-${nextRelease.gitTag}.jar",
             "label": "achievementbooks-${nextRelease.gitTag}.jar"
           }
