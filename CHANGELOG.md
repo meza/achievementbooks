@@ -1,5 +1,13 @@
 # Achievementbooks Changelog
 
+## [1.2.1](https://github.com/meza/achievementbooks/compare/v1.2.0...v1.2.1) (2022-08-12)
+
+
+### Bug Fixes
+
+* fixed some server networking issues ([a033d71](https://github.com/meza/achievementbooks/commit/a033d71cd58f2fadebe06c71c80875904f6e079e))
+* fixed the release automation ([15cccc4](https://github.com/meza/achievementbooks/commit/15cccc4f6f7fca7f7a4c9d8e8b3ecd920eb834b8))
+
 ### Features
 
 * added recipe book integration ([9be5379](https://github.com/meza/achievementbooks/commit/9be53798ab270aac990d7b0745a965548e0dd8e8))
