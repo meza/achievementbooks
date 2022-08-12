@@ -27,11 +27,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
 
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18.x
-
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
@@ -42,11 +37,29 @@ jobs:
           curseForgeReleaseType: alpha
         run: ./gradlew build
 
-      - run: npm i --location=global semantic-release @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
-      - run: chmod a+x ./scripts/release.sh
+      - name: capture build artifacts
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: build/libs/
+
+      - name: Use Node.js 18.x
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: install semantic release
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        run: npm i --location=global semantic-release @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
+
+      - name: adjust the release permissions
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        run: chmod a+x ./scripts/release.sh
 
       - name: Release
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
