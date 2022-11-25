@@ -14,7 +14,7 @@
   "mixins": [
     "achievementbooks.mixins.json"
   ],
-  "license": "CC0-1.0",
+  "license": "GPL-3.0",
   "icon": "assets/achievementbooks/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -26,9 +26,9 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.12.2",
+    "fabricloader": ">=0.14.9",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "java": ">=17"
   }
 }

@@ -14,8 +14,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -76,7 +74,7 @@ public class AchievementBookFabricItem extends Item {
 
     @Override
     public Text getName(ItemStack item) {
-        return new LiteralText(this.book.name());
+        return Text.of(this.book.name());
     }
 
     public Book book () {

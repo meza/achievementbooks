@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu-20.04, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v2
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -26,17 +26,84 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
+
+      - name: Make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: build
+
+      - name: Test
         env:
           curseForgeApiKey: ${{ secrets.curseForgeApiKey }}
           curseForgeReleaseType: alpha
-        run: ./gradlew build
-      - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        run: ./gradlew test
+
+      - name: Use Node.js 18.x
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install semantic release
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        run: npm i --location=global semantic-release @semantic-release/github @semantic-release/git @semantic-release/changelog @semantic-release/exec
+
+      - name: Adjust the release permissions
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        run: chmod a+x ./scripts/release.sh
+
+      - name: Release
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Capture build artifacts
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/upload-artifact@v2
         with:
           name: Artifacts
           path: build/libs/
+
+      - name: Release latest artifacts to Curseforge
+        if: github.ref == 'refs/heads/master'
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          name: ""
+          changelog-file: CHANGELOG.md
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
+          version-type: release
+          loaders: fabric
+          dependencies: |
+            fabric-api | depends
+          version-resolver: latest
+
+      - name: Release beta artifacts to Curseforge
+        if: github.ref == 'refs/heads/next'
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          name: ""
+          changelog-file: CHANGELOG.md
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
+          version-type: beta
+          loaders: fabric
+          dependencies: |
+            fabric-api | depends
+          version-resolver: latest
+          files-primary: build/libs/!(*-@(dev|sources)).jar
+
+      - name: Release beta artifacts to Curseforge
+        if: github.ref == 'refs/heads/alpha'
+        uses: Kir-Antipov/mc-publish@v3.1
+        with:
+          name: ""
+          changelog-file: CHANGELOG.md
+          curseforge-id: ${{ secrets.CURSEFORGEPROJECTID }}
+          curseforge-token: ${{ secrets.CURSEFORGEAPIKEY }}
+          version-type: alpha
+          loaders: fabric
+          dependencies: |
+            fabric-api | depends
+          version-resolver: latest
+          files-primary: build/libs/!(*-@(dev|sources)).jar

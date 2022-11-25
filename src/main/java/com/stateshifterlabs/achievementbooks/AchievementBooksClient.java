@@ -70,7 +70,7 @@ public class AchievementBooksClient {
             LOGGER.debug("Executing the worker task on the received achievement data");
 
             String player = minecraftClient.player.getUuidAsString();
-            LOGGER.debug("Got the UUID for player: " + minecraftClient.player.getName().asString() + " to be: " + player);
+            LOGGER.debug("Got the UUID for player: " + minecraftClient.player.getName().getContent() + " to be: " + player);
 
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(AchievementData.class, new AchievementDataSerializer(player));
