@@ -31,15 +31,6 @@
       }
     ],
     [
-      "@semantic-release/git",
-      {
-        "message": "chore(release): ${nextRelease.version} as ${branch.channel} [skip ci]\n\n${nextRelease.notes}",
-        "assets": [
-          "CHANGELOG.md"
-        ]
-      }
-    ],
-    [
       "@semantic-release/exec",
       {
         "prepareCmd": "./scripts/release.sh \"${nextRelease.version}\""
