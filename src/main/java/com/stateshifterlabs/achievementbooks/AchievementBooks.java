@@ -17,10 +17,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -107,8 +108,9 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     }
 
     private void registerAssets() {
-        Registry.register(Registry.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
-        Registry.register(Registry.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
+
+        Registry.register(Registries.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
+        Registry.register(Registries.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
 
 
 
@@ -116,7 +118,7 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
             Identifier identifier = new Identifier(MODID, book.itemName());
             AchievementBookFabricItem item = new AchievementBookFabricItem(book);
 
-            Registry.register(Registry.ITEM, identifier, item);
+            Registry.register(Registries.ITEM, identifier, item);
 
             if (book.isCraftable()) {
                 AchievementBooks.Recipes.put(identifier, getRecipeFor(book));
