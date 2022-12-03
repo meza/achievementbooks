@@ -6,14 +6,13 @@ import com.stateshifterlabs.achievementbooks.fabric.UI.BookScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LecternBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -29,12 +28,14 @@ public class AchievementBookFabricItem extends Item {
 
     public AchievementBookFabricItem(Book book) {
         super(new FabricItemSettings()
-                .group(ItemGroup.MISC)
                 .maxCount(1)
                 .maxDamage(0)
                 .fireproof()
         );
         this.book = book;
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(this));
+
     }
 
     public String colour() {
