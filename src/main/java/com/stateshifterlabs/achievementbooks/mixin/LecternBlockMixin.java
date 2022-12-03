@@ -7,7 +7,7 @@ import net.minecraft.block.entity.LecternBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -43,7 +43,7 @@ public class LecternBlockMixin {
             ItemStack book = lectern.getBook();
             player.incrementStat(Stats.INTERACT_WITH_LECTERN);
             if (book.getOrCreateNbt().contains("Achievement Book")) {
-                player.sendMessage(new LiteralText("Feature coming soon"), false);
+                player.sendMessage(Text.of("Feature coming soon"), false);
                 LOGGER.info("Would've opened the achievement book");
             } else {
                 player.openHandledScreen((LecternBlockEntity)blockEntity);
