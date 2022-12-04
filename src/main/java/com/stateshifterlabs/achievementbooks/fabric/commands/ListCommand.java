@@ -17,7 +17,7 @@ public class ListCommand {
     public static int list(CommandContext<ServerCommandSource> c, Books books) throws CommandSyntaxException {
         ServerCommandSource source = c.getSource();
 
-        String player = source.getPlayerOrThrow().getName().getContent().toString();
+        String player = source.getPlayerOrThrow().getName().getString();
         source.sendFeedback(Text.of("Currently loaded Achivement Books:\n"), false);
         for (Book book : books) {
             String bookIdRaw = AchievementBooks.MODID + ":" + book.itemName();

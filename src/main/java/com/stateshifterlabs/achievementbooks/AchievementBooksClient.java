@@ -18,8 +18,9 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,7 +81,7 @@ public class AchievementBooksClient {
             LOGGER.debug("Appended the new data to the achievement storage");
 
             for (String bookItemName : achievementStorage.forPlayer(player).books()) {
-                AchievementBookFabricItem bookItem = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(MODID, bookItemName));
+                AchievementBookFabricItem bookItem = (AchievementBookFabricItem) Registries.ITEM.get(new Identifier(MODID, bookItemName));
                 bookItem.updateBook(data);
             }
 

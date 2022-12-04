@@ -4,7 +4,8 @@
   "package": "com.stateshifterlabs.achievementbooks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "RecipeManagerMixin"
+    "RecipeManagerMixin",
+    "LecternBlockMixin"
   ],
   "client": [
     "ModelLoaderMixin"
