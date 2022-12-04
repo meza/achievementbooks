@@ -7,11 +7,11 @@ import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.data.Book;
 import com.stateshifterlabs.achievementbooks.core.data.Books;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
@@ -22,7 +22,7 @@ public class GiveCommand {
         ServerPlayerEntity player = source.getPlayerOrThrow();
         for (Book book : books) {
             Identifier bookId = new Identifier(AchievementBooks.MODID, book.itemName());
-            Item item = Registry.ITEM.get(bookId);
+            Item item = Registries.ITEM.get(bookId);
             player.giveItemStack(item.getDefaultStack());
         }
         source.sendFeedback(Text.of("Given all achievement books to " + player.getName().getString()), true);

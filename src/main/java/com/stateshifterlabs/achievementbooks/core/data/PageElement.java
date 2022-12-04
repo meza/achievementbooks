@@ -2,8 +2,11 @@ package com.stateshifterlabs.achievementbooks.core.data;
 
 import com.stateshifterlabs.achievementbooks.core.ChatFormatting;
 import com.stateshifterlabs.achievementbooks.core.UTF8Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PageElement {
+    private static final Logger LOGGER = LogManager.getLogger(PageElement.class);
     private final int id;
     private String achievement;
     private boolean checked = false;
