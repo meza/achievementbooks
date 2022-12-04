@@ -1,5 +1,13 @@
 # Achievementbooks Changelog
 
+## [1.2.3](https://github.com/meza/achievementbooks/compare/v1.2.2...v1.2.3) (2022-12-04)
+
+
+### Bug Fixes
+
+* fixed rendering issues ([de65351](https://github.com/meza/achievementbooks/commit/de65351f1983d80eb60ea1f22a91cd639a8ff1de))
+* fixed the give command ([32dea32](https://github.com/meza/achievementbooks/commit/32dea32d71a5949707e1501f90492f0f112d22f9))
+
 ## [1.2.2](https://github.com/meza/achievementbooks/compare/v1.2.1...v1.2.2) (2022-08-12)
 
 
