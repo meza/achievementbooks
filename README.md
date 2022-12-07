@@ -1,6 +1,8 @@
 > @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
 
-# Achievement Books - for FABRIC (since 1.18.1)
+![](/docs/images/book.png)
+
+# Achievement Books - for FABRIC (since 1.18.1+)
 
 The Achievement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
 
