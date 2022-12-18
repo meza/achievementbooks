@@ -1,5 +1,14 @@
 # Achievementbooks Changelog
 
+## [1.2.4](https://github.com/meza/achievementbooks/compare/v1.2.3...v1.2.4) (2022-12-18)
+
+
+### Bug Fixes
+
+* fixed the minecraft version to 1.19.3 ([a7e4545](https://github.com/meza/achievementbooks/commit/a7e45458055ef244b723319ac00ba3d5701e2d8d))
+* re-introduced the init command ([3746904](https://github.com/meza/achievementbooks/commit/3746904c6b471c2c3ed56db7baf0e777e4ef0682))
+* updated to 1.19.3 ([818061a](https://github.com/meza/achievementbooks/commit/818061a89c04790c8a5382cd13a8c05409a1336e))
+
 ## [1.2.3](https://github.com/meza/achievementbooks/compare/v1.2.2...v1.2.3) (2022-12-04)
 
 
