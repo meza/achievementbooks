@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.WorldSavePath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,26 +85,18 @@ public class AchievementBooksLogicalServer {
     }
 
     private File setUpSaveFile(MinecraftServer server) {
-        String levelName = server.getSaveProperties().getLevelName();
-        Path gameDir = FabricLoader.getInstance().getGameDir();
 
-        if (server.isSingleplayer()) {
-            gameDir = gameDir.resolve("saves");
-        }
-
-        Path saveDirectory = gameDir.resolve(levelName).resolve(MODID);
-        saveFile = saveDirectory.resolve("achievementbooks.save.json").toFile();
+        Path saveDirectory = server.getSavePath(WorldSavePath.ROOT).toAbsolutePath().normalize();
+        saveFile = saveDirectory.resolve("achievementbooks.save.json").toFile().getAbsoluteFile();
 
         try {
             if (!saveFile.exists()) {
-                saveDirectory.toFile().mkdirs();
                 this.saveFile.createNewFile();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        AchievementBooks.LOGGER.debug("Save location: " + saveFile.getAbsolutePath());
         return saveFile;
     }
 }

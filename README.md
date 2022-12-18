@@ -1,4 +1,4 @@
-> @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
+> @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza3
 
 ![](/docs/images/book.png)
 
@@ -348,3 +348,4 @@ Once you think everyone has already got on at least once and got the book, you c
 > ###Important
 > **The migration compares achievement text between the old book and the new one. Don't change their texts until
 the migration is over**
+

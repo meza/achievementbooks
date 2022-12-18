@@ -9,6 +9,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.data.Loader;
 import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
 import com.stateshifterlabs.achievementbooks.fabric.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.fabric.commands.InitCommand;
 import com.stateshifterlabs.achievementbooks.fabric.commands.ListCommand;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -131,6 +132,7 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             ListCommand.register(dispatcher, books);
             GiveCommand.register(dispatcher, books);
+            InitCommand.register(dispatcher, configDir, demoFile);
         });
     }
 }
