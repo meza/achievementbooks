@@ -24,6 +24,19 @@ public class Loader {
         }
     }
 
+    public static boolean initDemo(File configDir, URL demoFile, boolean forceCreate) {
+        if (forceCreate) {
+            File file = new File(configDir.getAbsolutePath() + "/demo.json");
+
+            try {
+                FileUtils.copyURLToFile(demoFile, file);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new CouldNotWriteConfigFile(file);
+            }
+        }
+        return true;
+    }
     public static Books init(File configDir, URL demoFile) {
         Books books = new Books();
         books.empty();
@@ -49,18 +62,7 @@ public class Loader {
 
         final File[] files = configDir.listFiles(fileNameFilter);
 
-        // Create the demo config if no config is present -> recursive
-        if (files.length == 0) {
-            File file = new File(configDir.getAbsolutePath() + "/demo.json");
-
-            try {
-                FileUtils.copyURLToFile(demoFile, file);
-                return init(configDir, demoFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new CouldNotWriteConfigFile(file);
-            }
-        }
+        initDemo(configDir, demoFile, files.length == 0);
 
         for (File conf : files) {
             try {

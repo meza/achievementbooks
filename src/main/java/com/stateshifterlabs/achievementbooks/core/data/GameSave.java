@@ -2,6 +2,7 @@ package com.stateshifterlabs.achievementbooks.core.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.core.serializers.AchievementStorageSerializer;
 
 import java.io.*;
@@ -59,6 +60,7 @@ public class GameSave {
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
+            AchievementBooks.LOGGER.info("Failed to save achievements with file: " + saveFile.getAbsolutePath());
             //AchievementBooksMod.logger.severe("Could not save achievements file!");
         }
     }
