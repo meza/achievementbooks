@@ -1,6 +1,8 @@
-> @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza
+> @meza - http://twitch.tv/vsbmeza3 - http://twitter.com/vsbmeza3
 
-# Achievement Books - for FABRIC (since 1.18.1)
+![](/docs/images/book.png)
+
+# Achievement Books - for FABRIC (since 1.18.1+)
 
 The Achievement Books mod introduces the ability to create * multiple * achievement books for Minecraft.
 
@@ -55,35 +57,17 @@ Gives the player _every_ book registered in the system
 
 #### List
 ```
-/achievementbooks list
+/ab list
 ```
 Lists all registered books and their IDs
 
-#### Import (DEPRECATED - won't work in 1.18.1+)
+#### Init
 ```
-/achievementbooks import
+/ab init
 ```
-If you have the `Simple Achievements` mod installed already and would like to start using this instead, the import
-command can create a json file for you.
-The result is not going to be perfect due to formatting issues, but it's going to be close enough not to cause a big
-pain to migrate.
+Re-creates the demo.json file in the config folder if you ever need to reset it.
 
-> Import only works in single player mode to enable you to fiddle around with the settings easily. Once done, you can
-copy the new file over and use it on a server.
-
-#### Init (DEPRECATED - won't work in 1.18.1+)
-```
-/achievementbooks init
-```
-Re-creates the demo config file
-
-#### Reload (DEPRECATED - won't work in 1.18.1+)
-```
-/achievementbooks reload
-```
-Reloads the configuration from file. Your current books will be updated, and new books will be added.
-If you deleted books, those will currently only disappear if you restart the game. I'm working on fixing this.
-
+---
 
 ### Configuration
 
@@ -125,22 +109,22 @@ There are currently 16 colours you can use for your book. These are:
 
 Colour parameter | Book icon
 --------------- | ---------
-aqua | ![aqua](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-aqua.png)
-black | ![black](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-black.png)
-blue | ![blue](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-blue.png)
-brown | ![brown](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-brown.png)
-deepblue | ![deepblue](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-deepblue.png)
-gray | ![gray](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-gray.png)
-green | ![green](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-green.png)
-lime | ![lime](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-lime.png)
-olive | ![olive](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-olive.png)
-orange | ![orange](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-orange.png)
-orangered | ![orangered](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-orangered.png)
-peach | ![peach](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-peach.png)
-pink | ![pink](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-pink.png)
-purple | ![purple](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-purple.png)
-red | ![red](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-red.png)
-yellow | ![yellow](https://github.com/meza/achievementbooks/raw/master/core/src/main/resources/assets/achievementbooks/textures/items/book-yellow.png)
+aqua | ![aqua](/src/main/resources/assets/achievementbooks/textures/item/book-aqua.png)
+black | ![black](/src/main/resources/assets/achievementbooks/textures/item/book-black.png)
+blue | ![blue](/src/main/resources/assets/achievementbooks/textures/item/book-blue.png)
+brown | ![brown](/src/main/resources/assets/achievementbooks/textures/item/book-brown.png)
+deepblue | ![deepblue](/src/main/resources/assets/achievementbooks/textures/item/book-deepblue.png)
+gray | ![gray](/src/main/resources/assets/achievementbooks/textures/item/book-gray.png)
+green | ![green](/src/main/resources/assets/achievementbooks/textures/item/book-green.png)
+lime | ![lime](/src/main/resources/assets/achievementbooks/textures/item/book-lime.png)
+olive | ![olive](/src/main/resources/assets/achievementbooks/textures/item/book-olive.png)
+orange | ![orange](/src/main/resources/assets/achievementbooks/textures/item/book-orange.png)
+orangered | ![orangered](/src/main/resources/assets/achievementbooks/textures/item/book-orangered.png)
+peach | ![peach](/src/main/resources/assets/achievementbooks/textures/item/book-peach.png)
+pink | ![pink](/src/main/resources/assets/achievementbooks/textures/item/book-pink.png)
+purple | ![purple](/src/main/resources/assets/achievementbooks/textures/item/book-purple.png)
+red | ![red](/src/main/resources/assets/achievementbooks/textures/item/book-red.png)
+yellow | ![yellow](/src/main/resources/assets/achievementbooks/textures/item/book-yellow.png)
  
 ```JSON
  {
@@ -231,7 +215,6 @@ The achievement text. Keep it short and concise if you want to make it look good
 ###### `mod` - optional
 An extra information for the player, if the achievement is targeting a specific mod. This shows up in brackets and in blue
 
-
 #### Example
 ```JSON
 {
@@ -297,52 +280,3 @@ An extra information for the player, if the achievement is targeting a specific 
 }
 
 ```
-
-## Migrating an existing server from SA (1.7.10, 1.9.4, 1.10.2) - (DEPRECATED - won't work in 1.18.1+)
-
-Should you wish to migrate an already existing server to Achievement Books, there are tools for you.
-The main problems are that you need to get rid of the old book, and give your players the new one with their
-progress intact.
-Achievement Books can help you with this, but you need to follow these steps very carefully.
-
-First, you need to import the old achievement book configuration if you haven't already.
-
-You do that with
-
-```/ab import```
-
-**To run a successful migration, don't change the achievement texts just yet!!!**
-
-Also make sure you have both Achievement Books _and_ Simple Achievements mods loaded while you migrate.
-
-Once your new book is in a format you're happy with, it's time to give it to your players.
-
-You need to add:
-```"migrationTarget":true``` to the book config, like so:
-
-For example our smallest example would be:
-```JSON
-{
-	"itemName": "book_smallest",
-	"bookName": "The smallest book",
-	"migrationTarget":true,
-	"pages": []
-}
-```
-
-This will indicate to the mod, that this is the book you wish to migrate your players to.
-
-> Make sure to remove this after a certain period has passed
-
-Once this is in place, restart the server and issue a modpack update to your players with the new configuration.
-
-From this point, whenever any of your players have the old achievement book in their inventory, it will get replaced
-by the book you've just created, and all their achievement progress will be brought in as well.
-
-That's it.
-
-Once you think everyone has already got on at least once and got the book, you can remove SA from the mod list.
-
-> ###Important
-> **The migration compares achievement text between the old book and the new one. Don't change their texts until
-the migration is over**

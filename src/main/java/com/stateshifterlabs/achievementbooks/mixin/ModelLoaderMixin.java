@@ -4,8 +4,8 @@ import com.stateshifterlabs.achievementbooks.AchievementBooks;
 import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +18,7 @@ public class ModelLoaderMixin {
         //First, we check if the current item model that is being registered is from our mod. If it isn't, we continue.
         if (!"achievementbooks".equals(id.getNamespace())) return;
         String bookName = id.getPath().replace("item/", "");
-        AchievementBookFabricItem book = (AchievementBookFabricItem) Registry.ITEM.get(new Identifier(AchievementBooks.MODID, bookName));
+        AchievementBookFabricItem book = (AchievementBookFabricItem) Registries.ITEM.get(new Identifier(AchievementBooks.MODID, bookName));
 
         String modelJson = createItemModelJson(book.colour());
 

@@ -9,6 +9,7 @@ import com.stateshifterlabs.achievementbooks.core.data.Books;
 import com.stateshifterlabs.achievementbooks.core.data.Loader;
 import com.stateshifterlabs.achievementbooks.fabric.AchievementBookFabricItem;
 import com.stateshifterlabs.achievementbooks.fabric.commands.GiveCommand;
+import com.stateshifterlabs.achievementbooks.fabric.commands.InitCommand;
 import com.stateshifterlabs.achievementbooks.fabric.commands.ListCommand;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -17,10 +18,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,15 +40,14 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     public static final Identifier ACHIEVEMENT_TOGGLE_PACKET_ID = new Identifier(MODID, "achievement_toggle");
     public static final Identifier ACHIEVEMENT_LOAD_PACKET_ID = new Identifier(MODID, "achievement_load");
     public static final Identifier CLOSE_BOOK_SOUND_EVENT_ID = new Identifier(MODID, "close_book");
-    public static final SoundEvent CLOSE_BOOK_SOUND_EVENT = new SoundEvent(CLOSE_BOOK_SOUND_EVENT_ID);
+    public static final SoundEvent CLOSE_BOOK_SOUND_EVENT = SoundEvent.of(CLOSE_BOOK_SOUND_EVENT_ID);
     public static final Identifier OPEN_BOOK_SOUND_EVENT_ID = new Identifier(MODID, "open_book");
-    public static final SoundEvent OPEN_BOOK_SOUND_EVENT = new SoundEvent(OPEN_BOOK_SOUND_EVENT_ID);
+    public static final SoundEvent OPEN_BOOK_SOUND_EVENT = SoundEvent.of(OPEN_BOOK_SOUND_EVENT_ID);
     public static final Identifier PAGE_TURN_PACKET_ID = new Identifier(MODID, "page_turn");
     public static final Identifier RUB_SOUND_EVENT_ID = new Identifier(MODID, "rub");
-    public static final SoundEvent RUB_SOUND_EVENT = new SoundEvent(RUB_SOUND_EVENT_ID);
+    public static final SoundEvent RUB_SOUND_EVENT = SoundEvent.of(RUB_SOUND_EVENT_ID);
     public static final Identifier TICK_SOUND_EVENT_ID = new Identifier(MODID, "tick");
-    public static final SoundEvent TICK_SOUND_EVENT = new SoundEvent(TICK_SOUND_EVENT_ID);
-
+    public static final SoundEvent TICK_SOUND_EVENT = SoundEvent.of(TICK_SOUND_EVENT_ID);
     private static final Map<Identifier, JsonObject> Recipes = new HashMap<>();
 
     private final AchievementStorage achievementStorage = new AchievementStorage();
@@ -108,13 +109,17 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
     }
 
     private void registerAssets() {
-        Registry.register(Registry.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
-        Registry.register(Registry.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
+
+        Registry.register(Registries.SOUND_EVENT, OPEN_BOOK_SOUND_EVENT_ID, OPEN_BOOK_SOUND_EVENT);
+        Registry.register(Registries.SOUND_EVENT, CLOSE_BOOK_SOUND_EVENT_ID, CLOSE_BOOK_SOUND_EVENT);
+
+
 
         for (Book book : books) {
             Identifier identifier = new Identifier(MODID, book.itemName());
             AchievementBookFabricItem item = new AchievementBookFabricItem(book);
-            Registry.register(Registry.ITEM, identifier, item);
+
+            Registry.register(Registries.ITEM, identifier, item);
 
             if (book.isCraftable()) {
                 AchievementBooks.Recipes.put(identifier, getRecipeFor(book));
@@ -127,6 +132,7 @@ public class AchievementBooks implements ModInitializer, ClientModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             ListCommand.register(dispatcher, books);
             GiveCommand.register(dispatcher, books);
+            InitCommand.register(dispatcher, configDir, demoFile);
         });
     }
 }
