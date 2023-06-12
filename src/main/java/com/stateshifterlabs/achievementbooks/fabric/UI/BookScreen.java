@@ -9,6 +9,8 @@ import com.stateshifterlabs.achievementbooks.core.data.Type;
 import com.stateshifterlabs.achievementbooks.core.events.BookEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PageTurnWidget;
@@ -86,12 +88,12 @@ public class BookScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        drawBackground(matrices);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        drawBackground(context);
         if (this.cachedPage < 0) {
             drawPages();
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     private int getCurrentPage() {
@@ -203,8 +205,7 @@ public class BookScreen extends Screen {
     }
 
     private void drawCloseButton() {
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).dimensions(this.width / 2 - 100, bookHeight + 96, 200, 20).build());
-
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).dimensions(this.width / 2 - 100, bookTop + bookHeight, 200, 20).build());
     }
 
     private void drawPaginators() {
@@ -226,22 +227,19 @@ public class BookScreen extends Screen {
         this.previousPageButton.visible = this.currentPage > 0;
     }
 
-    protected void drawBackground(MatrixStack matrices) {
-        this.renderBackground(matrices);
+    protected void drawBackground(DrawContext context) {
+        this.renderBackground(context);
         this.bookLeft = (this.width - bookWidth) / 2;
         this.bookTop = (int) ((this.height - bookHeight) / 2.5);
         this.contentLeft = bookLeft + 20;
         this.contentTop = bookTop + 20;
         this.rightPageLeft = (this.width / 2) + 15;
-
+        Identifier bookLeftCover = new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_left-" + book.colour() + ".png");
+        Identifier bookRightCover = new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_right-" + book.colour() + ".png");
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        setZOffset(0);
-        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_left-" + book.colour() + ".png"));
-        drawTexture(matrices, bookLeft, bookTop, 0, 0, bookWidth / 2, bookHeight);
-
-        RenderSystem.setShaderTexture(0, new Identifier(AchievementBooks.MODID, "textures/gui/bookgui_right-" + book.colour() + ".png"));
-        drawTexture(matrices, bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
+        context.drawTexture(bookLeftCover, bookLeft, bookTop, 0, 0, bookWidth / 2, bookHeight);
+        context.drawTexture(bookRightCover, bookLeft + bookWidth / 2, bookTop, 0, 0, bookWidth / 2, bookHeight);
     }
 
 }

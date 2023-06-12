@@ -19,10 +19,10 @@ public class InitCommand {
         ServerCommandSource source = c.getSource();
         try {
             Loader.initDemo(configDir, demoFile, true);
-            source.sendFeedback(Text.of("Demo book recreated"), true);
+            source.sendFeedback(() -> Text.of("Demo book recreated"), true);
             return 1;
         } catch (CouldNotWriteConfigFile e) {
-            source.sendFeedback(Text.of("Could not recreate demo book"), true);
+            source.sendFeedback(() -> Text.of("Could not recreate demo book"), true);
             return 0;
         }
     }

@@ -7,15 +7,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Consumer;
@@ -25,7 +24,7 @@ interface ToggleCallback {
 }
 
 @Environment(EnvType.CLIENT)
-public class AchievementLine extends DrawableHelper implements Element, Selectable, BookScreenElement, Drawable {
+public class AchievementLine implements Element, Selectable, BookScreenElement, Drawable {
 
     private static final Identifier TEXTURE = new Identifier(AchievementBooks.MODID, "textures/gui/checkboxes.png");
     private final PageElement achievement;
@@ -35,6 +34,7 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
     private final int top;
     private final int width;
     private int checkboxOffset = 0;
+    private boolean focused = false;
     private Consumer<PageElement> toggleCallback;
 
     public AchievementLine(
@@ -92,21 +92,30 @@ public class AchievementLine extends DrawableHelper implements Element, Selectab
         return false;
     }
 
+    @Override
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
+
+    @Override
+    public boolean isFocused() {
+        return focused;
+    }
+
     public void onToggle(Consumer<PageElement> callback) {
         toggleCallback = callback;
     }
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         if (!achievement.checked()) {
-            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
+            context.drawTexture(TEXTURE, left, top + checkboxOffset, 20, 20, 0, 0, 20, 20, 256, 256);
         } else {
-            drawTexture(matrices, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
+            context.drawTexture(TEXTURE, left, top + checkboxOffset, 20, 20, 0, 20, 20, 20, 256, 256);
         }
-        descriptionLine.render(matrices, mouseX, mouseY, delta);
+        descriptionLine.render(context, mouseX, mouseY, delta);
     }
 
     protected boolean clicked(double mouseX, double mouseY) {

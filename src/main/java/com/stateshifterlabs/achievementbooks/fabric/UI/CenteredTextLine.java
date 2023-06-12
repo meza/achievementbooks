@@ -3,8 +3,8 @@ package com.stateshifterlabs.achievementbooks.fabric.UI;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -15,7 +15,7 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class CenteredTextLine extends DrawableHelper implements Drawable, Element, Selectable, BookScreenElement {
+public class CenteredTextLine implements Drawable, Element, Selectable, BookScreenElement {
 
     private final String header;
     private final int left;
@@ -23,6 +23,7 @@ public class CenteredTextLine extends DrawableHelper implements Drawable, Elemen
     private final TextRenderer textRenderer;
     private final int top;
     private final int width;
+    private boolean focused;
 
     public CenteredTextLine(int top, int left, int width, String header, TextRenderer textRenderer) {
         this.top = top;
@@ -49,15 +50,24 @@ public class CenteredTextLine extends DrawableHelper implements Drawable, Elemen
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         int i = 0;
         List<OrderedText> lines = textRenderer.wrapLines(Text.of(header), width);
 
         for (OrderedText text : lines) {
             float lineWidth = textRenderer.getWidth(text);
-
-            textRenderer.draw(matrices, text, pageCenter - (lineWidth / 2), top + (textRenderer.fontHeight * i++), 0);
+            context.drawText(textRenderer, text, Math.round(pageCenter - (lineWidth / 2)), top + (textRenderer.fontHeight * i++), 0, false);
         }
 
+    }
+
+    @Override
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
+
+    @Override
+    public boolean isFocused() {
+        return focused;
     }
 }
