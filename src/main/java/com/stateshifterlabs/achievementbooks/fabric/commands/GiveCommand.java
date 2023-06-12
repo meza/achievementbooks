@@ -25,7 +25,7 @@ public class GiveCommand {
             Item item = Registries.ITEM.get(bookId);
             player.giveItemStack(item.getDefaultStack());
         }
-        source.sendFeedback(Text.of("Given all achievement books to " + player.getName().getString()), true);
+        source.sendFeedback(() -> Text.of("Given all achievement books to " + player.getName().getString()), true);
         return 1;
     }
 

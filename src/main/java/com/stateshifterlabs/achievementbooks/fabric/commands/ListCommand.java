@@ -18,7 +18,7 @@ public class ListCommand {
         ServerCommandSource source = c.getSource();
 
         String player = source.getPlayerOrThrow().getName().getString();
-        source.sendFeedback(Text.of("Currently loaded Achivement Books:\n"), false);
+        source.sendFeedback(() -> Text.of("Currently loaded Achivement Books:\n"), false);
         for (Book book : books) {
             String bookIdRaw = AchievementBooks.MODID + ":" + book.itemName();
             MutableText bookId = MutableText.of(new LiteralTextContent("( " + bookIdRaw + " )"));
@@ -29,7 +29,7 @@ public class ListCommand {
             bookId.setStyle(b);
             String txt = UTF8Utils.utf8String(" - ", book.name(), " ");
             Text toSend = MutableText.of(new LiteralTextContent(txt)).append(bookId);
-            source.sendFeedback(toSend, false);
+            source.sendFeedback(() -> toSend, false);
         }
         return 1;
     }
