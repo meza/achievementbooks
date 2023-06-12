@@ -1,5 +1,12 @@
 # Achievementbooks Changelog
 
+## [1.2.5](https://github.com/meza/achievementbooks/compare/v1.2.4...v1.2.5) (2023-06-12)
+
+
+### Bug Fixes
+
+* updated to 1.20.1 ([752c994](https://github.com/meza/achievementbooks/commit/752c994bbc8cb4235f5ca784fa52665f32b24344))
+
 ## [1.2.4](https://github.com/meza/achievementbooks/compare/v1.2.3...v1.2.4) (2022-12-18)
 
 
